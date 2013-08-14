@@ -1,0 +1,66 @@
+/*
+ *= require ./bootstrap
+ *= require_self
+ *= require_tree .
+*/
+
+body {
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+
+form.search input[type=text] {
+  margin-right: 5px;
+  width: 81%;
+}
+
+.navbar .lead {
+  margin-bottom: 0px;
+  margin-right: 20px;
+  line-height: 1.0;
+}
+
+.modal-dialog {
+  width: 750px; /* desired relative width */
+  margin-left: -375px; /* (100%-width)/2 */
+}
+
+.center { text-align: center; }
+
+a.new { margin-top: 10px; }
+
+table.sales tr td { vertical-align: middle; }
+table.purchases tr td { vertical-align: middle; }
+
+.cart .lead { margin-bottom: 0px; }
+
+table tr.add td span { line-height: 38px; }
+table tr.line td.remove { width: 40px; }
+table tr.line td.quantity { width: 160px; }
+table tr.line td.quantity input[type=number] {
+  width: 80px;
+}
+table tr.line td.description p { margin-bottom: 5px; }
+table tr.line td.amount { width: 90px; }
+table tr.line td.subtotal { width: 90px; }
+
+table tr.cart-line td.quantity { max-width: 10%; }
+table tr.cart-line td.description { max-width: 50%; }
+table tr.cart-line td.amount { max-width: 20%; }
+table tr.cart-line td.subtotal { max-width: 20%; }
+
+ul.summary { 
+  list-style-type: none;
+  list-style-position: inside;
+  padding: 0px;
+}
+ul.summary span:first-child { display: inline-block; width: 80%; }
+ul.summary span:last-child { display: inline-block; width: 20%; text-align: center; }
+
+ul.payment { 
+  list-style-type: none;
+  list-style-position: inside;
+  padding: 0px;
+}
+ul.payment span:first-child { display: inline-block; width: 80%; }
+ul.payment span:last-child { display: inline-block; width: 20%; text-align: center; }
