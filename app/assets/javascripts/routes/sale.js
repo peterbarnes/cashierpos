@@ -1,8 +1,8 @@
 App.SaleRoute = Ember.Route.extend({
   deactivate: function() {
-    if (this.currentModel.get('isDirty') && !this.currentModel.get('isSaving')) {
-      this.currentModel.get('transaction').rollback();
-      this.get('store').commit();
+    var model = this.currentModel;
+    if (model.get('isDirty') && !model.get('isSaving')) {
+      model.get('transaction').rollback();
     }
   }
 });

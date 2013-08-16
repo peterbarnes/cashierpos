@@ -4,5 +4,10 @@ require 'bundler'
 ENV['RACK_ENV'] ||= 'development'
 
 Bundler.require(:default)
+Mongoid.load!('config/mongoid.yml')
 
-require_relative 'cashierpos.rb'
+require 'autoinc'
+
+Dir['lib/**/*.rb'].each {|file| require_relative file }
+
+require_relative 'cashierpos'

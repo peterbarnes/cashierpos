@@ -19,6 +19,17 @@ class Cashierpos < Sinatra::Base
   end
   
   get '/login' do
+    @account = Account.first
+    @account.set_current
+    @item = Item.first
     erb :login, :layout => :application
+  end
+  
+  post '/login' do
+    redirect '/'
+  end
+  
+  not_found do
+    redirect '/'
   end
 end

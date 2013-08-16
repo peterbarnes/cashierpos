@@ -1,7 +1,28 @@
 <script type="text/x-handlebars" data-template-name="sales/index">
   <div class="clearfix">
     <h2 class="pull-left">Sales</h2>
-    {{#linkTo 'sales.new' class="new btn btn-primary btn-lg pull-right"}}New Sale{{/linkTo}}
+    <button {{action 'new'}} type="button" class="new btn btn-primary btn-lg pull-right">New Sale</button>
+  </div>
+  <hr>
+  <div class="filter">
+    <div class="filter_container row">
+      <div class='filter_nav col-lg-4'>
+        <button {{action 'all'}} type="button" class="all btn btn-primary">All</button>
+        <button {{action 'newest'}} type="button" class="newest btn btn-default">Newest</button>
+        <button {{action 'recent'}} type="button" class="recent btn btn-default">Recent</button>
+      </div>
+      <div class='filter_search col-lg-8'>
+        <div class='filter_search_form pull-right'>
+          <form class="search form-inline">
+            <div class="form-group">
+              {{view Ember.TextField valueBinding="query" class="form-control" placeholder="Search..."}}
+            </div>
+            <button type="submit" {{action 'search'}} class="btn btn-default">Search</button>
+            <button type="submit" {{action 'reset'}} class="btn btn-primary">Reset</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
   <hr>
   <table class="sales table table-striped">
@@ -21,7 +42,9 @@
     <tbody>
       {{#each sale in controller}}
       <tr>
-        <td><button {{action 'load' sale}} {{bindAttr disabled='sale.complete'}} type="button" class="btn btn-primary btn-small">{{sale.sku}}</button></td>
+        <td>
+          <button {{action 'load' sale}} {{bindAttr disabled='sale.complete'}} type="button" class="btn btn-primary btn-small">{{sale.sku}}</button>
+        </td>
         <td>
           {{#if sale.user}}
           {{sale.user.fullname}}
@@ -46,7 +69,9 @@
         <td>{{sale.quantity}}</td>
         <td>${{currency sale.total}}</td>
         <td>{{boolean sale.complete}}</td>
-        <td><button {{action 'receipt' sale}} type="button" class="btn btn-small">Receipt</button></td>
+        <td>
+          <button {{action 'receipt' sale}} type="button" class="btn btn-small">Receipt</button>
+        </td>
         <td>
           <button {{action 'delete' sale}} {{bindAttr disabled='sale.complete'}} type="button" class="btn btn-small btn-danger">Delete</button>
         </td>
@@ -54,4 +79,23 @@
       {{/each}}
     </tbody>
   </table>
+  <hr>
+  <div class="page">
+    <div class="page_container row">
+      <div class="page_menu col-lg-6">
+        <button {{action 'prev'}} type="button" class="all btn btn-sm btn-primary">&#8592; Previous</button>
+        <button {{action 'next'}} type="button" class="newest btn btn-sm btn-default">Next &#8594;</button>
+      </div>
+      <div class="page_per col-lg-6">
+        <div class="pull-right">
+          <span class='title'>Per: </span>
+          <span>
+            <button {{action 'perTen'}} type="button" class="all btn btn-sm btn-primary">10</button>
+            <button {{action 'perTwentyFive'}} type="button" class="newest btn btn-sm btn-default">25</button>
+            <button {{action 'perFifty'}} type="button" class="recent btn btn-sm btn-default">50</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
 </script>

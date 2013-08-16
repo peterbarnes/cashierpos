@@ -8,29 +8,19 @@ body {
   padding: 70px 0px;
 }
 
+a.new { margin-top: 15px; }
 form.search input[type=text] {
+  width: 570px;
   margin-right: 5px;
-  width: 81%;
 }
 
-.modal-dialog {
-  width: 750px; /* desired relative width */
-  margin-left: -375px; /* (100%-width)/2 */
-}
-
+.cart .lead { margin-bottom: 0px; }
 .navbar-fixed-bottom .navbar-right { padding-right: 15px; }
 .navbar-fixed-bottom .navbar-right .navbar-text { font-size: 16px; margin: 13px 0px; padding-right: 10px; }
-
 .center { text-align: center; }
-
-a.new { margin-top: 15px; }
-
-form.search input[type=text] { width: 570px; }
 
 table.sales tr td { vertical-align: middle; }
 table.purchases tr td { vertical-align: middle; }
-
-.cart .lead { margin-bottom: 0px; }
 
 table tr th { text-align: center; }
 table tr td { text-align: center; }

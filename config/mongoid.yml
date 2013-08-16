@@ -1,0 +1,33 @@
+production:
+  sessions:
+    default:
+      uri: <%= ENV['MONGOLAB_URI'] %>
+  options:
+    include_root_in_json: true
+    use_activesupport_time_zone: false
+    use_utc: false
+development:
+  sessions:
+    default:
+      database: cashierapp_development
+      hosts:
+        - localhost:27017
+      options:
+  options:
+    include_root_in_json: true
+    use_activesupport_time_zone: false
+    use_utc: false
+test:
+  sessions:
+    default:
+      database: cashierapp_test
+      hosts:
+        - localhost:27017
+      options:
+        consistency: :strong
+        max_retries: 1
+        retry_interval: 0
+  options:
+    include_root_in_json: true
+    use_activesupport_time_zone: false
+    use_utc: false
