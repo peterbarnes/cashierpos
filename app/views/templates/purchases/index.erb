@@ -1,0 +1,59 @@
+<script type="text/x-handlebars" data-template-name="purchases/index">
+  <div class="clearfix">
+    <h2 class="pull-left">Purchases</h2>
+    {{#linkTo 'purchases.new' class="new btn btn-primary btn-lg pull-right"}}New Purchase{{/linkTo}}
+  </div>
+  <hr>
+  <table class="purchases table table-striped">
+    <thead>
+      <tr>
+        <th>SKU</th>
+        <th>User</th>
+        <th>Till</th>
+        <th>Customer</th>
+        <th>Quantity</th>
+        <th>Total</th>
+        <th>Complete</th>
+        <th>Receipt</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each purchase in controller}}
+      <tr>
+        <td>{{#linkTo 'purchase' purchase class="btn btn-primary btn-small"}}{{purchase.sku}}{{/linkTo}}</td>
+        <td>
+          {{#if purchase.user}}
+          {{purchase.user.fullname}}
+          {{else}}
+          None
+          {{/if}}
+        </td>
+        <td>
+          {{#if purchase.till}}
+          {{purchase.till.name}}
+          {{else}}
+          None
+          {{/if}}
+        </td>
+        <td>
+          {{#if purchase.customer}}
+          {{purchase.customer.fullname}}
+          {{else}}
+          None
+          {{/if}}
+        </td>
+        <td>{{purchase.quantity}}</td>
+        <td>${{currency purchase.total}}</td>
+        <td>{{boolean purchase.complete}}</td>
+        <td><button {{action 'receipt' purchase}} class="btn btn-small">Receipt</button></td>
+        <td>
+          {{#unless purchase.complete}}
+          <button {{action 'delete' purchase}} class="btn btn-small btn-danger">Delete</button>
+          {{/unless}}
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</script>

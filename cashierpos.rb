@@ -17,4 +17,8 @@ class Cashierpos < Sinatra::Base
   get '/' do
     erb :index, :layout => :application
   end
+  
+  get '/login' do
+    erb :login, :layout => :application
+  end
 end

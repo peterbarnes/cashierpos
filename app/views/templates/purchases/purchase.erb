@@ -1,0 +1,173 @@
+<script type="text/x-handlebars" data-template-name="purchase">
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="well">
+        <form class="search form-inline" role="form">
+          <div class="form-group">
+            {{view Ember.TextField valueBinding="query" class="form-control" placeholder="Search..."}}
+          </div>
+          <button type="submit" class="btn btn-primary">Add</button>
+          <button type="submit" {{action 'search'}} class="btn btn-default">Search</button>
+        </form>
+      </div>
+      <hr>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Qty</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each line in lines}}
+          <tr class="line">
+            <td class="remove"><button type="button" {{action 'remove' line}} class="btn btn-small btn-default">x</button></td>
+            <td class="quantity">
+              <span class="pull-left">
+                {{view App.NumberField valueBinding="line.quantity" min="0" class="quantity form-control input-small"}}
+              </span>
+              <span class="btn-group pull-right">
+                <button type="button" {{action 'quantityPlus' line}} class="btn btn-small btn-default">+</button>
+                <button type="button" {{action 'quantityMinus' line}} class="btn btn-small btn-default">-</button>
+              </span>
+            </td>
+            <td class="description">
+              <p><strong>{{line.title}}</strong></p>
+              <p><em>{{line.sku}}</em></p>
+              <p>{{view Ember.TextField valueBinding="line.note" class="form-control input-small" placeholder="Add a note..."}}</p>
+            </td>
+            <td class="amount">${{currency line.amount}}</td>
+            <td class="subtotal"><strong>${{currency line.subtotal}}</strong></td>
+          </tr>
+          {{/each}}
+          <tr class="add">
+            <td colspan="5">
+              <span class="lead">Add a new line...</span>
+              <button type="button" {{action 'addLine'}} class="btn btn-primary pull-right">Add Line</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-lg-4">
+      <div class="cart well">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Qty</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each line in lines}}
+            <tr class="cart-line">
+              <td class="quantity">{{line.quantity}}</td>
+              <td class="description">{{line.title}}</td>
+              <td class="amount">${{currency line.amount}}</td>
+              <td class="subtotal">${{currency line.subtotal}}</td>
+            </tr>
+            {{else}}
+            <tr><td colspan="4" class="center">Cart is empty</td></tr>
+            {{/each}}
+          </tbody>
+        </table>
+        <hr>
+        <ul class="summary">
+          <li><span>Subtotal:</span><span>${{currency subtotal}}</span></li>
+          <li><span><strong>Total:</strong></span><span><strong>${{currency total}}</strong></span></li>
+        </ul>
+        <hr>
+        <ul class="payment">
+          <li><span>Cash:</span><span>${{currency cash}}</span></li>
+          <li><span>Store Credit:</span><span>${{currency storeCredit}}</span></li>
+        </ul>
+        <hr>
+        <div class="clearfix">
+          <p class="lead pull-left"><strong>{{dueLabel}}</strong></p>
+          <p class="lead pull-right"><strong>${{currency due}}</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="navbar-header">
+      <button {{action 'editUser'}} type="button" class="btn btn-default navbar-btn">
+        {{#if user}}
+        {{user.fullname}}
+        {{else}}
+        No User
+        {{/if}}
+      </button>
+      <button {{action 'editCustomer'}} type="button" class="btn btn-default navbar-btn">
+        {{#if customer}}
+        {{customer.fullname}}
+        {{else}}
+        No Customer
+        {{/if}}
+      </button>
+      <button {{action 'editTill'}} type="button" class="btn btn-default navbar-btn">
+        {{#if till}}
+        {{till.name}}
+        {{else}}
+        No Till
+        {{/if}}
+      </button>
+    </div>
+    <div class="navbar-right">
+      <p class="navbar-text"><strong>{{dueLabel}}</strong></p>
+      <p class="navbar-text"><strong>${{currency due}}</strong></p>
+      <button {{action 'save' this}} type="button" class="btn btn-default navbar-btn">Save</button>
+      <button {{action 'complete' this}} {{bindAttr disabled="nonCompletable"}} type="button" class="btn btn-primary navbar-btn">Complete</button>
+    </div>
+  </div>
+</script>
+
+<script type="text/x-handlebars" data-template-name="line">
+  <div class="modal fade" id="line">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button {{action 'close' 'line'}} type="button" class="close">&times;</button>
+          <h4 class="modal-title">Add Line</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label for="title" class="col-lg-2 control-label">Quantity</label>
+              <div class="col-lg-10">
+                {{view App.NumberField valueBinding="quantity" min="0" class="form-control" id="quantity" placeholder="Quantity"}}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="title" class="col-lg-2 control-label">Title</label>
+              <div class="col-lg-10">
+                {{view Ember.TextField valueBinding="title" class="form-control" id="title" placeholder="Title"}}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="sku" class="col-lg-2 control-label">SKU</label>
+              <div class="col-lg-10">
+                {{view Ember.TextField valueBinding="sku" class="form-control" id="sku" placeholder="SKU"}}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="amount" class="col-lg-2 control-label">Amount</label>
+              <div class="col-lg-10">
+                {{view App.NumberField valueBinding="amount" class="form-control" step="0.1" id="amount" placeholder="amount"}}
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button {{action 'close' 'line'}} type="button" class="btn btn-default">Close</button>
+          <button {{action 'add'}} type="button" class="btn btn-primary">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</script>

@@ -1,0 +1,57 @@
+<script type="text/x-handlebars" data-template-name="sales/index">
+  <div class="clearfix">
+    <h2 class="pull-left">Sales</h2>
+    {{#linkTo 'sales.new' class="new btn btn-primary btn-lg pull-right"}}New Sale{{/linkTo}}
+  </div>
+  <hr>
+  <table class="sales table table-striped">
+    <thead>
+      <tr>
+        <th>SKU</th>
+        <th>User</th>
+        <th>Till</th>
+        <th>Customer</th>
+        <th>Quantity</th>
+        <th>Total</th>
+        <th>Complete</th>
+        <th>Receipt</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each sale in controller}}
+      <tr>
+        <td><button {{action 'load' sale}} {{bindAttr disabled='sale.complete'}} type="button" class="btn btn-primary btn-small">{{sale.sku}}</button></td>
+        <td>
+          {{#if sale.user}}
+          {{sale.user.fullname}}
+          {{else}}
+          None
+          {{/if}}
+        </td>
+        <td>
+          {{#if sale.till}}
+          {{sale.till.name}}
+          {{else}}
+          None
+          {{/if}}
+        </td>
+        <td>
+          {{#if sale.customer}}
+          {{sale.customer.fullname}}
+          {{else}}
+          None
+          {{/if}}
+        </td>
+        <td>{{sale.quantity}}</td>
+        <td>${{currency sale.total}}</td>
+        <td>{{boolean sale.complete}}</td>
+        <td><button {{action 'receipt' sale}} type="button" class="btn btn-small">Receipt</button></td>
+        <td>
+          <button {{action 'delete' sale}} {{bindAttr disabled='sale.complete'}} type="button" class="btn btn-small btn-danger">Delete</button>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</script>
