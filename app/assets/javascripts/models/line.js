@@ -1,21 +1,36 @@
-App.Line = DS.Model.extend({
-  amount: DS.attr('number'),
-  quantity: DS.attr('number'),
-  note: DS.attr('string'),
-  sku: DS.attr('string'),
-  taxable: DS.attr('boolean'),
-  title: DS.attr('string'),
-  sale: DS.belongsTo('App.Sale'),
-  purchase: DS.belongsTo('App.Purchase'),
+App.Line = Ember.Object.extend({
+  amount: 0,
+  quantity: 0,
+  note: "",
+  sku: "",
+  taxable: true,
+  title: "",
   subtotal: function() {
     return parseInt(this.get('amount')) * parseInt(this.get('quantity'));
   }.property('amount', 'quantity')
 });
 
+App.Line.reopenClass({
+  fixtures: function() {
+    var fixtures = [];
+    App.Line.FIXTURES.forEach(function(line) {
+      var _line = App.Line.create({
+        id: line.id,
+        amount: line.amount,
+        quantity: line.quantity,
+        note: line.note,
+        sku: line.sku,
+        taxable: line.taxable,
+        title: line.title
+      });
+      fixtures.pushObject(_line);
+    });
+    return fixtures;
+  }
+});
+
 App.Line.FIXTURES = [
   {
-    id: 0,
-    sale: 0,
     amount: 1000,
     quantity: 2,
     note: "",
@@ -24,8 +39,6 @@ App.Line.FIXTURES = [
     title: "Line 1"
   },
   {
-    id: 1,
-    sale: 0,
     amount: 100,
     quantity: 1,
     note: "Lorem Ipsum...",
@@ -34,8 +47,6 @@ App.Line.FIXTURES = [
     title: "Line 2"
   },
   {
-    id: 2,
-    sale: 1,
     amount: 1000,
     quantity: 2,
     note: "Lorem Ipsum...",
@@ -44,8 +55,6 @@ App.Line.FIXTURES = [
     title: "Line 1"
   },
   {
-    id: 3,
-    sale: 1,
     amount: 100,
     quantity: 1,
     note: "Lorem Ipsum...",
@@ -54,8 +63,6 @@ App.Line.FIXTURES = [
     title: "Line 2"
   },
   {
-    id: 4,
-    purchase: 0,
     amount: -100,
     quantity: 1,
     note: "Lorem Ipsum...",

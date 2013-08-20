@@ -1,8 +1,23 @@
-App.Unit = DS.Model.extend({
-  name: DS.attr('string'),
-  sku: DS.attr('string'),
-  price: DS.attr('number'),
-  taxable: DS.attr('boolean')
+App.Unit = Ember.Object.extend({
+  id: null,
+  name: "",
+  sku: "",
+  price: 0,
+  taxable: true
+});
+
+App.Unit.reopenClass({
+  fixtures: function() {
+    var fixtures = [];
+    App.Unit.FIXTURES.forEach(function(unit) {
+      var _unit = App.Unit.create({
+        id: unit.id,
+        name: unit.name,
+        minimum: unit.minimum
+      });
+      fixtures.pushObject(_unit);
+    });
+  }
 });
 
 App.Unit.FIXTURES = [

@@ -1,13 +1,24 @@
-App.Sale = DS.Model.extend({
-  sku: DS.attr('string'),
-  complete: DS.attr('boolean'),
-  taxRate: DS.attr('number'),
-  pdfUrl: DS.attr('string'),
-  customer: DS.belongsTo('App.Customer'),
-  till: DS.belongsTo('App.Till'),
-  user: DS.belongsTo('App.User'),
-  lines: DS.hasMany('App.Line'),
-  payment: DS.belongsTo('App.Payment'),
+App.Sale = Ember.Object.extend({
+  id: null,
+  sku: "",
+  complete: false,
+  taxRate: 0,
+  pdfUrl: "",
+  customer: null,
+  till: null,
+  user: null,
+  lines: null,
+  payment: null,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  init: function() {
+    this._super();
+    this.set('customer', Ember.Object.create());
+    this.set('till', Ember.Object.create());
+    this.set('user', Ember.Object.create());
+    this.set('payment', Ember.Object.create());
+    this.set('lines', Ember.A());
+  },
   quantity: function() {
     var lines = this.get('lines');
     var quantity = 0;
@@ -67,29 +78,61 @@ App.Sale = DS.Model.extend({
   }.property('completable')
 });
 
+App.Sale.reopen({
+  save: function() {
+    
+  }
+});
+
+App.Sale.reopenClass({
+  query: function(query, filter, page, perPage) {
+    console.log('query: ' + query);
+    console.log('filter: ' + filter);
+    console.log('page: ' + page);
+    console.log('perPage: ' + perPage);
+    
+    return this.fixtures();
+  },
+  count: function(query, filter) {
+    return 2;
+  },
+  find: function(id) {
+    return this.fixtures.objectAt(id);
+  },
+  fixtures: function() {
+    var fixtures = [];
+    App.Sale.FIXTURES.forEach(function(sale) {
+      var _sale = App.Sale.create({
+        id: sale.id,
+        sku: sale.sku,
+        complete: sale.complete,
+        taxRate: sale.taxRate,
+        pdfUrl: sale.pdfUrl
+      });
+      _sale.set('customer', App.Customer.fixtures().objectAt(0));
+      _sale.set('till', App.Till.fixtures().objectAt(0));
+      _sale.set('user', App.User.fixtures().objectAt(0));
+      _sale.set('payment', App.Payment.fixtures().objectAt(0));
+      _sale.set('lines', App.Line.fixtures());
+      fixtures.pushObject(_sale);
+    });
+    return fixtures;
+  }
+});
+
 App.Sale.FIXTURES = [
   {
     id: 0,
     sku: "BFC94FA0-D0BC-0130-AD86-109ADD6B8334",
     complete: false,
     taxRate: 0.07,
-    pdfUrl: "http://www.example.com/example.pdf",
-    customer: 0,
-    till: 0,
-    user: 0,
-    lines: [0,1],
-    payment: 0
+    pdfUrl: "http://www.example.com/example.pdf"
   },
   {
     id: 1,
     sku: "BFC94FA0-D0BC-0130-AD86-109ADD6B8334",
     complete: false,
     taxRate: 0.07,
-    pdfUrl: "http://www.example.com/example.pdf",
-    customer: 0,
-    till: 0,
-    user: 0,
-    lines: [2,3],
-    payment: 1
+    pdfUrl: "http://www.example.com/example.pdf"
   }
 ];

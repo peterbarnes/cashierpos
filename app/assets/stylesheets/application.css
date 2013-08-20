@@ -8,7 +8,7 @@ body {
   padding: 70px 0px;
 }
 
-a.new { margin-top: 15px; }
+button.new { margin-top: 15px; }
 form.search input[type=text] {
   width: 570px;
   margin-right: 5px;

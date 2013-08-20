@@ -1,18 +1,45 @@
-App.Customer = DS.Model.extend({
-  firstName: DS.attr('string'),
-  lastName: DS.attr('string'),
-  email: DS.attr('string'),
-  organization: DS.attr('string'),
-  sku: DS.attr('string'),
-  notes: DS.attr('string'),
-  credit: DS.attr('number'),
-  dateOfBirth: DS.attr('date'),
-  imageUrl: DS.attr('string'),
-  sales: DS.hasMany('App.Sale'),
-  purchases: DS.hasMany('App.Purchase'),
+App.Customer = Ember.Object.extend({
+  id: null,
+  firstName: "",
+  lastName: "",
+  email: "",
+  organization: "",
+  sku: "",
+  notes: "",
+  credit: 0,
+  dateOfBirth: new Date(),
+  imageUrl: "",
   fullname: function() {
     return this.get('firstName') + " " + this.get('lastName');
   }.property('firstName', 'lastName')
+});
+
+App.Customer.reopenClass({
+  fixtures: function() {
+    var fixtures = [];
+    App.Customer.FIXTURES.forEach(function(customer) {
+      var _customer = App.Customer.create({
+        id: customer.id,
+        firstName: customer.firstName,
+        lastName: customer.lastName,
+        email: customer.email,
+        organization: customer.organization,
+        sku: customer.sku,
+        notes: customer.notes,
+        credit: customer.credit,
+        dateOfBirth: customer.dateOfBirth,
+        imageUrl: customer.imageUrl
+      });
+      fixtures.pushObject(_customer);
+    });
+    return fixtures;
+  }
+});
+
+App.Customer.reopen({
+  save: function() {
+    
+  }
 });
 
 App.Customer.FIXTURES = [
@@ -25,10 +52,8 @@ App.Customer.FIXTURES = [
     sku: 'BFC94FA0',
     notes: 'Lorem Ipsum...',
     credit: 10000,
-    dateOfBirth: '',
-    imageUrl: '',
-    purchases: [0],
-    sales: [0,1]
+    dateOfBirth: new Date(),
+    imageUrl: ''
   },
   {
     id: 1,
@@ -39,9 +64,7 @@ App.Customer.FIXTURES = [
     sku: 'BFC94RE0',
     notes: 'Lorem Ipsum...',
     credit: 7655,
-    dateOfBirth: '',
-    imageUrl: '',
-    purchases: [],
-    sales: []
+    dateOfBirth: new Date(),
+    imageUrl: ''
   }
 ];

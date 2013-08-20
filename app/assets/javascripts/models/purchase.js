@@ -1,13 +1,23 @@
-App.Purchase = DS.Model.extend({
-  sku: DS.attr('string'),
-  complete: DS.attr('boolean'),
-  pdfUrl: DS.attr('string'),
-  storeCredit: DS.attr('number'),
-  cash: DS.attr('number'),
-  customer: DS.belongsTo('App.Customer'),
-  till: DS.belongsTo('App.Till'),
-  user: DS.belongsTo('App.User'),
-  lines: DS.hasMany('App.Line'),
+App.Purchase = Ember.Object.extend({
+  id: null,
+  sku: "",
+  complete: false,
+  pdfUrl: "",
+  storeCredit: 0,
+  cash: 0,
+  customer: null,
+  till: null,
+  user: null,
+  lines: null,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  init: function() {
+    this._super();
+    this.set('customer', Ember.Object.create());
+    this.set('till', Ember.Object.create());
+    this.set('user', Ember.Object.create());
+    this.set('lines', Ember.A());
+  },
   quantity: function() {
     var lines = this.get('lines');
     var quantity = 0;
@@ -41,6 +51,48 @@ App.Purchase = DS.Model.extend({
   }.property('completable')
 });
 
+App.Purchase.reopen({
+  save: function() {
+    
+  }
+})
+
+App.Purchase.reopenClass({
+  query: function(query, filter, page, perPage) {
+    console.log('query: ' + query);
+    console.log('filter: ' + filter);
+    console.log('page: ' + page);
+    console.log('perPage: ' + perPage);
+    
+    return this.fixtures();
+  },
+  count: function(query, filter) {
+    return 2;
+  },
+  find: function(id) {
+    return this.fixtures.objectAt(id);
+  },
+  fixtures: function() {
+    var fixtures = [];
+    App.Purchase.FIXTURES.forEach(function(purchase) {
+      var _purchase = App.Purchase.create({
+        id: purchase.id,
+        sku: purchase.sku,
+        complete: purchase.complete,
+        pdfUrl: purchase.pdfUrl,
+        cash: purchase.cash,
+        storeCredit: purchase.storeCredit
+      });
+      _purchase.set('customer', App.Customer.fixtures().objectAt(0));
+      _purchase.set('till', App.Till.fixtures().objectAt(0));
+      _purchase.set('user', App.User.fixtures().objectAt(0));
+      _purchase.set('lines', App.Line.fixtures());
+      fixtures.pushObject(_purchase);
+    });
+    return fixtures;
+  }
+});
+
 App.Purchase.FIXTURES = [
   {
     id: 0,
@@ -48,10 +100,6 @@ App.Purchase.FIXTURES = [
     complete: false,
     pdfUrl: "http://www.example.com/example.pdf",
     cash: 10,
-    storeCredit: 0,
-    customer: 0,
-    till: 0,
-    user: 0,
-    lines: [4]
+    storeCredit: 0
   }
 ];

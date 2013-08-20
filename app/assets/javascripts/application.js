@@ -2,7 +2,7 @@
 //= require ./vendor/bootstrap
 //= require ./vendor/handlebars
 //= require ./vendor/ember
-//= require ./vendor/ember-data
+//= require ./vendor/ember-date
 //= require ./vendor/math.uuid
 //= require ./environment
 //= require ./store
