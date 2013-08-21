@@ -80,6 +80,10 @@
           <button {{action 'delete' sale}} {{bindAttr disabled='sale.complete'}} type="button" class="btn btn-danger">Delete</button>
         </td>
       </tr>
+      {{else}}
+        <tr>
+          <td colspan="11"><strong>No Results Found</strong></td>
+        </tr>
       {{/each}}
     </tbody>
   </table>

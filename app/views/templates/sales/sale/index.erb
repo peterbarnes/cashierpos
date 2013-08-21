@@ -1,0 +1,113 @@
+<script type="text/x-handlebars" data-template-name="sale/index">
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="well">
+        <form class="search form-inline">
+          <div class="form-group">
+            {{view Ember.TextField valueBinding="query" class="form-control" placeholder="Search..."}}
+          </div>
+          <button type="submit" {{action 'add'}} class="btn btn-primary">Add</button>
+          <button type="submit" {{action 'search'}} class="btn btn-default">Search</button>
+        </form>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-lg-10">
+          <span class="new-line lead">Add a new line...</span>
+        </div>
+        <div class="col-lg-2">
+          {{#linkTo 'sale.line' class="btn btn-primary pull-right"}}Add Line{{/linkTo}}
+        </div>
+      </div>
+      <hr>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Qty</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each line in lines}}
+          <tr {{bindAttr class=":line line.remove:hidden"}}>
+            <td class="remove"><button type="button" {{action 'remove' line}} class="btn btn-sm btn-danger">x</button></td>
+            <td class="quantity">
+              <span class="pull-left">
+                {{view App.NumberField valueBinding="line.quantity" min="0" class="quantity form-control input-sm"}}
+              </span>
+              <span class="btn-group pull-right">
+                <button type="button" {{action 'quantityPlus' line}} class="btn btn-sm btn-default">+</button>
+                <button type="button" {{action 'quantityMinus' line}} class="btn btn-sm btn-default">-</button>
+              </span>
+            </td>
+            <td class="description">
+              <p><strong>{{line.title}}</strong></p>
+              <p><em>{{line.sku}}</em></p>
+              <p>{{view Ember.TextField valueBinding="line.note" class="form-control input-sm" placeholder="Add a note..."}}</p>
+            </td>
+            <td class="amount">${{currency line.amount}}</td>
+            <td class="subtotal"><strong>${{currency line.subtotal}}</strong></td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    <div class="col-lg-4">
+      <div class="cart well">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Qty</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each line in lines}}
+            <tr {{bindAttr class=":cart-line line.remove:hidden"}}>
+              <td class="quantity">{{line.quantity}}</td>
+              <td class="description">{{line.title}}</td>
+              <td class="amount">${{currency line.amount}}</td>
+              <td class="subtotal">${{currency line.subtotal}}</td>
+            </tr>
+            {{else}}
+            <tr><td colspan="4" class="center">Cart is empty</td></tr>
+            {{/each}}
+          </tbody>
+        </table>
+        <hr>
+        <ul class="summary">
+          <li><span>Subtotal:</span><span>${{currency subtotal}}</span></li>
+          <li><span>Store Credit:</span><span>${{currency payment.storeCredit}}</span></li>
+          <li><span>Subtotal (After Store Credit):</span><span>${{currency subtotalAfterStoreCredit}}</span></li>
+          <li><span>Tax ({{taxRate}}%):</span><span>${{currency tax}}</span></li>
+          <li><span><strong>Total:</strong></span><span><strong>${{currency total}}</strong></span></li>
+        </ul>
+        <hr>
+        <ul class="payment">
+          {{#if payment.cash}}
+          <li><span>Cash:</span><span>${{currency payment.cash}}</span></li>
+          {{/if}}
+          {{#if payment.credit}}
+          <li><span>Credit:</span><span>${{currency payment.credit}}</span></li>
+          {{/if}}
+          {{#if payment.check}}
+          <li><span>Check:</span><span>${{currency payment.check}}</span></li>
+          {{/if}}
+          {{#if payment.giftCard}}
+          <li><span>Gift Card:</span><span>${{currency payment.giftCard}}</span></li>
+          {{/if}}
+        </ul>
+        <hr>
+        <div class="clearfix">
+          <p class="lead pull-left"><strong>{{dueLabel}}</strong></p>
+          <p class="lead pull-right"><strong>${{currency due}}</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</script>

@@ -1,7 +1,7 @@
-App.SaleController = Ember.ObjectController.extend({
+App.SaleIndexController = Ember.ObjectController.extend({
   add: function() {
     var query = this.get('query');
-    var units = App.Unit.find({sku: query});
+    var units = App.Unit.query(query);
     var controller = this;
     this.set('query', null);
     units.on('didLoad', function() {
@@ -21,7 +21,7 @@ App.SaleController = Ember.ObjectController.extend({
     this.set('query', null);
   },
   remove: function(line) {
-    line.deleteRecord();
+    line.set('remove', true);
   },
   quantityPlus: function(line) {
     line.set('quantity', parseInt(line.get('quantity')) + 1);
@@ -43,12 +43,12 @@ App.SaleController = Ember.ObjectController.extend({
     this.transitionToRoute('sales');
   },
   editTill: function() {
-    this.send('open', 'till');
+    
   },
   editUser: function() {
-    this.send('open', 'user');
+    
   },
   editCustomer: function() {
-    this.send('open', 'customer');
+    
   }
 });

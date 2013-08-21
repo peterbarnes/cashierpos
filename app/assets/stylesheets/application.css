@@ -30,7 +30,7 @@ table tr.line td.quantity { width: 160px; }
 table tr.line td.quantity input[type=number] {
   width: 80px;
 }
-table tr.line td.description p { margin-bottom: 5px; }
+table tr.line td.description p { margin-bottom: 5px; text-align: left; }
 table tr.line td.amount { width: 90px; }
 table tr.line td.subtotal { width: 90px; }
 
@@ -38,6 +38,8 @@ table tr.cart-line td.quantity { max-width: 10%; }
 table tr.cart-line td.description { max-width: 50%; }
 table tr.cart-line td.amount { max-width: 20%; }
 table tr.cart-line td.subtotal { max-width: 20%; }
+
+span.new-line { height: 34px; line-height: 34px; }
 
 ul.summary { 
   list-style-type: none;

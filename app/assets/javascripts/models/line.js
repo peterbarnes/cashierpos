@@ -5,6 +5,7 @@ App.Line = Ember.Object.extend({
   sku: "",
   taxable: true,
   title: "",
+  remove: false,
   subtotal: function() {
     return parseInt(this.get('amount')) * parseInt(this.get('quantity'));
   }.property('amount', 'quantity')

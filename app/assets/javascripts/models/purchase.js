@@ -1,5 +1,4 @@
 App.Purchase = Ember.Object.extend({
-  id: null,
   sku: "",
   complete: false,
   pdfUrl: "",
@@ -13,30 +12,31 @@ App.Purchase = Ember.Object.extend({
   updatedAt: new Date(),
   init: function() {
     this._super();
-    this.set('customer', Ember.Object.create());
-    this.set('till', Ember.Object.create());
-    this.set('user', Ember.Object.create());
     this.set('lines', Ember.A());
   },
   quantity: function() {
     var lines = this.get('lines');
     var quantity = 0;
     lines.forEach(function(line) {
-      quantity += line.get('quantity');
+      if (!line.get('remove')) {
+        quantity += line.get('quantity');
+      }
     });
     return quantity;
-  }.property('lines', 'lines.@each.quantity'),
+  }.property('lines', 'lines.@each.quantity', 'lines.@each.remove'),
   subtotal: function() {
     var lines = this.get('lines');
     var subtotal = 0;
     lines.forEach(function(line) {
-      subtotal += line.get('subtotal');
+      if (!line.get('remove')) {
+        subtotal += line.get('subtotal');
+      }
     });
     return subtotal;
-  }.property('lines', 'lines.@each.subtotal'),
+  }.property('lines', 'lines.@each.subtotal', 'lines.@each.remove'),
   total: function() {
     return this.get('subtotal');
-  }.property('lines', 'lines.@each.subtotal'),
+  }.property('subtotal'),
   due: function() {
     return this.get('cash');
   }.property('cash'),
@@ -53,7 +53,13 @@ App.Purchase = Ember.Object.extend({
 
 App.Purchase.reopen({
   save: function() {
-    
+    console.log('saving...');
+  },
+  delete: function() {
+    console.log('deleting...');
+  },
+  print: function() {
+    console.log('printing...');
   }
 })
 
@@ -70,7 +76,7 @@ App.Purchase.reopenClass({
     return 2;
   },
   find: function(id) {
-    return this.fixtures.objectAt(id);
+    return this.fixtures().objectAt(id);
   },
   fixtures: function() {
     var fixtures = [];

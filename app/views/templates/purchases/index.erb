@@ -1,7 +1,7 @@
 <script type="text/x-handlebars" data-template-name="purchases/index">
   <div class="clearfix">
     <h2 class="pull-left">Purchases</h2>
-    <button {{action 'new'}} type="button" class="new btn btn-primary btn-lg pull-right">New Sale</button>
+    <button {{action 'new'}} type="button" class="new btn btn-primary btn-lg pull-right">New Purchase</button>
   </div>
   <hr>
   <div class="filter">
@@ -71,7 +71,7 @@
         <td>${{currency purchase.total}}</td>
         <td>{{boolean purchase.complete}}</td>
         <td>
-          <button {{action 'load' sale}} {{bindAttr disabled='purchase.complete'}} type="button" class="btn btn-primary">Edit</button>
+          <button {{action 'load' purchase}} {{bindAttr disabled='purchase.complete'}} type="button" class="btn btn-primary">Edit</button>
         </td>
         <td>
           <button {{action 'print' purchase}} type="button" class="btn">Print</button>
@@ -80,6 +80,10 @@
           <button {{action 'delete' purchase}} {{bindAttr disabled='purchase.complete'}} type="button" class="btn btn-danger">Delete</button>
         </td>
       </tr>
+      {{else}}
+        <tr>
+          <td colspan="11"><strong>No Results Found</strong></td>
+        </tr>
       {{/each}}
     </tbody>
   </table>

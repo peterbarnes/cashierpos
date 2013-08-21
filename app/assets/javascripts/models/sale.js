@@ -1,5 +1,4 @@
 App.Sale = Ember.Object.extend({
-  id: null,
   sku: "",
   complete: false,
   taxRate: 0,
@@ -13,41 +12,42 @@ App.Sale = Ember.Object.extend({
   updatedAt: new Date(),
   init: function() {
     this._super();
-    this.set('customer', Ember.Object.create());
-    this.set('till', Ember.Object.create());
-    this.set('user', Ember.Object.create());
-    this.set('payment', Ember.Object.create());
+    this.set('payment', App.Payment.create());
     this.set('lines', Ember.A());
   },
   quantity: function() {
     var lines = this.get('lines');
     var quantity = 0;
     lines.forEach(function(line) {
-      quantity += parseInt(line.get('quantity'));
+      if (!line.get('remove')) {
+        quantity += parseInt(line.get('quantity'));
+      }
     });
     return quantity;
-  }.property('lines', 'lines.@each.quantity'),
+  }.property('lines', 'lines.@each.quantity', 'lines.@each.remove'),
   subtotal: function() {
     var lines = this.get('lines');
     var subtotal = 0;
     lines.forEach(function(line) {
-      subtotal += line.get('subtotal');
-    });
-    return subtotal;
-  }.property('lines', 'lines.@each.subtotal'),
-  subtotalAfterStoreCredit: function() {
-    return this.get('subtotal') - this.get('payment.storeCredit');
-  }.property('lines', 'lines.@each.subtotal', 'payment.storeCredit'),
-  taxableSubtotal: function() {
-    var lines = this.get('lines');
-    var subtotal = 0;
-    lines.forEach(function(line) {
-      if (line.get('taxable')) {
+      if (!line.get('remove')) {
         subtotal += line.get('subtotal');
       }
     });
     return subtotal;
-  }.property('lines', 'lines.@each.subtotal'),
+  }.property('lines', 'lines.@each.subtotal', 'lines.@each.remove'),
+  subtotalAfterStoreCredit: function() {
+    return this.get('subtotal') - this.get('payment.storeCredit');
+  }.property('lines', 'lines.@each.subtotal', 'lines.@each.remove', 'payment.storeCredit'),
+  taxableSubtotal: function() {
+    var lines = this.get('lines');
+    var subtotal = 0;
+    lines.forEach(function(line) {
+      if (line.get('taxable') &&  !line.get('remove')) {
+        subtotal += line.get('subtotal');
+      }
+    });
+    return subtotal;
+  }.property('lines', 'lines.@each.subtotal', 'lines.@each.remove'),
   tax: function() {
     var subtotal = this.get('taxableSubtotal') - this.get('payment.storeCredit');
     if (subtotal > 0) {
@@ -55,10 +55,10 @@ App.Sale = Ember.Object.extend({
     } else {
       return 0;
     }
-  }.property('lines', 'lines.@each.subtotal', 'lines.@each.taxable', 'payment.storeCredit'),
+  }.property('lines', 'lines.@each.subtotal', 'lines.@each.taxable', 'lines.@each.remove', 'payment.storeCredit'),
   total: function() {
     return this.get('subtotalAfterStoreCredit') + this.get('tax');
-  }.property('lines', 'lines.@each.subtotal', 'payment.storeCredit'),
+  }.property('lines', 'lines.@each.subtotal', 'lines.@each.remove', 'payment.storeCredit'),
   due: function() {
     return this.get('total') - this.get('payment.total');
   }.property('total'),
@@ -80,7 +80,13 @@ App.Sale = Ember.Object.extend({
 
 App.Sale.reopen({
   save: function() {
-    
+    console.log('saving...');
+  },
+  delete: function() {
+    console.log('deleting...');
+  },
+  print: function() {
+    console.log('printing...');
   }
 });
 
@@ -97,7 +103,7 @@ App.Sale.reopenClass({
     return 2;
   },
   find: function(id) {
-    return this.fixtures.objectAt(id);
+    return this.fixtures().objectAt(id);
   },
   fixtures: function() {
     var fixtures = [];

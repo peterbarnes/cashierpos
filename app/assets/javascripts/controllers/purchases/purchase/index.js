@@ -1,12 +1,12 @@
-App.PurchaseController = Ember.ObjectController.extend({
+App.PurchaseIndexController = Ember.ObjectController.extend({
   add: function() {
-    console.log(this.get('query'));
+    
   },
   search: function() {
-    console.log(this.get('query'));
+    
   },
   remove: function(line) {
-    line.deleteRecord();
+    line.set('remove', true);
   },
   addLine: function() {
     

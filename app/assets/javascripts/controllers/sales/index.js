@@ -3,8 +3,10 @@ App.SalesIndexController = Ember.ArrayController.extend({
   filter: 'all',
   page: 1,
   perPage: 10,
+  newCount: 0,
   new: function() {
-    var sale = App.Sale.create();
+    var sale = App.Sale.create({id: 'new-' + this.get('newCount')});
+    this.incrementProperty('newCount');
     this.transitionToRoute('sale', sale);
   },
   search: function() {
@@ -85,10 +87,11 @@ App.SalesIndexController = Ember.ArrayController.extend({
     this.transitionToRoute('sale', sale);
   },
   print: function(sale) {
-    console.log(sale);
+    sale.print();
   },
   delete: function(sale) {
-    sale.deleteRecord();
-    sale.save();
+    if (confirm('Are you sure you want to delete this sale?')) {
+      sale.delete();
+    }
   }
 });
