@@ -1,4 +1,4 @@
-<script type="text/x-handlebars" data-template-name="sale/index">
+<script type="text/x-handlebars" data-template-name="purchase/index">
   <div class="row">
     <div class="col-lg-8">
       <div class="well">
@@ -9,6 +9,15 @@
           <button type="submit" class="btn btn-primary">Add</button>
           <button type="submit" {{action 'search'}} class="btn btn-default">Search</button>
         </form>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-lg-10">
+          <span class="new-line lead">Add a new line...</span>
+        </div>
+        <div class="col-lg-2">
+          {{#linkTo 'purchase.line' class="btn btn-primary pull-right"}}Add Line{{/linkTo}}
+        </div>
       </div>
       <hr>
       <table class="table table-striped">
@@ -46,14 +55,6 @@
         </tbody>
       </table>
       <hr>
-      <div class="row">
-        <div class="col-lg-10">
-          <span class="new-line lead">Add a new line...</span>
-        </div>
-        <div class="col-lg-2">
-          {{#linkTo 'purchase.line' class="btn btn-primary pull-right"}}Add Line{{/linkTo}}
-        </div>
-      </div>
     </div>
     <div class="col-lg-4">
       <div class="cart well">

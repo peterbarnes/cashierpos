@@ -1,8 +1,9 @@
 App.SaleLineRoute = Ember.Route.extend({
   model: function() {
-    return Ember.Object.create();
+    return this.modelFor('sale');
   },
-  renderTemplate: function() {
-    this.render('line', { into: 'sale', outlet: 'line' });
+  setupController: function(controller, model) {
+    controller.set('model', model);
+    controller.set('line', App.Line.create());
   }
 });

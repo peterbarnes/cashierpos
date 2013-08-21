@@ -17,6 +17,9 @@ App.Unit.reopenClass({
       });
       fixtures.pushObject(_unit);
     });
+  },
+  query: function(query) {
+    
   }
 });
 

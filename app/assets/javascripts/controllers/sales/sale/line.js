@@ -1,10 +1,7 @@
 App.SaleLineController = Ember.ObjectController.extend({
   needs: 'sale',
-  save: function() {
-    var line = App.Line.createRecord({
-      // name: this.get('tname'),
-      // note: this.get('controllers.sale.model')
-    });
+  add: function() {
+    this.get('model.lines').pushObject(this.get('line'));
     this.transitionToRoute('sale');
   },
   cancel: function() {
