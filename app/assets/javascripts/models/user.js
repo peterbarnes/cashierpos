@@ -1,17 +1,38 @@
 App.User = Ember.Object.extend({
   active: false,
   administrator: false,
+  authenticated: true,
   email: "",
   firstName: "",
   lastName: "",
   username: "",
   pin: "",
+  pinValue: "",
   fullname: function() {
     return this.get('firstName') + " " + this.get('lastName');
-  }.property('firstName', 'lastName')
+  }.property('firstName', 'lastName'),
+  pinChanged: function() {
+    if (this.get('pinValue') === this.get('pin')) {
+      this.set('authenticated', false);
+    }
+  }.observes('pinValue')
 });
 
 App.User.reopenClass({
+  query: function(query, filter, page, perPage) {
+    console.log('query: ' + query);
+    console.log('filter: ' + filter);
+    console.log('page: ' + page);
+    console.log('perPage: ' + perPage);
+    
+    return this.fixtures();
+  },
+  count: function(query, filter) {
+    return 2;
+  },
+  find: function(id) {
+    return this.fixtures().objectAt(id);
+  },
   fixtures: function() {
     var fixtures = [];
     App.User.FIXTURES.forEach(function(user) {

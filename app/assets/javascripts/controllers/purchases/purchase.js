@@ -16,5 +16,8 @@ App.PurchaseController = Ember.ObjectController.extend({
   },
   editCustomer: function() {
     this.transitionToRoute('purchase.customer');
+  },
+  addCustomer: function() {
+    this.transitionToRoute('purchase.addcustomer');
   }
 });

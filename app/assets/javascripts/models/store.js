@@ -12,6 +12,20 @@ App.Store = Ember.Object.extend({
 });
 
 App.Store.reopenClass({
+  query: function(query, filter, page, perPage) {
+    console.log('query: ' + query);
+    console.log('filter: ' + filter);
+    console.log('page: ' + page);
+    console.log('perPage: ' + perPage);
+    
+    return this.fixtures();
+  },
+  count: function(query, filter) {
+    return 2;
+  },
+  find: function(id) {
+    return this.fixtures().objectAt(id);
+  },
   fixtures: function() {
     var fixtures = [];
     App.Store.FIXTURES.forEach(function(store) {
@@ -22,7 +36,7 @@ App.Store.reopenClass({
         taxRate: store.taxRate,
         imageUrl: store.imageUrl
       });
-      _stores.set('tills', App.Till.fixtures());
+      _store.set('tills', App.Till.fixtures());
       fixtures.pushObject(_store);
     });
     return fixtures;

@@ -41,14 +41,5 @@ App.SaleIndexController = Ember.ObjectController.extend({
     sale.set('complete', true);
     sale.save();
     this.transitionToRoute('sales');
-  },
-  editTill: function() {
-    
-  },
-  editUser: function() {
-    
-  },
-  editCustomer: function() {
-    
   }
 });

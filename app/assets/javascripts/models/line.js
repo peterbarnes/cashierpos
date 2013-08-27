@@ -1,11 +1,15 @@
 App.Line = Ember.Object.extend({
   amount: 0,
+  amountDecimal: 0,
   quantity: 0,
   note: "",
   sku: "",
   taxable: true,
   title: "",
   remove: false,
+  amountDecimalChanged: function() {
+    this.set('amount', parseInt(Math.round(1000 * this.get('amountDecimal') * 100) / 1000));
+  }.observes('amountDecimal'),
   subtotal: function() {
     return parseInt(this.get('amount')) * parseInt(this.get('quantity'));
   }.property('amount', 'quantity')

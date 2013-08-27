@@ -3,13 +3,11 @@ App.PurchaseIndexController = Ember.ObjectController.extend({
     
   },
   search: function() {
-    
+    console.log(this.get('query'));
+    this.set('query', null);
   },
   remove: function(line) {
     line.set('remove', true);
-  },
-  addLine: function() {
-    
   },
   quantityPlus: function(line) {
     line.set('quantity', parseInt(line.get('quantity')) + 1);
@@ -29,14 +27,5 @@ App.PurchaseIndexController = Ember.ObjectController.extend({
     purchase.set('complete', true);
     purchase.save();
     this.transitionToRoute('purchases');
-  },
-  editTill: function() {
-    
-  },
-  editUser: function() {
-    
-  },
-  editCustomer: function() {
-    
   }
 });

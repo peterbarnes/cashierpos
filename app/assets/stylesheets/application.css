@@ -13,6 +13,7 @@ form.search input[type=text] {
   width: 570px;
   margin-right: 5px;
 }
+input.pin { width: 100px; }
 
 .cart .lead { margin-bottom: 0px; }
 .navbar-fixed-bottom .navbar-right { padding-right: 15px; }
@@ -21,6 +22,9 @@ form.search input[type=text] {
 
 table.sales tr td { vertical-align: middle; }
 table.purchases tr td { vertical-align: middle; }
+table.customers tr td { vertical-align: middle; }
+table.users tr td { vertical-align: middle; }
+table.tills tr td { vertical-align: middle; }
 
 table tr th { text-align: center; }
 table tr td { text-align: center; }
@@ -38,6 +42,8 @@ table tr.cart-line td.quantity { max-width: 10%; }
 table tr.cart-line td.description { max-width: 50%; }
 table tr.cart-line td.amount { max-width: 20%; }
 table tr.cart-line td.subtotal { max-width: 20%; }
+
+table tr td.pin { width: 100px; }
 
 span.new-line { height: 34px; line-height: 34px; }
 

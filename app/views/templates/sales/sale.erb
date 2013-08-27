@@ -9,13 +9,16 @@
         No User
         {{/if}}
       </button>
-      <button {{action 'editCustomer'}} type="button" class="btn btn-default navbar-btn">
-        {{#if customer}}
-        {{customer.fullname}}
-        {{else}}
-        No Customer
-        {{/if}}
-      </button>
+      <div class="btn-group">
+        <button {{action 'editCustomer'}} type="button" class="btn btn-default navbar-btn">
+          {{#if customer}}
+          {{customer.fullname}}
+          {{else}}
+          No Customer
+          {{/if}}
+        </button>
+        <button {{action 'addCustomer'}} type="button" class="btn btn-default navbar-btn">+</button>
+      </div>
       <button {{action 'editTill'}} type="button" class="btn btn-default navbar-btn">
         {{#if till}}
         {{till.name}}

@@ -1,3 +1,96 @@
 <script type="text/x-handlebars" data-template-name="sale/customer">
-  {{#linkTo 'sale' class="btn btn-primary pull-right"}}Back{{/linkTo}}
+  <div class="row">
+    <div class="col-lg-9">
+      <h3>Select Customer</h3>
+    </div>
+    <div class="col-lg-3">
+      <div class="pull-right">
+        <button {{action 'back'}} type="button" class="header btn btn-primary">Back</button>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="filter">
+    <div class="filter_container row">
+      <div class='filter_nav col-lg-4'>
+        <button {{action 'all'}} type="button" {{bindAttr class=":all :btn isFilterAll:btn-primary:btn-default"}}>All</button>
+        <button {{action 'newest'}} type="button" {{bindAttr class=":newest :btn isFilterNewest:btn-primary:btn-default"}}>Newest</button>
+        <button {{action 'recent'}} type="button" {{bindAttr class=":recent :btn isFilterRecent:btn-primary:btn-default"}}>Recent</button>
+      </div>
+      <div class='filter_search col-lg-8'>
+        <div class='filter_search_form pull-right'>
+          <form class="search form-inline">
+            <div class="form-group">
+              {{view Ember.TextField valueBinding="query" class="form-control" placeholder="Search..."}}
+            </div>
+            <button type="submit" {{action 'search'}} class="btn btn-primary">Search</button>
+            <button type="submit" {{action 'clear'}} class="btn btn-default">Clear</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <table class="customers table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th>SKU</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Organization</th>
+        <th>D.O.B.</th>
+        <th>Notes</th>
+        <th>Credit</th>
+        <th>Select</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each customer in customers}}
+      <tr>
+        <td><img {{bindAttr src="customer.imageUrl"}} alt="" class="img-thumbnail" /></td>
+        <td>{{customer.sku}}</td>
+        <td>{{customer.firstName}}</td>
+        <td>{{customer.lastName}}</td>
+        <td>{{customer.email}}</td>
+        <td>{{customer.phone}}</td>
+        <td>{{customer.organization}}</td>
+        <td>{{date customer.dateOfBirth "%m-%d-%Y"}}</td>
+        <td>{{customer.notes}}</td>
+        <td>${{currency customer.credit}}</td>
+        <td>
+          <button {{action 'select' customer}} type="button" class="btn btn-primary">Select</button>
+        </td>
+      </tr>
+      {{else}}
+        <tr>
+          <td colspan="11"><strong>No Customers Found</strong></td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <hr>
+  <div class="page">
+    <div class="page_container row">
+      <div class="page_menu col-lg-6">
+        {{#if hasPages}}
+          <button {{action 'prev'}} type="button" class="prev btn btn-sm" {{bindAttr disabled="cantPagePrev"}}>&#8592; Previous</button>
+          <button type="button" class="next btn btn-sm btn-default">{{page}} of {{totalPages}}</button>
+          <button {{action 'next'}} type="button" class="next btn btn-sm" {{bindAttr disabled="cantPageNext"}}>Next &#8594;</button>
+        {{/if}}
+      </div>
+      <div class="page_per col-lg-6">
+        <div class="pull-right">
+          <span class='title'>Per: </span>
+          <span>
+            <button {{action 'perTen'}} type="button" {{bindAttr class=":ten :btn :btn-sm isPerTen:btn-primary:btn-default"}}>10</button>
+            <button {{action 'perTwentyFive'}} type="button" {{bindAttr class=":twenty-five :btn :btn-sm isPerTwentyFive:btn-primary:btn-default"}}>25</button>
+            <button {{action 'perFifty'}} type="button" {{bindAttr class=":fifty :btn :btn-sm isPerFifty:btn-primary:btn-default"}}>50</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
 </script>

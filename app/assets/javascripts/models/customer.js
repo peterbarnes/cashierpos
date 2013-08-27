@@ -9,12 +9,27 @@ App.Customer = Ember.Object.extend({
   credit: 0,
   dateOfBirth: new Date(),
   imageUrl: "",
+  phone: "",
   fullname: function() {
     return this.get('firstName') + " " + this.get('lastName');
   }.property('firstName', 'lastName')
 });
 
 App.Customer.reopenClass({
+  query: function(query, filter, page, perPage) {
+    console.log('query: ' + query);
+    console.log('filter: ' + filter);
+    console.log('page: ' + page);
+    console.log('perPage: ' + perPage);
+    
+    return this.fixtures();
+  },
+  count: function(query, filter) {
+    return 2;
+  },
+  find: function(id) {
+    return this.fixtures().objectAt(id);
+  },
   fixtures: function() {
     var fixtures = [];
     App.Customer.FIXTURES.forEach(function(customer) {
@@ -28,7 +43,8 @@ App.Customer.reopenClass({
         notes: customer.notes,
         credit: customer.credit,
         dateOfBirth: customer.dateOfBirth,
-        imageUrl: customer.imageUrl
+        imageUrl: customer.imageUrl,
+        phone: customer.phone
       });
       fixtures.pushObject(_customer);
     });
@@ -38,7 +54,19 @@ App.Customer.reopenClass({
 
 App.Customer.reopen({
   save: function() {
-    
+    App.Customer.FIXTURES.pushObject({
+      id: this.id,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      email: this.email,
+      organization: this.organization,
+      sku: this.sku,
+      notes: this.notes,
+      credit: this.credit,
+      dateOfBirth: this.dateOfBirth,
+      imageUrl: this.imageUrl,
+      phone: this.phone
+    })
   }
 });
 
@@ -53,7 +81,8 @@ App.Customer.FIXTURES = [
     notes: 'Lorem Ipsum...',
     credit: 10000,
     dateOfBirth: new Date(),
-    imageUrl: ''
+    imageUrl: '',
+    phone: '333-444-5555'
   },
   {
     id: 1,
@@ -65,6 +94,7 @@ App.Customer.FIXTURES = [
     notes: 'Lorem Ipsum...',
     credit: 7655,
     dateOfBirth: new Date(),
-    imageUrl: ''
+    imageUrl: '',
+    phone: '222-333-6666'
   }
 ];

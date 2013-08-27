@@ -4,6 +4,7 @@ App.Router.map(function() {
       this.route('line', { path: "/line" });
       this.route('user', { path: "/user" });
       this.route('customer', { path: "/customer" });
+      this.route('addcustomer', { path: "/addcustomer" });
       this.route('till', { path: "/till" });
     });
   });
@@ -12,6 +13,7 @@ App.Router.map(function() {
       this.route('line', { path: "/line" });
       this.route('user', { path: "/user" });
       this.route('customer', { path: "/customer" });
+      this.route('addcustomer', { path: "/addcustomer" });
       this.route('till', { path: "/till" });
     });
   });
