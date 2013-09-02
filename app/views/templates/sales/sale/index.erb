@@ -6,8 +6,8 @@
           <div class="form-group">
             {{view Ember.TextField valueBinding="query" class="form-control" placeholder="Search..."}}
           </div>
-          <button type="submit" {{action 'add'}} class="btn btn-primary">Add</button>
-          <button type="submit" {{action 'search'}} class="btn btn-default">Search</button>
+          <button type="submit" {{action 'add'}} class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add</button>
+          <button type="submit" {{action 'search'}} class="btn btn-default"><span class="glyphicon glyphicon-search"></span> Search</button>
         </form>
       </div>
       <hr>
@@ -16,7 +16,7 @@
           <span class="new-line lead">Add a new line...</span>
         </div>
         <div class="col-lg-2">
-          {{#linkTo 'sale.line' class="btn btn-primary pull-right"}}Add Line{{/linkTo}}
+          {{#linkTo 'sale.line' class="btn btn-primary pull-right"}}<span class="glyphicon glyphicon-plus"></span> Add Line{{/linkTo}}
         </div>
       </div>
       <hr>
@@ -33,14 +33,14 @@
         <tbody>
           {{#each line in lines}}
           <tr {{bindAttr class=":line line.remove:hidden"}}>
-            <td class="remove"><button type="button" {{action 'remove' line}} class="btn btn-sm btn-danger">x</button></td>
+            <td class="remove"><button type="button" {{action 'remove' line}} class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span></button></td>
             <td class="quantity">
               <span class="pull-left">
                 {{view App.NumberField valueBinding="line.quantity" min="0" class="quantity form-control input-sm"}}
               </span>
               <span class="btn-group pull-right">
-                <button type="button" {{action 'quantityPlus' line}} class="btn btn-sm btn-default">+</button>
-                <button type="button" {{action 'quantityMinus' line}} class="btn btn-sm btn-default">-</button>
+                <button type="button" {{action 'quantityPlus' line}} class="btn btn-sm btn-default"><span class="glyphicon glyphicon-plus"></span></button>
+                <button type="button" {{action 'quantityMinus' line}} class="btn btn-sm btn-default"><span class="glyphicon glyphicon-minus"></span></button>
               </span>
             </td>
             <td class="description">

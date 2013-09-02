@@ -10,7 +10,7 @@ body {
 
 button.header { margin-top: 15px; }
 form.search input[type=text] {
-  width: 570px;
+  width: 538px;
   margin-right: 5px;
 }
 input.pin { width: 100px; }
@@ -32,7 +32,7 @@ table tr.add td span { line-height: 38px; }
 table tr.line td.remove { width: 40px; }
 table tr.line td.quantity { width: 160px; }
 table tr.line td.quantity input[type=number] {
-  width: 80px;
+  width: 70px;
 }
 table tr.line td.description p { margin-bottom: 5px; text-align: left; }
 table tr.line td.amount { width: 90px; }

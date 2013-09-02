@@ -2,36 +2,39 @@
   {{outlet}}
   <div class="navbar navbar-inverse navbar-fixed-bottom">
     <div class="navbar-header">
-      <button {{action 'editUser'}} type="button" class="btn btn-default navbar-btn">
+      <button {{action 'selectUser'}} type="button" class="btn btn-default navbar-btn">
         {{#if user}}
         {{user.fullname}}
         {{else}}
         No User
         {{/if}}
       </button>
-      <div class="btn-group">
-        <button {{action 'editCustomer'}} type="button" class="btn btn-default navbar-btn">
-          {{#if customer}}
-          {{customer.fullname}}
-          {{else}}
-          No Customer
-          {{/if}}
-        </button>
-        <button {{action 'addCustomer'}} type="button" class="btn btn-default navbar-btn">+</button>
-      </div>
-      <button {{action 'editTill'}} type="button" class="btn btn-default navbar-btn">
+      <button {{action 'selectTill'}} type="button" class="btn btn-default navbar-btn">
         {{#if till}}
         {{till.name}}
         {{else}}
         No Till
         {{/if}}
       </button>
+      <div class="btn-group">
+        <button {{action 'selectCustomer'}} type="button" class="btn btn-default navbar-btn">
+          {{#if customer}}
+          {{customer.fullname}}
+          {{else}}
+          No Customer
+          {{/if}}
+        </button>
+        {{#if customer}}
+        <button {{action 'editCustomer'}} type="button" class="btn btn-default navbar-btn"><span class="glyphicon glyphicon-pencil"></span></button>
+        {{/if}}
+        <button {{action 'addCustomer'}} type="button" class="btn btn-default navbar-btn"><span class="glyphicon glyphicon-plus"></span></button>
+      </div>
     </div>
     <div class="navbar-right">
       <span class="navbar-text"><strong>{{dueLabel}}</strong></span>
       <span class="navbar-text"><strong>${{currency due}}</strong></span>
-      <button {{action 'save' this}} type="button" class="btn btn-default navbar-btn">Save</button>
-      <button {{action 'complete' this}} {{bindAttr disabled="nonCompletable"}} type="button" class="btn btn-primary navbar-btn">Complete</button>
+      <button {{action 'save' this}} type="button" class="btn btn-default navbar-btn"><span class="glyphicon glyphicon-floppy-save"></span> Save</button>
+      <button {{action 'complete' this}} {{bindAttr disabled="nonCompletable"}} type="button" class="btn btn-primary navbar-btn"><span class="glyphicon glyphicon-ok"></span> Complete</button>
     </div>
   </div>
 </script>

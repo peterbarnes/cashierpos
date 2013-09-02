@@ -5,7 +5,7 @@
     </div>
     <div class="col-lg-3">
       <div class="pull-right">
-        <button {{action 'back'}} type="button" class="header btn btn-primary">Back</button>
+        <button {{action 'back'}} type="button" class="header btn btn-primary"><span class="glyphicon glyphicon-arrow-left"></span> Back</button>
       </div>
     </div>
   </div>
@@ -25,7 +25,7 @@
       <tr>
         <td>{{till.name}}</td>
         <td>
-          <button {{action 'select' till}} type="button" class="btn btn-primary">Select</button>
+          <button {{action 'select' till}} type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Select</button>
         </td>
       </tr>
       {{else}}

@@ -8,14 +8,17 @@ App.SaleController = Ember.ObjectController.extend({
     sale.save();
     this.transitionToRoute('sales');
   },
-  editTill: function() {
+  selectTill: function() {
     this.transitionToRoute('sale.till');
   },
-  editUser: function() {
+  selectUser: function() {
     this.transitionToRoute('sale.user');
   },
-  editCustomer: function() {
+  selectCustomer: function() {
     this.transitionToRoute('sale.customer');
+  },
+  editCustomer: function() {
+    this.transitionToRoute('sale.editcustomer');
   },
   addCustomer: function() {
     this.transitionToRoute('sale.addcustomer');

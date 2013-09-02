@@ -1,11 +1,11 @@
-<script type="text/x-handlebars" data-template-name="purchase/addcustomer">
+<script type="text/x-handlebars" data-template-name="sale/editcustomer">
   <div class="row">
     <div class="col-lg-9">
-      <h3>Add Customer</h3>
+      <h3>Edit Customer</h3>
     </div>
     <div class="col-lg-3">
       <div class="pull-right">
-        <button {{action 'add'}} type="button" class="header btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add</button>
+        <button {{action 'save'}} type="button" class="header btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span> Save</button>
         <button {{action 'cancel'}} type="button" class="header btn btn-default"><span class="glyphicon glyphicon-ban-circle"></span> Cancel</button>
       </div>
     </div>
@@ -18,37 +18,37 @@
           <div class="form-group">
             <label class="col-lg-2 control-label" {{bindAttr for="view.firstName.elementId"}}>First name</label>
             <div class="col-lg-10">
-              {{view Ember.TextField valueBinding="newcustomer.firstName" viewName="firstName" class="form-control" placeholder="First Name"}}
+              {{view Ember.TextField valueBinding="customer.firstName" viewName="firstName" class="form-control" placeholder="First Name"}}
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-2 control-label" {{bindAttr for="view.lastName.elementId"}}>Last Name</label>
             <div class="col-lg-10">
-              {{view Ember.TextField valueBinding="newcustomer.lastName" viewName="lastName" class="form-control" placeholder="Last Name"}}
+              {{view Ember.TextField valueBinding="customer.lastName" viewName="lastName" class="form-control" placeholder="Last Name"}}
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-2 control-label" {{bindAttr for="view.organization.elementId"}}>Organization</label>
             <div class="col-lg-10">
-              {{view Ember.TextField valueBinding="newcustomer.organization" viewName="organization" class="form-control" placeholder="Organization"}}
+              {{view Ember.TextField valueBinding="customer.organization" viewName="organization" class="form-control" placeholder="Organization"}}
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-2 control-label" {{bindAttr for="view.email.elementId"}}>Email</label>
             <div class="col-lg-10">
-              {{view Ember.TextField valueBinding="newcustomer.email" viewName="email" class="form-control" placeholder="Email"}}
+              {{view Ember.TextField valueBinding="customer.email" viewName="email" class="form-control" placeholder="Email"}}
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-2 control-label" {{bindAttr for="view.phone.elementId"}}>Phone</label>
             <div class="col-lg-10">
-              {{view Ember.TextField valueBinding="newcustomer.phone" viewName="phone" class="form-control" placeholder="Phone"}}
+              {{view Ember.TextField valueBinding="customer.phone" viewName="phone" class="form-control" placeholder="Phone"}}
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-2 control-label" {{bindAttr for="view.dateOfBirth.elementId"}}>Date of Birth</label>
             <div class="col-lg-10">
-              {{view Ember.TextField valueBinding="newcustomer.dateOfBirth" viewName="dateOfBirth" class="form-control" placeholder="Date of Birth"}}
+              {{view Ember.TextField valueBinding="customer.dateOfBirth" viewName="dateOfBirth" class="form-control" placeholder="Date of Birth"}}
             </div>
           </div>
         </fieldset>

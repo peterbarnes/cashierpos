@@ -5,7 +5,7 @@
     </div>
     <div class="col-lg-3">
       <div class="pull-right">
-        <button {{action 'back'}} type="button" class="header btn btn-primary">Back</button>
+        <button {{action 'back'}} type="button" class="header btn btn-primary"><span class="glyphicon glyphicon-arrow-left"></span> Back</button>
       </div>
     </div>
   </div>
@@ -23,8 +23,8 @@
             <div class="form-group">
               {{view Ember.TextField valueBinding="query" class="form-control" placeholder="Search..."}}
             </div>
-            <button type="submit" {{action 'search'}} class="btn btn-primary">Search</button>
-            <button type="submit" {{action 'clear'}} class="btn btn-default">Clear</button>
+            <button type="submit" {{action 'search'}} class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Search</button>
+            <button type="submit" {{action 'clear'}} class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Clear</button>
           </form>
         </div>
       </div>
@@ -61,7 +61,7 @@
         <td>{{customer.notes}}</td>
         <td>${{currency customer.credit}}</td>
         <td>
-          <button {{action 'select' customer}} type="button" class="btn btn-primary">Select</button>
+          <button {{action 'select' customer}} type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Select</button>
         </td>
       </tr>
       {{else}}
