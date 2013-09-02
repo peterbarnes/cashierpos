@@ -2,6 +2,9 @@
   {{outlet}}
   <div class="navbar navbar-inverse navbar-fixed-bottom">
     <div class="navbar-header">
+      <span class="navbar-brand footer"></span>
+    </div>
+    <div class="navbar-nav">
       <button {{action 'selectUser'}} type="button" class="btn btn-default navbar-btn">
         {{#if user}}
         {{user.fullname}}
@@ -33,6 +36,7 @@
     <div class="navbar-right">
       <span class="navbar-text"><strong>{{dueLabel}}</strong></span>
       <span class="navbar-text"><strong>${{currency due}}</strong></span>
+      <button {{action 'payment'}} type="button" class="btn btn-default navbar-btn"><span class="glyphicon glyphicon-usd"></span> Payment</button>
       <button {{action 'save' this}} type="button" class="btn btn-default navbar-btn"><span class="glyphicon glyphicon-floppy-save"></span> Save</button>
       <button {{action 'complete' this}} {{bindAttr disabled="nonCompletable"}} type="button" class="btn btn-primary navbar-btn"><span class="glyphicon glyphicon-ok"></span> Complete</button>
     </div>

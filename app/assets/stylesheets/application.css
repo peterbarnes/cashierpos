@@ -15,6 +15,13 @@ form.search input[type=text] {
 }
 input.pin { width: 100px; }
 
+form.payment input[type=number] {
+  width: 100px;
+}
+
+span.navbar-brand.footer { padding-left: 0px !important; }
+span.minus { width: 140px; text-align: center;}
+
 .cart .lead { margin-bottom: 0px; }
 .navbar-fixed-bottom .navbar-right { padding-right: 15px; }
 .navbar-fixed-bottom .navbar-right .navbar-text { font-size: 16px; margin: 13px 0px; padding-right: 10px; }
