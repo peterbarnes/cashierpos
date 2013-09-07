@@ -12,7 +12,14 @@ App.Customer = Ember.Object.extend({
   phone: "",
   fullname: function() {
     return this.get('firstName') + " " + this.get('lastName');
-  }.property('firstName', 'lastName')
+  }.property('firstName', 'lastName'),
+  creditFmt: function(key, value) {
+    if (value) {
+      this.set('credit', parseInt(Math.round(1000 * value * 100) / 1000));
+    } else {
+      return parseFloat(this.get('credit') * 0.01).toFixed(2);
+    }
+  }.property('credit')
 });
 
 App.Customer.reopenClass({

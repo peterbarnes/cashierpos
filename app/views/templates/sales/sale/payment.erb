@@ -25,10 +25,15 @@
   <div class="lead clearfix well">
     <span>Store Credit</span>
     <form class="payment form-inline pull-right">
-      <button type="submit" {{action 'amountDue'}} class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Amount Due</button>
-      <button type="submit" {{action 'clear'}} class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Clear</button>
+      {{#if customer}}
+        <div class="btn-group">
+          <button type="button" {{bindAttr disabled="noCustomer"}} class="btn btn-default">{{customer.fullname}} | ${{currency customer.credit}}</button>
+          <button type="button" {{action 'applyCustomerCredit'}} {{bindAttr disabled="noCustomer"}} class="btn btn-primary">Apply</button>
+        </div>
+      {{/if}}
+      <button type="button" {{action 'clear' 'storeCredit'}} {{bindAttr disabled="noCustomer"}} class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Clear</button>
       <div class="form-group">
-        {{view App.NumberField valueBinding="payment.storeCredit" step="0.01" min="0" class="form-control"}}
+        {{view App.NumberField valueBinding="payment.storeCreditFmt" disabledBinding="noCustomer" step="0.01" min="0" class="form-control"}}
       </div>
     </form>
   </div>
@@ -49,10 +54,10 @@
   <div class="lead clearfix well">
     <span>Gift Card</span>
     <form class="payment form-inline pull-right">
-      <button type="submit" {{action 'amountDue'}} class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Amount Due</button>
-      <button type="submit" {{action 'clear'}} class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Clear</button>
+      <button type="button" {{action 'amountDue' 'giftCard'}} class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Amount Due</button>
+      <button type="button" {{action 'clear' 'giftCard'}} class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Clear</button>
       <div class="form-group">
-        {{view App.NumberField valueBinding="payment.giftCard" step="0.01" min="0" class="form-control"}}
+        {{view App.NumberField valueBinding="payment.giftCardFmt" step="0.01" min="0" class="form-control"}}
       </div>
     </form>
   </div>
@@ -64,10 +69,10 @@
   <div class="lead clearfix well">
     <span>Check</span>
     <form class="payment form-inline pull-right">
-      <button type="submit" {{action 'amountDue'}} class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Amount Due</button>
-      <button type="submit" {{action 'clear'}} class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Clear</button>
+      <button type="button" {{action 'amountDue' 'check'}} class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Amount Due</button>
+      <button type="button" {{action 'clear' 'check'}} class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Clear</button>
       <div class="form-group">
-        {{view App.NumberField valueBinding="payment.check" step="0.01" min="0" class="form-control"}}
+        {{view App.NumberField valueBinding="payment.checkFmt" step="0.01" min="0" class="form-control"}}
       </div>
     </form>
   </div>
@@ -79,10 +84,10 @@
   <div class="lead clearfix well">
     <span>Credit Card</span>
     <form class="payment form-inline pull-right">
-      <button type="submit" {{action 'amountDue'}} class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Amount Due</button>
-      <button type="submit" {{action 'clear'}} class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Clear</button>
+      <button type="button" {{action 'amountDue' 'credit'}} class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Amount Due</button>
+      <button type="button" {{action 'clear' 'credit'}} class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Clear</button>
       <div class="form-group">
-        {{view App.NumberField valueBinding="payment.credit" step="0.01" min="0" class="form-control"}}
+        {{view App.NumberField valueBinding="payment.creditFmt" step="0.01" min="0" class="form-control"}}
       </div>
     </form>
   </div>
@@ -94,20 +99,20 @@
   <div class="lead cleafix well">
     <span>Cash</span>
     <form class="payment form-inline pull-right">
-      <button type="submit" {{action 'penny'}} class="btn btn-primary">$0.01</button>
-      <button type="submit" {{action 'nickel'}} class="btn btn-primary">$0.05</button>
-      <button type="submit" {{action 'dime'}} class="btn btn-primary">$0.10</button>
-      <button type="submit" {{action 'quarter'}} class="btn btn-primary">$0.25</button>
-      <button type="submit" {{action 'dollar'}} class="btn btn-primary">$1.00</button>
-      <button type="submit" {{action 'five'}} class="btn btn-primary">$5.00</button>
-      <button type="submit" {{action 'ten'}} class="btn btn-primary">$10.00</button>
-      <button type="submit" {{action 'twenty'}} class="btn btn-primary">$20.00</button>
-      <button type="submit" {{action 'fifty'}} class="btn btn-primary">$50.00</button>
-      <button type="submit" {{action 'hundred'}} class="btn btn-primary">$100.00</button>
-      <button type="submit" {{action 'amountDue'}} class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Amount Due</button>
-      <button type="submit" {{action 'clear'}} class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Clear</button>
+      <button type="button" {{action 'increment' '1'}} class="btn btn-primary">$0.01</button>
+      <button type="button" {{action 'increment' '5'}} class="btn btn-primary">$0.05</button>
+      <button type="button" {{action 'increment' '10'}} class="btn btn-primary">$0.10</button>
+      <button type="button" {{action 'increment' '25'}} class="btn btn-primary">$0.25</button>
+      <button type="button" {{action 'increment' '100'}} class="btn btn-primary">$1.00</button>
+      <button type="button" {{action 'increment' '500'}} class="btn btn-primary">$5.00</button>
+      <button type="button" {{action 'increment' '1000'}} class="btn btn-primary">$10.00</button>
+      <button type="button" {{action 'increment' '2000'}} class="btn btn-primary">$20.00</button>
+      <button type="button" {{action 'increment' '5000'}} class="btn btn-primary">$50.00</button>
+      <button type="button" {{action 'increment' '10000'}} class="btn btn-primary">$100.00</button>
+      <button type="button" {{action 'amountDue' 'cash'}} class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Amount Due</button>
+      <button type="button" {{action 'clear' 'cash'}} class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Clear</button>
       <div class="form-group">
-        {{view App.NumberField valueBinding="payment.cash" step="0.01" min="0" class="form-control"}}
+        {{view App.NumberField valueBinding="payment.cashFmt" step="0.01" min="0" class="form-control"}}
       </div>
     </form>
   </div>

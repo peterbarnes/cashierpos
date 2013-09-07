@@ -9,15 +9,17 @@ body {
 }
 
 button.header { margin-top: 15px; }
-form.search input[type=text] {
-  width: 538px;
-  margin-right: 5px;
-}
 input.pin { width: 100px; }
 
+form.search input[type=text] {
+  width: 568px;
+}
+form.item_search { width: 85%; }
 form.payment input[type=number] {
   width: 100px;
 }
+form.ratio input { max-width: 30%; }
+form.ratio input[type=range] { margin: 0px 5%; }
 
 span.navbar-brand.footer { padding-left: 0px !important; }
 span.minus { width: 140px; text-align: center;}
@@ -43,11 +45,13 @@ table tr.line td.quantity input[type=number] {
 }
 table tr.line td.description p { margin-bottom: 5px; text-align: left; }
 table tr.line td.amount { width: 90px; }
+table tr.line td.value { width: 90px; }
 table tr.line td.subtotal { width: 90px; }
 
 table tr.cart-line td.quantity { max-width: 10%; }
 table tr.cart-line td.description { max-width: 50%; }
 table tr.cart-line td.amount { max-width: 20%; }
+table tr.cart-line td.value { max-width: 20%; }
 table tr.cart-line td.subtotal { max-width: 20%; }
 
 table tr td.pin { width: 100px; }

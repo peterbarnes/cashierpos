@@ -2,8 +2,9 @@ App.Purchase = Ember.Object.extend({
   sku: "",
   complete: false,
   pdfUrl: "",
-  storeCredit: 0,
   cash: 0,
+  credit: 0,
+  ratio: 1,
   customer: null,
   till: null,
   user: null,
@@ -24,18 +25,28 @@ App.Purchase = Ember.Object.extend({
     });
     return quantity;
   }.property('lines', 'lines.@each.quantity', 'lines.@each.remove'),
-  subtotal: function() {
+  cashSubtotal: function() {
     var lines = this.get('lines');
     var subtotal = 0;
     lines.forEach(function(line) {
       if (!line.get('remove')) {
-        subtotal += line.get('subtotal');
+        subtotal += line.get('cashSubtotal');
       }
     });
     return subtotal;
-  }.property('lines', 'lines.@each.subtotal', 'lines.@each.remove'),
+  }.property('lines', 'lines.@each.cashSubtotal', 'lines.@each.remove'),
+  creditSubtotal: function() {
+    var lines = this.get('lines');
+    var subtotal = 0;
+    lines.forEach(function(line) {
+      if (!line.get('remove')) {
+        subtotal += line.get('creditSubtotal');
+      }
+    });
+    return subtotal;
+  }.property('lines', 'lines.@each.creditSubtotal', 'lines.@each.remove'),
   total: function() {
-    return this.get('subtotal');
+    return this.get('cashSubtotal');
   }.property('subtotal'),
   due: function() {
     return this.get('cash');
@@ -48,7 +59,21 @@ App.Purchase = Ember.Object.extend({
   }.property('user', 'till', 'customer', 'quantity', 'due'),
   nonCompletable: function() {
     return !this.get('completable');
-  }.property('completable')
+  }.property('completable'),
+  cashFmt: function(key, value) {
+    if (value) {
+      this.set('cash', parseInt(Math.round(1000 * value * 100) / 1000));
+    } else {
+      return parseFloat(this.get('cash') * 0.01).toFixed(2);
+    }
+  }.property('cash'),
+  creditFmt: function(key, value) {
+    if (value) {
+      this.set('credit', parseInt(Math.round(1000 * value * 100) / 1000));
+    } else {
+      return parseFloat(this.get('credit') * 0.01).toFixed(2);
+    }
+  }.property('credit')
 });
 
 App.Purchase.reopen({
@@ -87,7 +112,7 @@ App.Purchase.reopenClass({
         complete: purchase.complete,
         pdfUrl: purchase.pdfUrl,
         cash: purchase.cash,
-        storeCredit: purchase.storeCredit
+        credit: purchase.credit
       });
       _purchase.set('customer', App.Customer.fixtures().objectAt(0));
       _purchase.set('till', App.Till.fixtures().objectAt(0));
@@ -105,7 +130,7 @@ App.Purchase.FIXTURES = [
     sku: "BFC94FA0-D0BC-0130-AD33-109ADD6B83AAA",
     complete: false,
     pdfUrl: "http://www.example.com/example.pdf",
-    cash: 10,
-    storeCredit: 0
+    cash: 0,
+    credit: 0
   }
 ];

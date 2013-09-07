@@ -49,9 +49,14 @@ App.Sale = Ember.Object.extend({
     return subtotal;
   }.property('lines', 'lines.@each.subtotal', 'lines.@each.remove'),
   tax: function() {
-    var subtotal = this.get('taxableSubtotal') - this.get('payment.storeCredit');
+    var subtotal = this.get('subtotal') - this.get('payment.storeCredit');
     if (subtotal > 0) {
-      return parseInt(subtotal * this.get('taxRate'));
+      var taxableSubtotal = this.get('taxableSubtotal') - this.get('payment.storeCredit');
+      if (taxableSubtotal > 0) {
+        return parseInt(taxableSubtotal * this.get('taxRate'));
+      } else {
+        return 0;
+      }
     } else {
       return 0;
     }
@@ -61,7 +66,7 @@ App.Sale = Ember.Object.extend({
   }.property('lines', 'lines.@each.subtotal', 'lines.@each.remove', 'payment.storeCredit'),
   due: function() {
     return this.get('total') - this.get('payment.total');
-  }.property('total'),
+  }.property('total', 'payment.storeCredit', 'payment.giftCard', 'payment.check', 'payment.credit', 'payment.cash'),
   dueLabel: function() {
     var due = this.get('due')
     if (due > 0) {

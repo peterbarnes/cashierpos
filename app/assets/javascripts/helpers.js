@@ -11,3 +11,25 @@ App.NumberField = Ember.TextField.extend({
   type: 'number',
   attributeBindings: ['min', 'max', 'step']
 });
+
+App.RangeField = Ember.TextField.extend({
+  type: 'range',
+  attributeBindings: ['min', 'max', 'step']
+});
+
+App.DateField = Ember.TextField.extend({
+  type: 'date',
+  date: function(key, date) {
+    if (date) {
+      this.set('value', date.toISOString().substring(0, 10));
+    } else {
+      value = this.get('value');
+      if (value) {
+        date = new Date(value);
+      } else {
+        date = null;
+      }
+    }
+    return date;
+  }.property('value')
+});

@@ -1,8 +1,23 @@
 App.PurchaseIndexController = Ember.ObjectController.extend({
   add: function() {
-    
+    this.transitionToRoute('purchase.line');
   },
   search: function() {
+    // var query = this.get('query');
+    // var units = App.Unit.query(query);
+    // var controller = this;
+    // this.set('query', null);
+    // units.on('didLoad', function() {
+//       this.forEach(function(unit) {
+//         controller.get('model.lines').pushObject(App.Line.createRecord({
+//           title: unit.get('name'),
+//           amount: unit.get('price'),
+//           quantity: 1,
+//           sku: unit.get('sku'),
+//           taxable: unit.get('taxable'),
+//         }));
+//       });
+//     });
     console.log(this.get('query'));
     this.set('query', null);
   },

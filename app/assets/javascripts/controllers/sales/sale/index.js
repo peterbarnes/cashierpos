@@ -1,9 +1,12 @@
 App.SaleIndexController = Ember.ObjectController.extend({
   add: function() {
-    var query = this.get('query');
-    var units = App.Unit.query(query);
-    var controller = this;
-    this.set('query', null);
+    this.transitionToRoute('sale.line');
+  },
+  search: function() {
+    // var query = this.get('query');
+    // var units = App.Unit.query(query);
+    // var controller = this;
+    // this.set('query', null);
     // units.on('didLoad', function() {
 //       this.forEach(function(unit) {
 //         controller.get('model.lines').pushObject(App.Line.createRecord({
@@ -15,8 +18,6 @@ App.SaleIndexController = Ember.ObjectController.extend({
 //         }));
 //       });
 //     });
-  },
-  search: function() {
     console.log(this.get('query'));
     this.set('query', null);
   },

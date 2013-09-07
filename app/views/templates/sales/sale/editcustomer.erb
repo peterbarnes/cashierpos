@@ -48,7 +48,7 @@
           <div class="form-group">
             <label class="col-lg-2 control-label" {{bindAttr for="view.dateOfBirth.elementId"}}>Date of Birth</label>
             <div class="col-lg-10">
-              {{view Ember.TextField valueBinding="customer.dateOfBirth" viewName="dateOfBirth" class="form-control" placeholder="Date of Birth"}}
+              {{view App.DateField dateBinding="customer.dateOfBirth" viewName="dateOfBirth" class="form-control" placeholder="Date of Birth"}}
             </div>
           </div>
         </fieldset>

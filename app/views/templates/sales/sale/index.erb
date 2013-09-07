@@ -1,23 +1,21 @@
 <script type="text/x-handlebars" data-template-name="sale/index">
   <div class="row">
     <div class="col-lg-8">
-      <div class="well">
-        <form class="search form-inline">
+      <div class="clearfix well">
+        <form class="item_search form-inline pull-left">
           <div class="form-group">
-            {{view Ember.TextField valueBinding="query" class="form-control" placeholder="Search..."}}
+            <div class="input-group">
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-barcode"></span>
+              </span>
+              {{view Ember.TextField valueBinding="query" class="form-control" placeholder="Search..."}}
+              <span class="input-group-btn">
+                <button type="submit" {{action 'search'}} class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Search</button>
+              </span>
+            </div>
           </div>
-          <button type="submit" {{action 'add'}} class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add</button>
-          <button type="submit" {{action 'search'}} class="btn btn-default"><span class="glyphicon glyphicon-search"></span> Search</button>
         </form>
-      </div>
-      <hr>
-      <div class="row">
-        <div class="col-lg-10">
-          <span class="new-line lead">Add a new line...</span>
-        </div>
-        <div class="col-lg-2">
-          {{#linkTo 'sale.line' class="btn btn-primary pull-right"}}<span class="glyphicon glyphicon-plus"></span> Add Line{{/linkTo}}
-        </div>
+        <button type="submit" {{action 'add'}} class="btn btn-default pull-right"><span class="glyphicon glyphicon-plus"></span> Add Line</button>
       </div>
       <hr>
       <table class="table table-striped">

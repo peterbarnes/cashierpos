@@ -1,23 +1,21 @@
 <script type="text/x-handlebars" data-template-name="purchase/index">
   <div class="row">
     <div class="col-lg-8">
-      <div class="well">
-        <form class="search form-inline" role="form">
+      <div class="clearfix well">
+        <form class="item_search form-inline pull-left">
           <div class="form-group">
-            {{view Ember.TextField valueBinding="query" class="form-control" placeholder="Search..."}}
+            <div class="input-group">
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-barcode"></span>
+              </span>
+              {{view Ember.TextField valueBinding="query" class="form-control" placeholder="Search..."}}
+              <span class="input-group-btn">
+                <button type="submit" {{action 'search'}} class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Search</button>
+              </span>
+            </div>
           </div>
-          <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add</button>
-          <button type="submit" {{action 'search'}} class="btn btn-default"><span class="glyphicon glyphicon-search"></span> Search</button>
         </form>
-      </div>
-      <hr>
-      <div class="row">
-        <div class="col-lg-10">
-          <span class="new-line lead">Add a new line...</span>
-        </div>
-        <div class="col-lg-2">
-          {{#linkTo 'purchase.line' class="btn btn-primary pull-right"}}<span class="glyphicon glyphicon-plus"></span> Add Line{{/linkTo}}
-        </div>
+        <button type="submit" {{action 'add'}} class="btn btn-default pull-right"><span class="glyphicon glyphicon-plus"></span> Add Line</button>
       </div>
       <hr>
       <table class="table table-striped">
@@ -26,7 +24,7 @@
             <th></th>
             <th>Qty</th>
             <th>Description</th>
-            <th>Price</th>
+            <th>Value</th>
             <th>Subtotal</th>
           </tr>
         </thead>
@@ -48,8 +46,8 @@
               <p><em>{{line.sku}}</em></p>
               <p>{{view Ember.TextField valueBinding="line.note" class="form-control input-sm" placeholder="Add a note..."}}</p>
             </td>
-            <td class="amount">${{currency line.amount}}</td>
-            <td class="subtotal"><strong>${{currency line.subtotal}}</strong></td>
+            <td class="value">${{currency line.valueCash}}<br>({{currency line.valueCredit}})</td>
+            <td class="subtotal"><strong>${{currency line.cashSubtotal}}<br>({{currency line.creditSubtotal}})</strong></td>
           </tr>
           {{/each}}
         </tbody>
@@ -63,7 +61,7 @@
             <tr>
               <th>Qty</th>
               <th>Description</th>
-              <th>Price</th>
+              <th>Value</th>
               <th>Subtotal</th>
             </tr>
           </thead>
@@ -72,8 +70,8 @@
             <tr {{bindAttr class=":cart-line line.remove:hidden"}}>
               <td class="quantity">{{line.quantity}}</td>
               <td class="description">{{line.title}}</td>
-              <td class="amount">${{currency line.amount}}</td>
-              <td class="subtotal">${{currency line.subtotal}}</td>
+              <td class="value">${{currency line.valueCash}}<br>({{currency line.valueCredit}})</td>
+              <td class="subtotal">${{currency line.cashSubtotal}}<br>({{currency line.creditSubtotal}})</td>
             </tr>
             {{else}}
             <tr><td colspan="4" class="center">Cart is empty</td></tr>
@@ -82,14 +80,21 @@
         </table>
         <hr>
         <ul class="summary">
-          <li><span>Subtotal:</span><span>${{currency subtotal}}</span></li>
-          <li><span><strong>Total:</strong></span><span><strong>${{currency total}}</strong></span></li>
+          <li><span><strong>Cash Subtotal:</strong></span><span><strong>${{currency cashSubtotal}}</strong></span></li>
+          <li><span><strong>Credit Subtotal:</strong></span><span><strong>${{currency creditSubtotal}}</strong></span></li>
         </ul>
         <hr>
         <ul class="payment">
           <li><span>Cash:</span><span>${{currency cash}}</span></li>
-          <li><span>Store Credit:</span><span>${{currency storeCredit}}</span></li>
+          <li><span>Credit:</span><span>${{currency credit}}</span></li>
         </ul>
+        <form class="ratio form-inline">
+          <div class="form-group">
+            {{view App.NumberField valueBinding="cashFmt" min="0" step="0.01" class="form-control pull-left"}}
+            {{view App.RangeField valueBinding="ratio" min="-1" max="1" step="0.01" class="form-control pull-left"}}
+            {{view App.NumberField valueBinding="creditFmt" min="0" step="0.01" class="form-control pull-left"}}
+          </div>
+        </form>
         <hr>
         <div class="clearfix">
           <p class="lead pull-left"><strong>{{dueLabel}}</strong></p>

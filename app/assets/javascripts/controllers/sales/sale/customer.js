@@ -8,7 +8,8 @@ App.SaleCustomerController = Ember.ObjectController.extend({
     this.transitionToRoute('sale');
   },
   select: function(customer) {
-    this.set('model.customer', customer);
+    this.set('customer', customer);
+    this.set('payment.storeCredit', 0);
     this.transitionToRoute('sale');
   },
   search: function() {
