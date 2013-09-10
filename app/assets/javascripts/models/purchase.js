@@ -4,7 +4,7 @@ App.Purchase = Ember.Object.extend({
   pdfUrl: "",
   cash: 0,
   credit: 0,
-  ratio: 1,
+  ratio: 0,
   customer: null,
   till: null,
   user: null,
@@ -14,6 +14,7 @@ App.Purchase = Ember.Object.extend({
   init: function() {
     this._super();
     this.set('lines', Ember.A());
+    this.set('ratio', 1);
   },
   quantity: function() {
     var lines = this.get('lines');
@@ -45,9 +46,6 @@ App.Purchase = Ember.Object.extend({
     });
     return subtotal;
   }.property('lines', 'lines.@each.creditSubtotal', 'lines.@each.remove'),
-  total: function() {
-    return this.get('cashSubtotal');
-  }.property('subtotal'),
   due: function() {
     return this.get('cash');
   }.property('cash'),
@@ -55,25 +53,49 @@ App.Purchase = Ember.Object.extend({
     return "Change Due:";
   }.property(),
   completable: function() {
-    return this.get('user') && this.get('customer') && this.get('till') && this.get('quantity') > 0 && this.get('due') <= 0;
+    return this.get('user') && this.get('customer') && this.get('till') && this.get('quantity') > 0 && this.get('due') >= 0;
   }.property('user', 'till', 'customer', 'quantity', 'due'),
   nonCompletable: function() {
     return !this.get('completable');
   }.property('completable'),
   cashFmt: function(key, value) {
     if (value) {
-      this.set('cash', parseInt(Math.round(1000 * value * 100) / 1000));
+      var cash = parseInt(Math.round(1000 * value * 100) / 1000);
+      var cashSubtotal = this.get('cashSubtotal');
+      var ratio = cash / cashSubtotal;
+      this.set('cash', cash);
+      this.set('ratio', 1 - ratio);
     } else {
       return parseFloat(this.get('cash') * 0.01).toFixed(2);
     }
   }.property('cash'),
   creditFmt: function(key, value) {
     if (value) {
-      this.set('credit', parseInt(Math.round(1000 * value * 100) / 1000));
+      var credit = parseInt(Math.round(1000 * value * 100) / 1000);
+      var creditSubtotal = this.get('creditSubtotal');
+      var ratio = credit / creditSubtotal;
+      this.set('credit', credit);
+      this.set('ratio', ratio);
     } else {
       return parseFloat(this.get('credit') * 0.01).toFixed(2);
     }
-  }.property('credit')
+  }.property('credit'),
+  ratioChanged: function() {
+    var ratio = this.get('ratio');
+    var cashSubtotal = this.get('cashSubtotal');
+    var creditSubtotal = this.get('creditSubtotal');
+    var cashMultiplier = 0;
+    var creditMultiplier = 0;
+    if (ratio >= 0) {
+      cashMultiplier = 1 - ratio;
+      creditMultiplier = ratio;
+    } else {
+      cashMultiplier = ratio * -1;
+      creditMultiplier = -1 - ratio;
+    }
+    this.set('cash', parseInt(cashSubtotal * cashMultiplier));
+    this.set('credit', parseInt(creditSubtotal * creditMultiplier));
+  }.observes('ratio', 'cashSubtotal', 'creditSubtotal')
 });
 
 App.Purchase.reopen({
