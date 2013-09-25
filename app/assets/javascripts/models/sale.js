@@ -3,6 +3,7 @@ App.Sale = Ember.Object.extend({
   complete: false,
   taxRate: 0,
   pdfUrl: "",
+  configurable: null,
   customer: null,
   till: null,
   user: null,

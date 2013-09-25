@@ -5,9 +5,6 @@
         <form class="item_search form-inline pull-left">
           <div class="form-group">
             <div class="input-group">
-              <span class="input-group-addon">
-                <span class="glyphicon glyphicon-barcode"></span>
-              </span>
               {{view Ember.TextField valueBinding="query" class="form-control" placeholder="Search..."}}
               <span class="input-group-btn">
                 <button type="submit" {{action 'search'}} class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Search</button>
@@ -46,7 +43,7 @@
               <p><em>{{line.sku}}</em></p>
               <p>{{view Ember.TextField valueBinding="line.note" class="form-control input-sm" placeholder="Add a note..."}}</p>
             </td>
-            <td class="value">${{currency line.valueCash}}<br>({{currency line.valueCredit}})</td>
+            <td class="amount">${{currency line.amountCash}}<br>({{currency line.amountCredit}})</td>
             <td class="subtotal"><strong>${{currency line.cashSubtotal}}<br>({{currency line.creditSubtotal}})</strong></td>
           </tr>
           {{/each}}
@@ -70,7 +67,7 @@
             <tr {{bindAttr class=":cart-line line.remove:hidden"}}>
               <td class="quantity">{{line.quantity}}</td>
               <td class="description">{{line.title}}</td>
-              <td class="value">${{currency line.valueCash}}<br>({{currency line.valueCredit}})</td>
+              <td class="amount">${{currency line.amountCash}}<br>({{currency line.amountCredit}})</td>
               <td class="subtotal">${{currency line.cashSubtotal}}<br>({{currency line.creditSubtotal}})</td>
             </tr>
             {{else}}

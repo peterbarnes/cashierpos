@@ -5,8 +5,8 @@
         <form class="item_search form-inline pull-left">
           <div class="form-group">
             <div class="input-group">
-              <span class="input-group-addon">
-                <span class="glyphicon glyphicon-barcode"></span>
+              <span class="input-group-btn">
+                <button type="button" {{action 'scan'}} {{bindAttr class=":btn scanning:btn-primary:btn-default"}}><span class="glyphicon glyphicon-barcode"></span></button>
               </span>
               {{view Ember.TextField valueBinding="query" class="form-control" placeholder="Search..."}}
               <span class="input-group-btn">
@@ -15,7 +15,7 @@
             </div>
           </div>
         </form>
-        <button type="submit" {{action 'add'}} class="btn btn-default pull-right"><span class="glyphicon glyphicon-plus"></span> Add Line</button>
+        <button type="button" {{action 'add'}} class="btn btn-default pull-right"><span class="glyphicon glyphicon-plus"></span> Add Line</button>
       </div>
       <hr>
       <table class="table table-striped">

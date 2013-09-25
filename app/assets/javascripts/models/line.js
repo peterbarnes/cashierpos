@@ -1,43 +1,43 @@
 App.Line = Ember.Object.extend({
   amount: 0,
-  valueCash: 0,
-  valueCredit: 0,
+  amountCash: 0,
+  amountCredit: 0,
   quantity: 0,
   note: "",
   sku: "",
   taxable: true,
   title: "",
   remove: false,
-  amountFmt: function(key, value) {
-    if (value) {
-      this.set('amount', parseInt(Math.round(1000 * value * 100) / 1000));
+  amountFmt: function(key, amount) {
+    if (amount) {
+      this.set('amount', parseInt(Math.round(1000 * amount * 100) / 1000));
     } else {
       return parseFloat(this.get('amount') * 0.01).toFixed(2);
     }
   }.property('amount'),
-  valueCashFmt: function(key, value) {
-    if (value) {
-      this.set('valueCash', parseInt(Math.round(1000 * value * 100) / 1000));
+  amountCashFmt: function(key, amount) {
+    if (amount) {
+      this.set('amountCash', parseInt(Math.round(1000 * amount * 100) / 1000));
     } else {
-      return parseFloat(this.get('valueCash') * 0.01).toFixed(2);
+      return parseFloat(this.get('amountCash') * 0.01).toFixed(2);
     }
-  }.property('valueCash'),
-  valueCreditFmt: function(key, value) {
-    if (value) {
-      this.set('valueCredit', parseInt(Math.round(1000 * value * 100) / 1000));
+  }.property('amountCash'),
+  amountCreditFmt: function(key, amount) {
+    if (amount) {
+      this.set('amountCredit', parseInt(Math.round(1000 * amount * 100) / 1000));
     } else {
-      return parseFloat(this.get('valueCredit') * 0.01).toFixed(2);
+      return parseFloat(this.get('amountCredit') * 0.01).toFixed(2);
     }
-  }.property('valueCredit'),
+  }.property('amountCredit'),
   subtotal: function() {
     return parseInt(this.get('amount')) * parseInt(this.get('quantity'));
   }.property('amount', 'quantity'),
   cashSubtotal: function() {
-    return parseInt(this.get('valueCash')) * parseInt(this.get('quantity'));
-  }.property('valueCash', 'quantity'),
+    return parseInt(this.get('amountCash')) * parseInt(this.get('quantity'));
+  }.property('amountCash', 'quantity'),
   creditSubtotal: function() {
-    return parseInt(this.get('valueCredit')) * parseInt(this.get('quantity'));
-  }.property('valueCredit', 'quantity')
+    return parseInt(this.get('amountCredit')) * parseInt(this.get('quantity'));
+  }.property('amountCredit', 'quantity')
 });
 
 App.Line.reopenClass({
@@ -47,8 +47,8 @@ App.Line.reopenClass({
       var _line = App.Line.create({
         id: line.id,
         amount: line.amount,
-        valueCash: line.valueCash,
-        valueCredit: line.valueCredit,
+        amountCash: line.amountCash,
+        amountCredit: line.amountCredit,
         quantity: line.quantity,
         note: line.note,
         sku: line.sku,
@@ -64,8 +64,8 @@ App.Line.reopenClass({
 App.Line.FIXTURES = [
   {
     amount: 1000,
-    valueCash: 700,
-    valueCredit: 800,
+    amountCash: 700,
+    amountCredit: 800,
     quantity: 2,
     note: "",
     sku: "EWET3235",
@@ -74,8 +74,8 @@ App.Line.FIXTURES = [
   },
   {
     amount: 100,
-    valueCash: 70,
-    valueCredit: 80,
+    amountCash: 70,
+    amountCredit: 80,
     quantity: 1,
     note: "Lorem Ipsum...",
     sku: "EWE34235",
@@ -84,8 +84,8 @@ App.Line.FIXTURES = [
   },
   {
     amount: 1000,
-    valueCash: 700,
-    valueCredit: 800,
+    amountCash: 700,
+    amountCredit: 800,
     quantity: 2,
     note: "Lorem Ipsum...",
     sku: "EWET3235",
@@ -94,8 +94,8 @@ App.Line.FIXTURES = [
   },
   {
     amount: 100,
-    valueCash: 70,
-    valueCredit: 80,
+    amountCash: 70,
+    amountCredit: 80,
     quantity: 1,
     note: "Lorem Ipsum...",
     sku: "EWE34235",
@@ -104,8 +104,8 @@ App.Line.FIXTURES = [
   },
   {
     amount: -100,
-    valueCash: 700,
-    valueCredit: 800,
+    amountCash: 700,
+    amountCredit: 800,
     quantity: 1,
     note: "Lorem Ipsum...",
     sku: "EWE34235",

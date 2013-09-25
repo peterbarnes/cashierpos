@@ -5,6 +5,7 @@ App.Purchase = Ember.Object.extend({
   cash: 0,
   credit: 0,
   ratio: 0,
+  configurable: null,
   customer: null,
   till: null,
   user: null,

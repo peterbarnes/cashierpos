@@ -1,0 +1,182 @@
+<script type="text/x-handlebars" data-template-name="purchase/configure">
+  <div class="row">
+    <div class="col-lg-9">
+      <h3>Configure</h3>
+    </div>
+    <div class="col-lg-3">
+      <div class="pull-right">
+        <button {{action 'add'}} type="button" class="header btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add</button>
+        <button {{action 'cancel'}} type="button" class="header btn btn-default"><span class="glyphicon glyphicon-ban-circle"></span> Cancel</button>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-lg-1">
+      <img {{bindAttr src="item.imageUrl"}} alt="Image" class="img-thumbnail" />
+    </div>
+    <div class="col-lg-8">
+      <h4>{{item.name}} ({{item.sku}})</h4>
+      <p>{{item.description}}</p>
+    </div>
+    <div class="col-lg-3">
+      <h4 class="pull-right">${{currency configuredCashPrice}} (${{currency configuredCreditPrice}})</h4>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-lg-2">
+      <h5>Components</h5>
+    </div>
+    <div class="col-lg-10">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th><span class="glyphicon glyphicon-ok"></span></th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Adjustment Cash</th>
+            <th>Adjustment Credit</th>
+            <th>Toggle</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each component in item.components}}
+          <tr>
+            <td class="indicator">
+              {{#if component.configured}}
+              <span class="glyphicon glyphicon-ok"></span>
+              {{/if}}
+            </td>
+            <td class="name">{{component.name}}</td>
+            <td class="description">{{component.description}}</td>
+            <td class="adjustment_cash">
+              {{#if component.adjustmentCashPercentage}}
+              %
+              {{else}}
+              $
+              {{/if}}
+              {{component.adjustmentCash}}
+            </td>
+            <td class="adjustment_credit">
+              {{#if component.adjustmentCreditPercentage}}
+              %
+              {{else}}
+              $
+              {{/if}}
+              {{component.adjustmentCredit}}
+            </td>
+            <td class="select"><button {{action 'selectComponent' component}} type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Select</button></td>
+          </tr>
+          {{else}}
+          <tr><td colspan="6" class="center">No components</td></tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-lg-2">
+      <h5>Condition</h5>
+    </div>
+    <div class="col-lg-10">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th><span class="glyphicon glyphicon-ok"></span></th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Adjustment Cash</th>
+            <th>Adjustment Credit</th>
+            <th>Select</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each condition in item.conditions}}
+          <tr>
+            <td class="indicator">
+              {{#if condition.configured}}
+              <span class="glyphicon glyphicon-ok"></span>
+              {{/if}}
+            </td>
+            <td class="name">{{condition.name}}</td>
+            <td class="description">{{condition.description}}</td>
+            <td class="adjustment_cash">
+              {{#if condition.adjustmentCashPercentage}}
+              %
+              {{else}}
+              $
+              {{/if}}
+              {{condition.adjustmentCash}}
+            </td>
+            <td class="adjustment_credit">
+              {{#if condition.adjustmentCreditPercentage}}
+              %
+              {{else}}
+              $
+              {{/if}}
+              {{condition.adjustmentCredit}}
+            </td>
+            <td class="select"><button {{action 'selectCondition' condition}} type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Select</button></td>
+          </tr>
+          {{else}}
+          <tr><td colspan="6" class="center">No conditions</td></tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-lg-2">
+      <h5>Variant</h5>
+    </div>
+    <div class="col-lg-10">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th><span class="glyphicon glyphicon-ok"></span></th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Adjustment Cash</th>
+            <th>Adjustment Credit</th>
+            <th>Select</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each variant in item.variants}}
+          <tr>
+            <td class="indicator">
+              {{#if variant.configured}}
+              <span class="glyphicon glyphicon-ok"></span>
+              {{/if}}
+            </td>
+            <td class="name">{{variant.name}}</td>
+            <td class="description">{{variant.description}}</td>
+            <td class="adjustment_cash">
+              {{#if variant.adjustmentCashPercentage}}
+              %
+              {{else}}
+              $
+              {{/if}}
+              {{variant.adjustmentCash}}
+            </td>
+            <td class="adjustment_credit">
+              {{#if variant.adjustmentCreditPercentage}}
+              %
+              {{else}}
+              $
+              {{/if}}
+              {{variant.adjustmentCredit}}
+            </td>
+            <td class="select"><button {{action 'selectVariant' variant}} type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Select</button></td>
+          </tr>
+          {{else}}
+          <tr><td colspan="6" class="center">No variants</td></tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</script>

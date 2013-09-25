@@ -1,7 +1,13 @@
-<script type="text/x-handlebars" data-template-name="purchases/index">
-  <div class="clearfix">
-    <h2 class="pull-left">Purchases</h2>
-    <button {{action 'new'}} type="button" class="header btn btn-primary btn-lg pull-right"><span class="glyphicon glyphicon-plus"></span> New Purchase</button>
+<script type="text/x-handlebars" data-template-name="sale/search">
+  <div class="row">
+    <div class="col-lg-9">
+      <h3>Search</h3>
+    </div>
+    <div class="col-lg-3">
+      <div class="pull-right">
+        <button {{action 'back'}} type="button" class="header btn btn-primary"><span class="glyphicon glyphicon-arrow-left"></span> Back</button>
+      </div>
+    </div>
   </div>
   <hr>
   <div class="filter">
@@ -25,64 +31,30 @@
     </div>
   </div>
   <hr>
-  <table class="purchases table table-striped">
+  <table class="items table table-striped">
     <thead>
       <tr>
-        <th>Created</th>
-        <th>Updated</th>
-        <th>User</th>
-        <th>Till</th>
-        <th>Customer</th>
-        <th>Quantity</th>
-        <th>Subtotal</th>
-        <th>Complete</th>
-        <th>Edit</th>
-        <th>Print</th>
-        <th>Delete</th>
+        <th></th>
+        <th>SKU</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Select</th>
       </tr>
     </thead>
     <tbody>
-      {{#each purchase in controller}}
+      {{#each item in items}}
       <tr>
-        <td>{{date purchase.createdAt "%m-%d-%Y %I:%M %p"}}</td>
-        <td>{{date purchase.updatedAt "%m-%d-%Y %I:%M %p"}}</td>
+        <td><img {{bindAttr src="item.imageUrl"}} alt="Image" class="img-thumbnail" /></td>
+        <td>{{item.sku}}</td>
+        <td>{{item.name}}</td>
+        <td>${{currency item.price}}</td>
         <td>
-          {{#if purchase.user}}
-          {{purchase.user.fullname}}
-          {{else}}
-          None
-          {{/if}}
-        </td>
-        <td>
-          {{#if purchase.till}}
-          {{purchase.till.name}}
-          {{else}}
-          None
-          {{/if}}
-        </td>
-        <td>
-          {{#if purchase.customer}}
-          {{purchase.customer.fullname}}
-          {{else}}
-          None
-          {{/if}}
-        </td>
-        <td>{{purchase.quantity}}</td>
-        <td>${{currency purchase.cashSubtotal}} (${{currency purchase.creditSubtotal}})</td>
-        <td>{{boolean purchase.complete}}</td>
-        <td>
-          <button {{action 'load' purchase}} {{bindAttr disabled='purchase.complete'}} type="button" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</button>
-        </td>
-        <td>
-          <button {{action 'print' purchase}} type="button" class="btn"><span class="glyphicon glyphicon-print"></span> Print</button>
-        </td>
-        <td>
-          <button {{action 'delete' purchase}} {{bindAttr disabled='purchase.complete'}} type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+          <button {{action 'select' item}} type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Select</button>
         </td>
       </tr>
       {{else}}
         <tr>
-          <td colspan="11"><strong>No Results Found</strong></td>
+          <td colspan="11"><strong>No Items Found</strong></td>
         </tr>
       {{/each}}
     </tbody>

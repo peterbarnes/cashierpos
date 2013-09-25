@@ -1,25 +1,30 @@
 App.SaleIndexController = Ember.ObjectController.extend({
+  scanning: true,
   add: function() {
     this.transitionToRoute('sale.line');
   },
   search: function() {
-    // var query = this.get('query');
-    // var units = App.Unit.query(query);
-    // var controller = this;
-    // this.set('query', null);
-    // units.on('didLoad', function() {
-//       this.forEach(function(unit) {
-//         controller.get('model.lines').pushObject(App.Line.createRecord({
-//           title: unit.get('name'),
-//           amount: unit.get('price'),
-//           quantity: 1,
-//           sku: unit.get('sku'),
-//           taxable: unit.get('taxable'),
-//         }));
-//       });
-//     });
-    console.log(this.get('query'));
+    if (this.get('scanning')) {
+      var query = this.get('query');
+      var units = App.Unit.match(query);
+      var controller = this;
+      units.forEach(function(unit) {
+        controller.get('model.lines').pushObject(App.Line.create({
+          title: unit.get('name'),
+          amount: unit.get('calculated') ? unit.get('priceCalculated') : unit.get('price'),
+          quantity: 1,
+          sku: unit.get('sku'),
+          taxable: unit.get('taxable'),
+        }));
+      });
+    } else {
+      this.set('scanning', true);
+      this.transitionToRoute('sale.search', this.get('query'));
+    }
     this.set('query', null);
+  },
+  scan: function() {
+    this.set('scanning', !this.get('scanning'));
   },
   remove: function(line) {
     line.set('remove', true);
