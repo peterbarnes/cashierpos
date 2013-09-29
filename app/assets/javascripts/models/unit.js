@@ -9,11 +9,12 @@ App.Unit = Ember.Object.extend({
   taxable: true,
   item: null,
   components: null,
-  condition: null,
+  conditions: null,
   variant: null,
   init: function() {
     this._super();
     this.set('components', Ember.A());
+    this.set('conditions', Ember.A());
   },
   priceCalculated: function() {
     var unit = this;
@@ -28,10 +29,9 @@ App.Unit = Ember.Object.extend({
           calculated_price = calculated_price + component.adjuster(item.get('price'));
         }
       });
-      var condition = this.get('condition');
-      if (condition) {
+      item.get('conditions').forEach(function(condition) {
         calculated_price = calculated_price + condition.adjuster(item.get('price'));
-      }
+      });
       var variant = this.get('variant');
       if (variant) {
         calculated_price = calculated_price + variant.adjuster(item.get('price'));
@@ -40,7 +40,7 @@ App.Unit = Ember.Object.extend({
     } else {
       return 0;
     }
-  }.property('item', 'components', 'condition', 'variant')
+  }.property('item', 'components.@each', 'conditions.@each', 'variant')
 });
 
 App.Unit.reopenClass({
@@ -76,7 +76,7 @@ App.Unit.reopenClass({
       });
       _unit.set('item', App.Item.fixtures().objectAt(0));
       _unit.set('components', App.Component.fixtures());
-      _unit.set('condition', App.Condition.fixtures().objectAt(0));
+      _unit.set('conditions', App.Condition.fixtures());
       _unit.set('variant', App.Variant.fixtures().objectAt(0));
       fixtures.pushObject(_unit);
     });

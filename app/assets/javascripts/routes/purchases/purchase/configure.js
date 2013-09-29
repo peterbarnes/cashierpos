@@ -6,5 +6,6 @@ App.PurchaseConfigureRoute = Ember.Route.extend({
     controller.set('model', model);
     controller.set('item', model.get('configurable'));
     controller.set('components', model.get('configurable.typicalComponents'));
+    controller.set('conditions', Ember.A());
   }
 });

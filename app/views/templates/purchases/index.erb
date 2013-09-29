@@ -37,6 +37,7 @@
         <th>Subtotal</th>
         <th>Complete</th>
         <th>Edit</th>
+        <th>View</th>
         <th>Print</th>
         <th>Delete</th>
       </tr>
@@ -72,6 +73,9 @@
         <td>{{boolean purchase.complete}}</td>
         <td>
           <button {{action 'load' purchase}} {{bindAttr disabled='purchase.complete'}} type="button" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</button>
+        </td>
+        <td>
+          <button {{action 'view' purchase}} type="button" class="btn">View</button>
         </td>
         <td>
           <button {{action 'print' purchase}} type="button" class="btn"><span class="glyphicon glyphicon-print"></span> Print</button>

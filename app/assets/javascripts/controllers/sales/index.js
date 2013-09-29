@@ -9,6 +9,20 @@ App.SalesIndexController = Ember.ArrayController.extend({
     this.incrementProperty('newCount');
     this.transitionToRoute('sale', sale);
   },
+  load: function(sale) {
+    this.transitionToRoute('sale', sale);
+  },
+  print: function(sale) {
+    sale.print();
+  },
+  view: function(sale) {
+    window.open(sale.get('pdfUrl'));
+  },
+  delete: function(sale) {
+    if (confirm('Are you sure you want to delete this sale?')) {
+      sale.delete();
+    }
+  },
   search: function() {
     this.set('content', App.Sale.query(this.get('query'),this.get('filter'),this.get('page'),this.get('perPage')));
   },
@@ -82,16 +96,5 @@ App.SalesIndexController = Ember.ArrayController.extend({
   }.property('query', 'filter', 'perPage'),
   totalPages: function() {
     return Math.floor(this.get('total') / this.get('perPage')) + 1;
-  }.property('total'),
-  load: function(sale) {
-    this.transitionToRoute('sale', sale);
-  },
-  print: function(sale) {
-    sale.print();
-  },
-  delete: function(sale) {
-    if (confirm('Are you sure you want to delete this sale?')) {
-      sale.delete();
-    }
-  }
+  }.property('total')
 });

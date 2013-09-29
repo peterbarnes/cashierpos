@@ -97,7 +97,7 @@ App.Variant.FIXTURES = [
     description: "Lorem Ipsum...",
     identifier: "2345",
     identifierType: "MPN",
-    name: "Variant 1",
+    name: "Variant 2",
     typical: false
   }
 ];

@@ -4,7 +4,7 @@ App.Purchase = Ember.Object.extend({
   pdfUrl: "",
   cash: 0,
   credit: 0,
-  ratio: 0,
+  ratio: 1,
   configurable: null,
   customer: null,
   till: null,
@@ -15,7 +15,6 @@ App.Purchase = Ember.Object.extend({
   init: function() {
     this._super();
     this.set('lines', Ember.A());
-    this.set('ratio', 1);
   },
   quantity: function() {
     var lines = this.get('lines');
@@ -26,7 +25,7 @@ App.Purchase = Ember.Object.extend({
       }
     });
     return quantity;
-  }.property('lines', 'lines.@each.quantity', 'lines.@each.remove'),
+  }.property('lines.@each', 'lines.@each.quantity', 'lines.@each.remove'),
   cashSubtotal: function() {
     var lines = this.get('lines');
     var subtotal = 0;
@@ -36,7 +35,7 @@ App.Purchase = Ember.Object.extend({
       }
     });
     return subtotal;
-  }.property('lines', 'lines.@each.cashSubtotal', 'lines.@each.remove'),
+  }.property('lines.@each', 'lines.@each.cashSubtotal', 'lines.@each.remove'),
   creditSubtotal: function() {
     var lines = this.get('lines');
     var subtotal = 0;
@@ -46,7 +45,7 @@ App.Purchase = Ember.Object.extend({
       }
     });
     return subtotal;
-  }.property('lines', 'lines.@each.creditSubtotal', 'lines.@each.remove'),
+  }.property('lines.@each', 'lines.@each.creditSubtotal', 'lines.@each.remove'),
   due: function() {
     return this.get('cash');
   }.property('cash'),
@@ -61,22 +60,28 @@ App.Purchase = Ember.Object.extend({
   }.property('completable'),
   cashFmt: function(key, value) {
     if (value) {
-      var cash = parseInt(Math.round(1000 * value * 100) / 1000);
-      var cashSubtotal = this.get('cashSubtotal');
-      var ratio = cash / cashSubtotal;
-      this.set('cash', cash);
-      this.set('ratio', 1 - ratio);
+      if (value.match(/\d+\.\d\d/)) {
+        var cash = parseInt(Math.round(1000 * value * 100) / 1000);
+        var cashSubtotal = this.get('cashSubtotal');
+        var ratio = cash / cashSubtotal;
+        if (ratio < 0) { ratio = 0; }
+        if (ratio > 1) { ratio = 1; }
+        this.set('ratio', 1 - ratio);
+      }
     } else {
       return parseFloat(this.get('cash') * 0.01).toFixed(2);
     }
   }.property('cash'),
   creditFmt: function(key, value) {
     if (value) {
-      var credit = parseInt(Math.round(1000 * value * 100) / 1000);
-      var creditSubtotal = this.get('creditSubtotal');
-      var ratio = credit / creditSubtotal;
-      this.set('credit', credit);
-      this.set('ratio', ratio);
+      if (value.match(/\d+\.\d\d/)) {
+        var credit = parseInt(Math.round(1000 * value * 100) / 1000);
+        var creditSubtotal = this.get('creditSubtotal');
+        var ratio = credit / creditSubtotal;
+        if (ratio < 0) { ratio = 0; }
+        if (ratio > 1) { ratio = 1; }
+        this.set('ratio', ratio);
+      }
     } else {
       return parseFloat(this.get('credit') * 0.01).toFixed(2);
     }
@@ -94,8 +99,8 @@ App.Purchase = Ember.Object.extend({
       cashMultiplier = ratio * -1;
       creditMultiplier = -1 - ratio;
     }
-    this.set('cash', parseInt(cashSubtotal * cashMultiplier));
-    this.set('credit', parseInt(creditSubtotal * creditMultiplier));
+    this.set('cash', parseInt(Math.round(cashSubtotal * cashMultiplier)));
+    this.set('credit', parseInt(Math.round(creditSubtotal * creditMultiplier)));
   }.observes('ratio', 'cashSubtotal', 'creditSubtotal')
 });
 
@@ -134,13 +139,13 @@ App.Purchase.reopenClass({
         sku: purchase.sku,
         complete: purchase.complete,
         pdfUrl: purchase.pdfUrl,
-        cash: purchase.cash,
-        credit: purchase.credit
+        ratio: purchase.ratio
       });
       _purchase.set('customer', App.Customer.fixtures().objectAt(0));
       _purchase.set('till', App.Till.fixtures().objectAt(0));
       _purchase.set('user', App.User.fixtures().objectAt(0));
       _purchase.set('lines', App.Line.fixtures());
+      _purchase.ratioChanged();
       fixtures.pushObject(_purchase);
     });
     return fixtures;
@@ -153,7 +158,6 @@ App.Purchase.FIXTURES = [
     sku: "BFC94FA0-D0BC-0130-AD33-109ADD6B83AAA",
     complete: false,
     pdfUrl: "http://www.example.com/example.pdf",
-    cash: 0,
-    credit: 0
+    ratio: 1
   }
 ];

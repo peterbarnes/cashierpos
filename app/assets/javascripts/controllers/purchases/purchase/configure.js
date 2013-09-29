@@ -2,7 +2,7 @@ App.PurchaseConfigureController = Ember.ObjectController.extend({
   needs: 'purchase',
   item: null,
   components: null,
-  condition: null,
+  conditions: null,
   variant: null,
   add: function() {
     this.get('model.lines').pushObject(App.Line.create({
@@ -32,10 +32,9 @@ App.PurchaseConfigureController = Ember.ObjectController.extend({
           calculated_price = calculated_price + component.adjusterCash(item_price);
         }
       });
-      var condition = this.get('condition');
-      if (condition) {
+      this.get('conditions').forEach(function(condition) {
         calculated_price = calculated_price + condition.adjusterCash(item_price);
-      }
+      });
       var variant = this.get('variant');
       if (variant) {
         calculated_price = calculated_price + variant.adjusterCash(item_price);
@@ -44,7 +43,7 @@ App.PurchaseConfigureController = Ember.ObjectController.extend({
     } else {
       return 0;
     }
-  }.property('item', 'components.@each', 'condition', 'variant'),
+  }.property('item', 'components.@each', 'conditions.@each', 'variant'),
   configuredCreditPrice: function() {
     var controller = this;
     var item = this.get('item');
@@ -59,10 +58,9 @@ App.PurchaseConfigureController = Ember.ObjectController.extend({
           calculated_price = calculated_price + component.adjusterCredit(item_price);
         }
       });
-      var condition = this.get('condition');
-      if (condition) {
+      this.get('conditions').forEach(function(condition) {
         calculated_price = calculated_price + condition.adjusterCredit(item_price);
-      }
+      });
       var variant = this.get('variant');
       if (variant) {
         calculated_price = calculated_price + variant.adjusterCredit(item_price);
@@ -71,7 +69,7 @@ App.PurchaseConfigureController = Ember.ObjectController.extend({
     } else {
       return 0;
     }
-  }.property('item', 'components.@each', 'condition', 'variant'),
+  }.property('item', 'components.@each', 'conditions.@each', 'variant'),
   selectComponent: function(component) {
     if (this.get('components').contains(component)) {
       this.get('components').removeObject(component);
@@ -81,15 +79,12 @@ App.PurchaseConfigureController = Ember.ObjectController.extend({
     component.set('configured', !component.get('configured'));
   },
   selectCondition: function(condition) {
-    this.get('item.conditions').forEach(function(condition) {
-      condition.set('configured', false);
-    });
-    if (this.get('condition') != condition) {
-      condition.set('configured', !condition.get('configured'));
-      this.set('condition', condition);
+    if (this.get('conditions').contains(condition)) {
+      this.get('conditions').removeObject(condition);
     } else {
-      this.set('condition', null);
+      this.get('conditions').pushObject(condition);
     }
+    condition.set('configured', !condition.get('configured'));
   },
   selectVariant: function(variant) {
     this.get('item.variants').forEach(function(variant) {

@@ -1,5 +1,5 @@
 App.SaleIndexController = Ember.ObjectController.extend({
-  scanning: true,
+  scanning: false,
   add: function() {
     this.transitionToRoute('sale.line');
   },
@@ -18,9 +18,9 @@ App.SaleIndexController = Ember.ObjectController.extend({
         }));
       });
     } else {
-      this.set('scanning', true);
       this.transitionToRoute('sale.search', this.get('query'));
     }
+    this.set('scanning', false);
     this.set('query', null);
   },
   scan: function() {
@@ -28,6 +28,13 @@ App.SaleIndexController = Ember.ObjectController.extend({
   },
   remove: function(line) {
     line.set('remove', true);
+  },
+  keypress: function(event) {
+    if (event.charCode == 223) {
+      this.set('scanning', true);
+      $('input.search').focus();
+      event.preventDefault();
+    }
   },
   quantityPlus: function(line) {
     line.set('quantity', parseInt(line.get('quantity')) + 1);

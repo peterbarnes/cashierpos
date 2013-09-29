@@ -88,6 +88,6 @@ App.Condition.FIXTURES = [
     adjustmentCredit: -0.33,
     adjustmentCreditPercentage: false,
     description: "Lorem Ipsum...",
-    name: "Condition 1"
+    name: "Condition 2"
   }
 ];

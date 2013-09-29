@@ -87,9 +87,9 @@
         </ul>
         <form class="ratio form-inline">
           <div class="form-group">
-            {{view App.NumberField valueBinding="model.cashFmt" min="0" step="0.01" class="form-control pull-left"}}
+            {{view Ember.TextField valueBinding="model.cashFmt" class="form-control pull-left"}}
             {{view App.RangeField valueBinding="model.ratio" min="0" max="1" step="0.01" class="form-control pull-left"}}
-            {{view App.NumberField valueBinding="model.creditFmt" min="0" step="0.01" class="form-control pull-left"}}
+            {{view Ember.TextField valueBinding="model.creditFmt" class="form-control pull-left"}}
           </div>
         </form>
         <hr>

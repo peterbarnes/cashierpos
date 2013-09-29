@@ -5,7 +5,6 @@
 //= require ./vendor/ember-date
 //= require ./vendor/math.uuid
 //= require ./environment
-//= require ./store
 //= require ./helpers
 //= require ./router
 //= require_tree ./models

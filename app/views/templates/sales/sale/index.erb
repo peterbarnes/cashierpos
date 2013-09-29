@@ -8,7 +8,7 @@
               <span class="input-group-btn">
                 <button type="button" {{action 'scan'}} {{bindAttr class=":btn scanning:btn-primary:btn-default"}}><span class="glyphicon glyphicon-barcode"></span></button>
               </span>
-              {{view Ember.TextField valueBinding="query" class="form-control" placeholder="Search..."}}
+              {{view Ember.TextField valueBinding="query" class="form-control search" placeholder="Search..."}}
               <span class="input-group-btn">
                 <button type="submit" {{action 'search'}} class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Search</button>
               </span>
