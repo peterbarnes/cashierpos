@@ -8,6 +8,8 @@ App.User = Ember.Object.extend({
   username: "",
   pin: "",
   pinValue: "",
+  createdAt: new Date(),
+  updatedAt: new Date(),
   fullname: function() {
     return this.get('firstName') + " " + this.get('lastName');
   }.property('firstName', 'lastName'),
@@ -20,18 +22,70 @@ App.User = Ember.Object.extend({
 
 App.User.reopenClass({
   query: function(query, filter, page, perPage) {
-    console.log('query: ' + query);
-    console.log('filter: ' + filter);
-    console.log('page: ' + page);
-    console.log('perPage: ' + perPage);
-    
-    return this.fixtures();
+    var users = [];
+    $.ajax({
+      url: '/api/users',
+      data: {
+        query: query,
+        filter: filter,
+        limit: perPage,
+        offset: (page - 1) * perPage
+      }
+    }).then(function(response) {
+      response.forEach(function(object){
+        var user = object.user;
+        var model = App.User.create({
+          id: user.id,
+          active: user.active,
+          administrator: user.administrator,
+          firstName: user.first_name,
+          lastName: user.last_name,
+          email: user.email,
+          username: user.username,
+          pin: user.pin,
+          createdAt: new Date(user.created_at),
+          updatedAt: new Date(user.updated_at)
+        });
+        users.addObject(model);
+      });
+    });
+    return users;
   },
   count: function(query, filter) {
-    return 2;
+    var count = 0;
+    $.ajax({
+      url: '/api/users/count',
+      data: {
+        query: query,
+        filter: filter
+      },
+      success: function(result) {
+        count = result.count;
+      },
+      async: false
+    });
+    return count;
   },
   find: function(id) {
-    return this.fixtures().objectAt(id);
+    var _user = App.User.create();
+    $.ajax({
+      url: "/api/users/" + id
+    }).then(function(response) {
+      var user = response.user;
+      _user.setProperties({
+        id: user.id,
+        active: user.active,
+        administrator: user.administrator,
+        firstName: user.first_name,
+        lastName: user.last_name,
+        email: user.email,
+        username: user.username,
+        pin: user.pin,
+        createdAt: new Date(user.created_at),
+        updatedAt: new Date(user.updated_at)
+      });
+    });
+    return _user;
   },
   fixtures: function() {
     var fixtures = [];

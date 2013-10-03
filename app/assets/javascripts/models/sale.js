@@ -98,18 +98,110 @@ App.Sale.reopen({
 
 App.Sale.reopenClass({
   query: function(query, filter, page, perPage) {
-    console.log('query: ' + query);
-    console.log('filter: ' + filter);
-    console.log('page: ' + page);
-    console.log('perPage: ' + perPage);
-    
-    return this.fixtures();
+    var sales = [];
+    $.ajax({
+      url: '/api/sales',
+      data: {
+        query: query,
+        filter: filter,
+        limit: perPage,
+        offset: (page - 1) * perPage
+      }
+    }).then(function(response) {
+      response.forEach(function(object){
+        var sale = object.sale;
+        var model = App.Sale.create({
+          id: sale.id,
+          sku: sale.sku,
+          complete: sale.complete,
+          taxRate: sale.tax_rate,
+          pdfUrl: sale.pdf_url,
+          createdAt: new Date(sale.created_at),
+          updatedAt: new Date(sale.updated_at)
+        });
+        model.set('customer', App.Customer.find(sale.customer_id));
+        model.set('till', App.Till.find(sale.till_id));
+        model.set('user', App.User.find(sale.user_id));
+        model.set('payment', App.Payment.create({
+          cash: sale.payment.cash,
+          credit: sale.payment.credit,
+          check: sale.payment.check,
+          giftCard: sale.payment.gift_card,
+          storeCredit: sale.payment.store_credit
+        }));
+        var lines = [];
+        sale.lines.forEach(function(_line){
+          var line = App.Line.create({
+            amount: _line.amount,
+            quantity: _line.quantity,
+            note: _line.note,
+            sku: _line.sku,
+            taxable: _line.taxable,
+            title: _line.title
+          });
+          lines.addObject(line);
+        });
+        model.set('lines', lines);
+        sales.addObject(model);
+      });
+    });
+    return sales;
   },
   count: function(query, filter) {
-    return 2;
+    var count = 0;
+    $.ajax({
+      url: '/api/sales/count',
+      data: {
+        query: query,
+        filter: filter
+      },
+      success: function(result) {
+        count = result.count;
+      },
+      async: false
+    });
+    return count;
   },
   find: function(id) {
-    return this.fixtures().objectAt(id);
+    var _sale = App.Sale.create();
+    $.ajax({
+      url: "/api/sales/" + id
+    }).then(function(response) {
+      var sale = response.sale;
+      _sale.setProperties({
+        id: sale.id,
+        sku: sale.sku,
+        complete: sale.complete,
+        taxRate: sale.tax_rate,
+        pdfUrl: sale.pdf_url,
+        createdAt: new Date(sale.created_at),
+        updatedAt: new Date(sale.updated_at)
+      });
+      _sale.set('customer', App.Customer.find(sale.customer_id));
+      _sale.set('till', App.Till.find(sale.till_id));
+      _sale.set('user', App.User.find(sale.user_id));
+      _sale.set('payment', App.Payment.create({
+        cash: sale.payment.cash,
+        credit: sale.payment.credit,
+        check: sale.payment.check,
+        giftCard: sale.payment.gift_card,
+        storeCredit: sale.payment.store_credit
+      }));
+      var lines = [];
+      sale.lines.forEach(function(_line){
+        var line = App.Line.create({
+          amount: _line.amount,
+          quantity: _line.quantity,
+          note: _line.note,
+          sku: _line.sku,
+          taxable: _line.taxable,
+          title: _line.title
+        });
+        lines.addObject(line);
+      });
+      _sale.set('lines', lines);
+    });
+    return _sale;
   },
   fixtures: function() {
     var fixtures = [];

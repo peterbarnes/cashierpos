@@ -118,18 +118,96 @@ App.Purchase.reopen({
 
 App.Purchase.reopenClass({
   query: function(query, filter, page, perPage) {
-    console.log('query: ' + query);
-    console.log('filter: ' + filter);
-    console.log('page: ' + page);
-    console.log('perPage: ' + perPage);
-    
-    return this.fixtures();
+    var purchases = [];
+    $.ajax({
+      url: '/api/purchases',
+      data: {
+        query: query,
+        filter: filter,
+        limit: perPage,
+        offset: (page - 1) * perPage
+      }
+    }).then(function(response) {
+      response.forEach(function(object){
+        var purchase = object.purchase;
+        var model = App.Purchase.create({
+          id: purchase.id,
+          sku: purchase.sku,
+          complete: purchase.complete,
+          ratio: purchase.ratio,
+          pdfUrl: purchase.pdf_url,
+          createdAt: new Date(purchase.created_at),
+          updatedAt: new Date(purchase.updated_at)
+        });
+        model.set('customer', App.Customer.find(purchase.customer_id));
+        model.set('till', App.Till.find(purchase.till_id));
+        model.set('user', App.User.find(purchase.user_id));
+        var lines = [];
+        purchase.lines.forEach(function(_line){
+          var line = App.Line.create({
+            amountCash: _line.amount_credit,
+            amountCredit: _line.amount_cash,
+            quantity: _line.quantity,
+            note: _line.note,
+            sku: _line.sku,
+            title: _line.title
+          });
+          lines.addObject(line);
+        });
+        model.set('lines', lines);
+        purchases.addObject(model);
+      });
+    });
+    return purchases;
   },
   count: function(query, filter) {
-    return 2;
+    var count = 0;
+    $.ajax({
+      url: '/api/purchases/count',
+      data: {
+        query: query,
+        filter: filter
+      },
+      success: function(result) {
+        count = result.count;
+      },
+      async: false
+    });
+    return count;
   },
   find: function(id) {
-    return this.fixtures().objectAt(id);
+    var _purchase = App.Sale.create();
+    $.ajax({
+      url: "/api/purchases/" + id
+    }).then(function(response) {
+      var purchase = response.purchase;
+      _purchase.setProperties({
+        id: purchase.id,
+        sku: purchase.sku,
+        complete: purchase.complete,
+        ratio: parseFloat(purchase.ratio),
+        pdfUrl: purchase.pdf_url,
+        createdAt: new Date(purchase.created_at),
+        updatedAt: new Date(purchase.updated_at)
+      });
+      _purchase.set('customer', App.Customer.find(purchase.customer_id));
+      _purchase.set('till', App.Till.find(purchase.till_id));
+      _purchase.set('user', App.User.find(purchase.user_id));
+      var lines = [];
+      purchase.lines.forEach(function(_line){
+        var line = App.Line.create({
+          amountCash: _line.amount_cash,
+          amountCredit: _line.amount_credit,
+          quantity: _line.quantity,
+          note: _line.note,
+          sku: _line.sku,
+          title: _line.title
+        });
+        lines.addObject(line);
+      });
+      _purchase.set('lines', lines);
+    });
+    return _purchase;
   },
   fixtures: function() {
     var fixtures = [];

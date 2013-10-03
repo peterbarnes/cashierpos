@@ -6,6 +6,7 @@ class Purchase
   
   field :complete, :type => Boolean,  :default => false
   field :sku, :type => Integer
+  field :ratio, :type => Float,    :default => 1
   
   index({ :account_id => 1, :updated_at => 1, :sku => 1 })
   

@@ -15,8 +15,9 @@ class Account
   has_many :items,        :dependent => :destroy
   has_many :locations,    :dependent => :destroy
   has_many :purchases,    :dependent => :destroy
-  has_many :tills,        :dependent => :destroy
+  has_many :stores,       :dependent => :destroy
   has_many :sales,        :dependent => :destroy
+  has_many :tills,        :dependent => :destroy
   has_many :units,        :dependent => :destroy
   has_many :users,        :dependent => :destroy
   has_many :variants,     :dependent => :destroy

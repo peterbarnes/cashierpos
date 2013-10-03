@@ -10,6 +10,8 @@ App.Customer = Ember.Object.extend({
   dateOfBirth: new Date(),
   imageUrl: "",
   phone: "",
+  createdAt: new Date(),
+  updatedAt: new Date(),
   fullname: function() {
     return this.get('firstName') + " " + this.get('lastName');
   }.property('firstName', 'lastName'),
@@ -24,18 +26,76 @@ App.Customer = Ember.Object.extend({
 
 App.Customer.reopenClass({
   query: function(query, filter, page, perPage) {
-    console.log('query: ' + query);
-    console.log('filter: ' + filter);
-    console.log('page: ' + page);
-    console.log('perPage: ' + perPage);
-    
-    return this.fixtures();
+    var customers = [];
+    $.ajax({
+      url: '/api/customers',
+      data: {
+        query: query,
+        filter: filter,
+        limit: perPage,
+        offset: (page - 1) * perPage
+      }
+    }).then(function(response) {
+      response.forEach(function(object){
+        var customer = object.customer;
+        var model = App.Customer.create({
+          id: customer.id,
+          firstName: customer.first_name,
+          lastName: customer.last_name,
+          email: customer.email,
+          organization: customer.organization,
+          sku: customer.sku,
+          notes: customer.notes,
+          credit: customer.credit,
+          dateOfBirth: new Date(customer.date_of_birth),
+          imageUrl: customer.image_url,
+          phone: customer.phones.objectAt(0).number,
+          createdAt: new Date(customer.created_at),
+          updatedAt: new Date(customer.updated_at)
+        });
+        customers.addObject(model);
+      });
+    });
+    return customers;
   },
   count: function(query, filter) {
-    return 2;
+    var count = 0;
+    $.ajax({
+      url: '/api/customers/count',
+      data: {
+        query: query,
+        filter: filter
+      },
+      success: function(result) {
+        count = result.count;
+      },
+      async: false
+    });
+    return count;
   },
   find: function(id) {
-    return this.fixtures().objectAt(id);
+    var _customer = App.Customer.create();
+    $.ajax({
+      url: "/api/customers/" + id
+    }).then(function(response) {
+      var customer = response.customer;
+      _customer.setProperties({
+        id: customer.id,
+        firstName: customer.first_name,
+        lastName: customer.last_name,
+        email: customer.email,
+        organization: customer.organization,
+        sku: customer.sku,
+        notes: customer.notes,
+        credit: customer.credit,
+        dateOfBirth: new Date(customer.date_of_birth),
+        imageUrl: customer.image_url,
+        phone: customer.phones.objectAt(0).number,
+        createdAt: new Date(customer.created_at),
+        updatedAt: new Date(customer.updated_at)
+      });
+    });
+    return _customer;
   },
   fixtures: function() {
     var fixtures = [];

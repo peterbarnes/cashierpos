@@ -1,23 +1,67 @@
 App.Till = Ember.Object.extend({
   id: null,
   name: "",
-  minimum: 0
+  minimum: 0,
+  createdAt: new Date(),
+  updatedAt: new Date()
 });
 
 App.Till.reopenClass({
   query: function(query, filter, page, perPage) {
-    console.log('query: ' + query);
-    console.log('filter: ' + filter);
-    console.log('page: ' + page);
-    console.log('perPage: ' + perPage);
-    
-    return this.fixtures();
+    var tills = [];
+    $.ajax({
+      url: '/api/tills',
+      data: {
+        query: query,
+        filter: filter,
+        limit: perPage,
+        offset: (page - 1) * perPage
+      }
+    }).then(function(response) {
+      response.forEach(function(object){
+        var till = object.till;
+        var model = App.Till.create({
+          id: till.id,
+          name: till.name,
+          minimum: till.minimum,
+          createdAt: new Date(till.created_at),
+          updatedAt: new Date(till.updated_at)
+        });
+        tills.addObject(model);
+      });
+    });
+    return tills;
   },
   count: function(query, filter) {
-    return 2;
+    var count = 0;
+    $.ajax({
+      url: '/api/tills/count',
+      data: {
+        query: query,
+        filter: filter
+      },
+      success: function(result) {
+        count = result.count;
+      },
+      async: false
+    });
+    return count;
   },
   find: function(id) {
-    return this.fixtures().objectAt(id);
+    var _till = App.Till.create();
+    $.ajax({
+      url: "/api/tills/" + id
+    }).then(function(response) {
+      var till = response.till;
+      _till.setProperties({
+        id: till.id,
+        name: till.name,
+        minimum: till.minimum,
+        createdAt: new Date(till.created_at),
+        updatedAt: new Date(till.updated_at)
+      });
+    });
+    return _till;
   },
   fixtures: function() {
     var fixtures = [];

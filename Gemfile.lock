@@ -57,6 +57,8 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.0)
       mime-types
+    rabl (0.8.6)
+      activesupport (>= 2.3.14)
     rack (1.5.2)
     rack-protection (1.5.0)
       rack
@@ -95,6 +97,7 @@ DEPENDENCIES
   mongoid-autoinc
   mongoid-paperclip
   mongoid_search
+  rabl
   shotgun
   sinatra
   sprockets

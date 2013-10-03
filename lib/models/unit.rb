@@ -23,7 +23,7 @@ class Unit
 
   belongs_to                    :account
   has_and_belongs_to_many       :components
-  belongs_to                    :condition
+  has_and_belongs_to_many       :conditions
   belongs_to                    :item
   belongs_to                    :location
   belongs_to                    :variant
