@@ -3,7 +3,7 @@ class Cashierpos < Sinatra::Base
   configure do
     set :views, File.join(root, 'app/views')
     set :cache, Dalli::Client.new(nil, {:compression => true, :expires_in => 30 * 60})
-    set :enable_cache, production?
+    set :enable_cache, true
     Rabl.register!
   end
   

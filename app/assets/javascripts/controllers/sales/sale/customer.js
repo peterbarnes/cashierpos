@@ -89,7 +89,7 @@ App.SaleCustomerController = Ember.ObjectController.extend({
   }.property('page', 'totalPages'),
   total: function() {
     return App.Customer.count(this.get('query'),this.get('filter'));
-  }.property('query', 'filter', 'perPage'),
+  }.property('searching', 'filter', 'perPage'),
   totalPages: function() {
     return Math.floor(this.get('total') / this.get('perPage')) + 1;
   }.property('total')
