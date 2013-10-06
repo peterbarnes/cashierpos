@@ -4,6 +4,7 @@ App.PurchaseUserController = Ember.ObjectController.extend({
   filter: 'all',
   page: 1,
   perPage: 10,
+  searching: false,
   back: function() {
     this.transitionToRoute('purchase');
   },
@@ -12,7 +13,10 @@ App.PurchaseUserController = Ember.ObjectController.extend({
     this.transitionToRoute('purchase');
   },
   search: function() {
-    this.set('users', App.User.query(this.get('query'),this.get('filter'),this.get('page'),this.get('perPage')));
+    this.set('searching', true);
+    this.set('users', App.User.query(this.get('query'),this.get('filter'),this.get('page'),this.get('perPage'), (function() {
+      this.set('searching', false);
+    }).bind(this)));
   },
   clear: function() {
     this.set('query', '');

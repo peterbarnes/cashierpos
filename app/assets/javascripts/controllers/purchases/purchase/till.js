@@ -6,5 +6,8 @@ App.PurchaseTillController = Ember.ObjectController.extend({
   select: function(till) {
     this.set('model.till', till);
     this.transitionToRoute('purchase');
+  },
+  refresh: function() {
+    
   }
 });

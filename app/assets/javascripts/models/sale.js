@@ -97,7 +97,7 @@ App.Sale.reopen({
 });
 
 App.Sale.reopenClass({
-  query: function(query, filter, page, perPage) {
+  query: function(query, filter, page, perPage, callback) {
     var sales = [];
     $.ajax({
       url: '/api/sales',
@@ -144,6 +144,9 @@ App.Sale.reopenClass({
         model.set('lines', lines);
         sales.addObject(model);
       });
+      if (callback) {
+        callback();
+      }
     });
     return sales;
   },

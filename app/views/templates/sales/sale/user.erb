@@ -20,6 +20,7 @@
       <div class='filter_search col-lg-8'>
         <div class='filter_search_form pull-right'>
           <form class="search form-inline">
+            <button type="button" {{bindAttr class=":btn :btn-default searching:visible:hidden"}}><span class="glyphicon glyphicon-refresh"></span></button>
             <div class="form-group">
               {{view Ember.TextField valueBinding="query" class="form-control" placeholder="Search..."}}
             </div>
@@ -63,6 +64,7 @@
   <div class="page">
     <div class="page_container row">
       <div class="page_menu col-lg-6">
+        <button {{action 'refresh'}} type="button" class="next btn btn-sm btn-primary"><span class="glyphicon glyphicon-refresh"></span> {{total}} results</button>
         {{#if hasPages}}
           <button {{action 'prev'}} type="button" class="prev btn btn-sm" {{bindAttr disabled="cantPagePrev"}}>&#8592; Previous</button>
           <button type="button" class="next btn btn-sm btn-default">{{page}} of {{totalPages}}</button>

@@ -2,7 +2,8 @@ class Cashierpos < Sinatra::Base
 
   configure do
     set :views, File.join(root, 'app/views')
-    
+    set :cache, Dalli::Client.new(nil, {:compression => true, :expires_in => 30 * 60})
+    set :enable_cache, production?
     Rabl.register!
   end
   
@@ -73,10 +74,23 @@ class Cashierpos < Sinatra::Base
     params[:offset] ||= 0
     params[:limit] ||= 10
     
-    @resources = account.send(params[:resources]).full_text_search(params[:query], :allow_empty_search => true)
-    @resources = @resources.where(:created_at.gt => 3.days.ago) if params[:filter] == 'newest'
-    @resources = @resources.where(:updated_at.gt => 1.days.ago) if params[:filter] == 'recent'
-    @resources = @resources.asc(:updated_at).limit(params[:limit]).offset(params[:offset])
+    cache_key = "#{account.id.to_s}_#{request.url}"
+    cache = settings.cache.get(cache_key)
+    
+    unless cache
+      if account.respond_to?(params[:resources])
+        @resources = account.send(params[:resources])
+        @resources = @resources.where(:created_at.gt => 3.days.ago) if params[:filter] == 'newest'
+        @resources = @resources.where(:updated_at.gt => 1.days.ago) if params[:filter] == 'recent'
+        @resources = @resources.asc(:updated_at).limit(params[:limit]).offset(params[:offset])
+        @resources = @resources.full_text_search(params[:query], :allow_empty_search => true)
+        settings.cache.set(cache_key, @resources)
+      else
+        halt 404
+      end
+    else
+      @resources = cache
+    end
     
     unless @resources.nil?
       rabl params[:resources].to_sym, :views => api_views
@@ -85,20 +99,31 @@ class Cashierpos < Sinatra::Base
     end
   end
   
-  get '/api/:resources/?' do
+  get '/api/:resources/count/?' do
     content_type :json
     
     params[:filter] ||= 'all'
-    params[:offset] ||= 0
-    params[:limit] ||= 10
     
-    @resources = account.send(params[:resources]).full_text_search(params[:query], :allow_empty_search => true)
-    @resources = @resources.where(:created_at.gt => 3.days.ago) if params[:filter] == 'newest'
-    @resources = @resources.where(:updated_at.gt => 1.days.ago) if params[:filter] == 'recent'
-    @resources = @resources.asc(:updated_at).limit(params[:limit]).offset(params[:offset])
+    cache_key = "#{account.id.to_s}_#{request.url}"
+    cache = settings.cache.get(cache_key)
     
-    unless @resources.nil?
-      rabl params[:resources].to_sym, :views => api_views
+    unless cache
+      if account.respond_to?(params[:resources])
+        @resources = account.send(params[:resources])
+        @resources = @resources.where(:created_at.gt => 3.days.ago) if params[:filter] == 'newest'
+        @resources = @resources.where(:updated_at.gt => 1.days.ago) if params[:filter] == 'recent'
+        @resources = @resources.full_text_search(params[:query], :allow_empty_search => true)
+        @count = @resources.count
+        settings.cache.set(cache_key, @count)
+      else
+        @count = 0
+      end
+    else
+      @count = cache
+    end
+    
+    unless @count.nil?
+      {:count => @count}.to_json
     else
       halt 404
     end
@@ -119,7 +144,11 @@ class Cashierpos < Sinatra::Base
   get '/api/:resources/:id/?' do
     content_type :json
     
-    @resource = account.send(params[:resources]).where(:id => params[:id]).first
+    if account.respond_to?(params[:resources])
+      @resource = account.send(params[:resources]).where(:id => params[:id]).first
+    else
+      halt 404
+    end
     
     if @resource
       rabl params[:resources].singularize.to_sym, :views => api_views

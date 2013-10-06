@@ -117,7 +117,7 @@ App.Purchase.reopen({
 })
 
 App.Purchase.reopenClass({
-  query: function(query, filter, page, perPage) {
+  query: function(query, filter, page, perPage, callback) {
     var purchases = [];
     $.ajax({
       url: '/api/purchases',
@@ -157,6 +157,9 @@ App.Purchase.reopenClass({
         model.set('lines', lines);
         purchases.addObject(model);
       });
+      if (callback) {
+        callback();
+      }
     });
     return purchases;
   },

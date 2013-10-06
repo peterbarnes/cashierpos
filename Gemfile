@@ -14,6 +14,7 @@ gem 'mongoid-paperclip', :require => 'mongoid_paperclip'
 gem 'aws-sdk', '~> 1.3.4'
 gem 'uuid'
 gem 'rabl'
+gem 'dalli'
 
 group :development, :test do
   gem 'thin'

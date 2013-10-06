@@ -4,6 +4,7 @@ App.SalesIndexController = Ember.ArrayController.extend({
   page: 1,
   perPage: 10,
   newCount: 0,
+  searching: false,
   new: function() {
     var sale = App.Sale.create({id: 'new-' + this.get('newCount')});
     this.incrementProperty('newCount');
@@ -24,7 +25,13 @@ App.SalesIndexController = Ember.ArrayController.extend({
     }
   },
   search: function() {
-    this.set('content', App.Sale.query(this.get('query'),this.get('filter'),this.get('page'),this.get('perPage')));
+    this.set('searching', true);
+    this.set('content', App.Sale.query(this.get('query'),this.get('filter'),this.get('page'),this.get('perPage'), (function() {
+      this.set('searching', false);
+    }).bind(this)));
+  },
+  refresh: function() {
+    this.search();
   },
   clear: function() {
     this.set('query', '');

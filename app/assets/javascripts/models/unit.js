@@ -46,7 +46,7 @@ App.Unit = Ember.Object.extend({
 });
 
 App.Unit.reopenClass({
-  query: function(query, filter, page, perPage) {
+  query: function(query, filter, page, perPage, callback) {
     var units = [];
     $.ajax({
       url: '/api/units',
@@ -121,6 +121,9 @@ App.Unit.reopenClass({
         }));
         units.addObject(model);
       });
+      if (callback) {
+        callback();
+      }
     });
     return units;
   },

@@ -14,7 +14,7 @@ App.Store = Ember.Object.extend({
 });
 
 App.Store.reopenClass({
-  query: function(query, filter, page, perPage) {
+  query: function(query, filter, page, perPage, callback) {
     var stores = [];
     $.ajax({
       url: '/api/stores',
@@ -50,6 +50,9 @@ App.Store.reopenClass({
         model.set('tills', tills);
         stores.addObject(model);
       });
+      if (callback) {
+        callback();
+      }
     });
     return stores;
   },

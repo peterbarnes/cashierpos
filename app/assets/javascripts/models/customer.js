@@ -25,7 +25,7 @@ App.Customer = Ember.Object.extend({
 });
 
 App.Customer.reopenClass({
-  query: function(query, filter, page, perPage) {
+  query: function(query, filter, page, perPage, callback) {
     var customers = [];
     $.ajax({
       url: '/api/customers',
@@ -55,6 +55,9 @@ App.Customer.reopenClass({
         });
         customers.addObject(model);
       });
+      if (callback) {
+        callback();
+      }
     });
     return customers;
   },

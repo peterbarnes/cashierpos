@@ -35,20 +35,6 @@ App.Variant = Ember.Object.extend({
 });
 
 App.Variant.reopenClass({
-  query: function(query, filter, page, perPage) {
-    console.log('query: ' + query);
-    console.log('filter: ' + filter);
-    console.log('page: ' + page);
-    console.log('perPage: ' + perPage);
-    
-    return this.fixtures();
-  },
-  count: function(query, filter) {
-    return 2;
-  },
-  find: function(id) {
-    return this.fixtures().objectAt(id);
-  },
   fixtures: function() {
     var fixtures = [];
     App.Variant.FIXTURES.forEach(function(variant) {

@@ -12,7 +12,7 @@ button.header { margin-top: 15px; }
 input.pin { width: 100px; }
 
 form.search input[type=text] {
-  width: 568px;
+  width: 528px;
 }
 form.item_search { width: 85%; }
 form.payment input[type=number] {

@@ -7,7 +7,7 @@ App.Till = Ember.Object.extend({
 });
 
 App.Till.reopenClass({
-  query: function(query, filter, page, perPage) {
+  query: function(query, filter, page, perPage, callback) {
     var tills = [];
     $.ajax({
       url: '/api/tills',
@@ -29,6 +29,9 @@ App.Till.reopenClass({
         });
         tills.addObject(model);
       });
+      if (callback) {
+        callback();
+      }
     });
     return tills;
   },

@@ -4,6 +4,7 @@ App.SaleSearchController = Ember.ObjectController.extend({
   filter: 'all',
   page: 1,
   perPage: 10,
+  searching: false,
   back: function() {
     this.transitionToRoute('sale');
   },
@@ -12,7 +13,13 @@ App.SaleSearchController = Ember.ObjectController.extend({
     this.transitionToRoute('sale.configure');
   },
   search: function() {
-    this.set('items', App.Item.query(this.get('query'),this.get('filter'),this.get('page'),this.get('perPage')));
+    this.set('searching', true);
+    this.set('items', App.Item.query(this.get('query'),this.get('filter'),this.get('page'),this.get('perPage'), (function() {
+      this.set('searching', false);
+    }).bind(this)));
+  },
+  refresh: function() {
+    this.search();
   },
   clear: function() {
     this.set('query', '');

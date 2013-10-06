@@ -46,7 +46,7 @@ App.Item = Ember.Object.extend({
 });
 
 App.Item.reopenClass({
-  query: function(query, filter, page, perPage) {
+  query: function(query, filter, page, perPage, callback) {
     var items = [];
     $.ajax({
       url: '/api/items',
@@ -139,6 +139,9 @@ App.Item.reopenClass({
         model.set('variants', variants);
         items.addObject(model);
       });
+      if (callback) {
+        callback();
+      }
     });
     return items;
   },
