@@ -12,6 +12,7 @@ App.PurchasesIndexController = Ember.ArrayController.extend({
       this.transitionToRoute('purchase', purchase);
     },
     load: function(purchase) {
+      purchase.ratioChanged();
       this.transitionToRoute('purchase', purchase);
     },
     print: function(purchase) {

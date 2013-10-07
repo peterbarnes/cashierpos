@@ -119,15 +119,15 @@ App.Sale.reopen({
     }
     this.get('lines').forEach(function(line) {
       data.sale.lines.addObject({
-        amount: line.amount,
-        amount_cash: line.amountCash,
-        amount_credit: line.amountCredit,
-        quantity: line.quantity,
-        note: line.note,
-        sku: line.sku,
-        taxable: line.taxable,
-        title: line.title,
-        _destroy: line.remove
+        amount: line.get('amount'),
+        amount_cash: line.get('amountCash'),
+        amount_credit: line.get('amountCredit'),
+        quantity: line.get('quantity'),
+        note: line.get('note'),
+        sku: line.get('sku'),
+        taxable: line.get('taxable'),
+        title: line.get('title'),
+        _destroy: line.get('remove')
       });
     });
     if (this.id.indexOf('new') == -1) {

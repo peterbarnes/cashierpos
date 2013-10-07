@@ -129,15 +129,15 @@ App.Purchase.reopen({
     }
     this.get('lines').forEach(function(line) {
       data.purchase.lines.addObject({
-        amount: line.amount,
-        amount_cash: line.amountCash,
-        amount_credit: line.amountCredit,
-        quantity: line.quantity,
-        note: line.note,
-        sku: line.sku,
-        taxable: line.taxable,
-        title: line.title,
-        _destroy: line.remove
+        amount: line.get('amount'),
+        amount_cash: line.get('amountCash'),
+        amount_credit: line.get('amountCredit'),
+        quantity: line.get('quantity'),
+        note: line.get('note'),
+        sku: line.get('sku'),
+        taxable: line.get('taxable'),
+        title: line.get('title'),
+        _destroy: line.get('remove')
       });
     });
     if (this.id.indexOf('new') == -1) {
@@ -268,8 +268,8 @@ App.Purchase.reopenClass({
         var lines = [];
         purchase.lines.forEach(function(_line){
           var line = App.Line.create({
-            amountCash: _line.amount_credit,
-            amountCredit: _line.amount_cash,
+            amountCash: _line.amount_cash,
+            amountCredit: _line.amount_credit,
             quantity: _line.quantity,
             note: _line.note,
             sku: _line.sku,
@@ -303,7 +303,7 @@ App.Purchase.reopenClass({
   },
   find: function(id) {
     if (id) {
-      var _purchase = App.Sale.create();
+      var _purchase = App.Purchase.create();
       $.ajax({
         url: "/api/purchases/" + id
       }).then(function(response) {
