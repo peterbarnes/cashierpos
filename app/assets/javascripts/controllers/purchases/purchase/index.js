@@ -19,15 +19,6 @@ App.PurchaseIndexController = Ember.ObjectController.extend({
         quantity = quantity - 1;
       }
       line.set('quantity', quantity);
-    },
-    save: function(purchase) {
-      purchase.save();
-      this.transitionToRoute('purchases');
-    },
-    complete: function(purchase) {
-      purchase.set('complete', true);
-      purchase.save();
-      this.transitionToRoute('purchases');
     }
   }
 });

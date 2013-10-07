@@ -7,8 +7,9 @@ App.SaleController = Ember.ObjectController.extend({
     },
     complete: function(sale) {
       sale.set('complete', true);
-      sale.save();
-      this.transitionToRoute('sales');
+      sale.save((function() {
+        this.transitionToRoute('sales');
+      }).bind(this));
     },
     payment: function() {
       this.transitionToRoute('sale.payment');

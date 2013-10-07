@@ -39,15 +39,6 @@ App.SaleIndexController = Ember.ObjectController.extend({
         quantity = quantity - 1;
       }
       line.set('quantity', quantity);
-    },
-    save: function(sale) {
-      sale.save();
-      this.transitionToRoute('sales');
-    },
-    complete: function(sale) {
-      sale.set('complete', true);
-      sale.save();
-      this.transitionToRoute('sales');
     }
   },
   keypress: function(event) {
