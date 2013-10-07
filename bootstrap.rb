@@ -11,7 +11,7 @@ require 'autoinc'
 
 Dir['lib/**/*.rb'].each {|file| require_relative file }
 
-if Cashierpos.production?
+if ENV['RACK_ENV'] == 'production'
   Paperclip::Attachment.default_options.merge!(
     :storage => :s3,
     :s3_credentials => {
