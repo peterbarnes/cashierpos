@@ -74,6 +74,7 @@ class Cashierpos < Sinatra::Base
     
     unless @resources.nil?
       rabl params[:resources].to_sym, :views => api_views
+      #@resources.to_json
     else
       halt 404
     end

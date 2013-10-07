@@ -10,8 +10,9 @@ App.SaleSearchController = Ember.ObjectController.extend({
       this.transitionToRoute('sale');
     },
     select: function(item) {
-      this.set('model.configurable', item);
-      this.transitionToRoute('sale.configure');
+      this.set('model.configurable', App.Item.find(item.id, (function() {
+        this.transitionToRoute('sale.configure');
+      }).bind(this)));
     },
     search: function() {
       console.log('here');
