@@ -100,6 +100,7 @@ class Sale
       end
       if customer && payment
         customer.credit -= payment.store_credit
+        customer.save
       end
       lines.each do |line|
         if line.sku

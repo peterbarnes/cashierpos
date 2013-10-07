@@ -12,7 +12,7 @@ class Purchase
   
   increments :sku, :scope => :account_id
   
-  attr_reader :sku_formatted, :cash, :credit
+  attr_reader :sku_formatted
   
   validates_inclusion_of  :complete, :in => [true, false]
   
@@ -32,22 +32,6 @@ class Purchase
   
   def sku_formatted
     return sprintf('%09d', sku)
-  end
-  
-  def cash
-    cash = 0
-    lines.each do |line|
-      cash += line.subtotal unless line.trade?
-    end
-    cash
-  end
-  
-  def credit
-    credit = 0
-    lines.each do |line|
-      credit += line.subtotal if line.trade?
-    end
-    credit
   end
   
   def _complete

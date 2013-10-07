@@ -1,10 +1,6 @@
 App.Item = Ember.Object.extend({
   id: null,
-  depth: 0,
   description: "",
-  dimensionMeasure: "in",
-  flagged: false,
-  height: 0,
   identifier: "",
   identifierType: "UPC",
   imageUrl: "",
@@ -16,9 +12,6 @@ App.Item = Ember.Object.extend({
   saleable: false,
   sku: "",
   taxable: true,
-  weight: 0,
-  weightMeasure: "lb",
-  width: 0,
   createdAt: new Date(),
   updatedAt: new Date(),
   components: null,
@@ -57,11 +50,7 @@ App.Item.reopenClass({
         var item = object.item;
         var model = App.Item.create({
           id: item.id,
-          depth: item.depth,
           description: item.description,
-          dimensionMeasure: item.dimension_measure,
-          flagged: item.flagged,
-          height: item.height,
           identifier: item.identifier,
           identifierType: item.identifier_type,
           imageUrl: item.image_url,
@@ -73,9 +62,6 @@ App.Item.reopenClass({
           saleable: item.saleable,
           sku: item.sku,
           taxable: item.taxable,
-          weight: item.weight,
-          weightMeasure: item.weight_measure,
-          width: item.width,
           createdAt: new Date(item.created_at),
           updatedAt: new Date(item.updated_at)
         });
@@ -111,11 +97,7 @@ App.Item.reopenClass({
         var item = response.item;
         _item.setProperties({
           id: item.id,
-          depth: item.depth,
           description: item.description,
-          dimensionMeasure: item.dimension_measure,
-          flagged: item.flagged,
-          height: item.height,
           identifier: item.identifier,
           identifierType: item.identifier_type,
           imageUrl: item.image_url,
@@ -127,9 +109,6 @@ App.Item.reopenClass({
           saleable: item.saleable,
           sku: item.sku,
           taxable: item.taxable,
-          weight: item.weight,
-          weightMeasure: item.weight_measure,
-          width: item.width,
           createdAt: new Date(item.created_at),
           updatedAt: new Date(item.updated_at)
         });
@@ -198,11 +177,7 @@ App.Item.reopenClass({
     App.Item.FIXTURES.forEach(function(item) {
       var _item = App.Item.create({
         id: item.id,
-        depth: item.depth,
         description: item.description,
-        dimensionMeasure: item.dimensionMeasure,
-        flagged: item.flagged,
-        height: item.height,
         identifier: item.identifier,
         identifierType: item.identifierType,
         imageUrl: item.imageUrl,
@@ -213,10 +188,7 @@ App.Item.reopenClass({
         priceCredit: item.priceCredit,
         saleable: item.saleable,
         sku: item.sku,
-        taxable: item.taxable,
-        weight: item.weight,
-        weightMeasure: item.weightMeasure,
-        width: item.width
+        taxable: item.taxable
       });
       _item.set('components', App.Component.fixtures());
       _item.set('conditions', App.Condition.fixtures());
