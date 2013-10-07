@@ -14,6 +14,7 @@ gem 'aws-sdk', '~> 1.3.4'
 gem 'uuid'
 gem 'rabl'
 gem 'thin'
+gem 'bcrypt-ruby', :require => 'bcrypt'
   
 group :development, :test do
   gem 'shotgun'
