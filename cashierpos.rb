@@ -6,33 +6,9 @@ class Cashierpos < Sinatra::Base
   end
   
   helpers do
-    def auth
-      @auth ||= Rack::Auth::Basic::Request.new(request.env)
-    end
-          
-    def authorized?
-      unless account.nil?
-        account.api_active &&
-        auth.provided? && 
-        auth.basic? && 
-        auth.credentials && 
-        auth.credentials == ['x', account.api_secret]
-      else
-        false
-      end
-      true
-    end
-    
-    def authenticate!
-      unless authorized?
-        response['WWW-Authenticate'] = %(Basic realm="Cashier API")
-        halt 401
-      end
-    end
-      
     def account
-      @account ||= Account.first
-      @account.set_current
+      @account ||= Account.where(:token => request.cookies['cashierpos']).first
+      @account.set_current if @account
       @account
     end
     
@@ -50,10 +26,11 @@ class Cashierpos < Sinatra::Base
   end
   
   before '/api/*' do
-    #authenticate!
+    halt 401 unless account
   end
 
   get '/' do
+    redirect '/login' unless account
     erb :index, :layout => :application
   end
   
@@ -61,8 +38,21 @@ class Cashierpos < Sinatra::Base
     erb :login, :layout => :application
   end
   
+  get '/logout' do
+    response.set_cookie('cashierpos', false)
+    redirect '/login'
+  end
+  
   post '/login' do
-    redirect '/'
+    @account = Account.where(:token => params['account']).first
+    @account.set_current if @account
+    
+    if @account && User.authenticate(params['email'], params['password'])
+      response.set_cookie('cashierpos', @account.token)
+      redirect '/'
+    else
+      redirect '/login'
+    end
   end
   
   get '/api/:resources/?' do

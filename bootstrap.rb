@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'bundler'
+require 'bcrypt'
 
 ENV['RACK_ENV'] ||= 'development'
 

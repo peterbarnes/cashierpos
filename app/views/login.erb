@@ -4,7 +4,6 @@
       <a href ="/" class="navbar-brand">Cashier POS</a>
     </div>
   </div>
-  <%= @item.image.url(:original) %>
   <div class="row">
     <div class="col-lg-offset-3 col-lg-6">
       <form accept-charset="UTF-8" action="/login" class="form-horizontal" method="post">
@@ -26,16 +25,6 @@
             <label class="col-lg-2 control-label" for="password">Password</label>
             <div class="col-lg-10">
               <input class="form-control" id="password" name="password" placeholder="Password" type="password">
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-lg-offset-2 col-lg-10">
-              <div class="checkbox">
-                <label>
-                  <input id="remember" name="remember" type="checkbox" value="1">
-                  Remember Me
-                </label>
-              </div>
             </div>
           </div>
           <div class="form-group">
