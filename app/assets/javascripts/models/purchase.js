@@ -152,7 +152,7 @@ App.Purchase.reopen({
             id: purchase.id,
             sku: purchase.sku,
             complete: purchase.complete,
-            ratio: purchase.ratio,
+            ratio: parseFloat(purchase.ratio),
             pdfUrl: purchase.pdf_url,
             createdAt: new Date(purchase.created_at),
             updatedAt: new Date(purchase.updated_at)
@@ -163,7 +163,8 @@ App.Purchase.reopen({
           var lines = [];
           purchase.lines.forEach(function(_line){
             var line = App.Line.create({
-              amount: _line.amount,
+              amountCash: _line.amount_cash,
+              amountCredit: _line.amount_credit,
               quantity: _line.quantity,
               note: _line.note,
               sku: _line.sku,
@@ -190,7 +191,7 @@ App.Purchase.reopen({
             id: purchase.id,
             sku: purchase.sku,
             complete: purchase.complete,
-            ratio: purchase.ratio,
+            ratio: parseFloat(purchase.ratio),
             pdfUrl: purchase.pdf_url,
             createdAt: new Date(purchase.created_at),
             updatedAt: new Date(purchase.updated_at)
@@ -201,7 +202,8 @@ App.Purchase.reopen({
           var lines = [];
           purchase.lines.forEach(function(_line){
             var line = App.Line.create({
-              amount: _line.amount,
+              amountCash: _line.amount_cash,
+              amountCredit: _line.amount_credit,
               quantity: _line.quantity,
               note: _line.note,
               sku: _line.sku,
@@ -255,7 +257,7 @@ App.Purchase.reopenClass({
           id: purchase.id,
           sku: purchase.sku,
           complete: purchase.complete,
-          ratio: purchase.ratio,
+          ratio: parseFloat(purchase.ratio),
           pdfUrl: purchase.pdf_url,
           createdAt: new Date(purchase.created_at),
           updatedAt: new Date(purchase.updated_at)
