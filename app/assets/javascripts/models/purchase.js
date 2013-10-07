@@ -136,7 +136,8 @@ App.Purchase.reopen({
         note: line.note,
         sku: line.sku,
         taxable: line.taxable,
-        title: line.title
+        title: line.title,
+        _destroy: line.remove
       });
     });
     if (this.id.indexOf('new') == -1) {
