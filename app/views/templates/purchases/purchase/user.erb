@@ -35,6 +35,7 @@
   <table class="users table table-striped">
     <thead>
       <tr>
+        <th></th>
         <th>First Name</th>
         <th>Last Name</th>
         <th>Username</th>
@@ -45,6 +46,7 @@
     <tbody>
       {{#each user in users}}
       <tr>
+        <td><img {{bindAttr src="user.gravatarUrl"}} alt="" width="34" height="34" class="img-thumbnail" /></td>
         <td>{{user.firstName}}</td>
         <td>{{user.lastName}}</td>
         <td>{{user.username}}</td>

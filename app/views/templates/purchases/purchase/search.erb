@@ -46,7 +46,7 @@
     <tbody>
       {{#each item in items}}
       <tr>
-        <td><img {{bindAttr src="item.imageUrl"}} alt="Image" class="img-thumbnail" /></td>
+        <td><img {{bindAttr src="item.imageUrl"}} alt="Image" width="34" height="34" class="img-thumbnail" /></td>
         <td>{{item.sku}}</td>
         <td>{{item.name}}</td>
         <td>${{currency item.priceCash}}</td>

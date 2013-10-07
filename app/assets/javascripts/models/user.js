@@ -8,6 +8,7 @@ App.User = Ember.Object.extend({
   username: "",
   pin: "",
   pinValue: "",
+  gravatarUrl: "",
   createdAt: new Date(),
   updatedAt: new Date(),
   fullname: function() {
@@ -43,6 +44,7 @@ App.User.reopenClass({
           email: user.email,
           username: user.username,
           pin: user.pin,
+          gravatarUrl: user.gravatar_url,
           createdAt: new Date(user.created_at),
           updatedAt: new Date(user.updated_at)
         });
@@ -85,6 +87,7 @@ App.User.reopenClass({
           email: user.email,
           username: user.username,
           pin: user.pin,
+          gravatarUrl: user.gravatar_url,
           createdAt: new Date(user.created_at),
           updatedAt: new Date(user.updated_at)
         });
