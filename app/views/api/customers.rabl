@@ -5,7 +5,7 @@ node :id do |n|
 end
 
 node :image_url do |n|
-  URI.join(request.url, n.image.url).to_s
+  n.image.url
 end
 
 child :addresses, :object_root => false do
