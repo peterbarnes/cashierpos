@@ -49,7 +49,7 @@ App.Customer.reopenClass({
           credit: customer.credit,
           dateOfBirth: new Date(customer.date_of_birth),
           imageUrl: customer.image_url,
-          phone: customer.phones.objectAt(0).number,
+          phone: customer.phone,
           createdAt: new Date(customer.created_at),
           updatedAt: new Date(customer.updated_at)
         });
@@ -93,7 +93,7 @@ App.Customer.reopenClass({
         credit: customer.credit,
         dateOfBirth: new Date(customer.date_of_birth),
         imageUrl: customer.image_url,
-        phone: customer.phones.objectAt(0).number,
+        phone: customer.phone,
         createdAt: new Date(customer.created_at),
         updatedAt: new Date(customer.updated_at)
       });
@@ -124,19 +124,68 @@ App.Customer.reopenClass({
 
 App.Customer.reopen({
   save: function() {
-    App.Customer.FIXTURES.pushObject({
-      id: this.id,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      email: this.email,
-      organization: this.organization,
-      sku: this.sku,
-      notes: this.notes,
-      credit: this.credit,
-      dateOfBirth: this.dateOfBirth,
-      imageUrl: this.imageUrl,
-      phone: this.phone
-    })
+    var data = {
+      customer: {
+        first_name: this.firstName,
+        last_name: this.lastName,
+        email: this.email,
+        organization: this.organization,
+        notes: this.notes,
+        date_of_birth: this.dateOfBirth.toISOString(),
+        phone: this.phone
+      }
+    }
+    if (this.id) {
+      $.ajax({
+        url: '/api/customers/' + this.id,
+        data: JSON.stringify(data),
+        type: 'PUT',
+        contentType: 'application/json',
+        success: function(result) {
+          var customer = result.customer;
+          this.setProperties({
+            id: customer.id,
+            firstName: customer.first_name,
+            lastName: customer.last_name,
+            email: customer.email,
+            organization: customer.organization,
+            sku: customer.sku,
+            notes: customer.notes,
+            credit: customer.credit,
+            dateOfBirth: new Date(customer.date_of_birth),
+            imageUrl: customer.image_url,
+            phone: customer.phone,
+            createdAt: new Date(customer.created_at),
+            updatedAt: new Date(customer.updated_at)
+          });
+        }
+      });
+    } else {
+      $.ajax({
+        url: '/api/customers',
+        data: JSON.stringify(data),
+        type: 'POST',
+        contentType: 'application/json',
+        success: function(result) {
+          var customer = result.customer;
+          this.setProperties({
+            id: customer.id,
+            firstName: customer.first_name,
+            lastName: customer.last_name,
+            email: customer.email,
+            organization: customer.organization,
+            sku: customer.sku,
+            notes: customer.notes,
+            credit: customer.credit,
+            dateOfBirth: new Date(customer.date_of_birth),
+            imageUrl: customer.image_url,
+            phone: customer.phone,
+            createdAt: new Date(customer.created_at),
+            updatedAt: new Date(customer.updated_at)
+          });
+        }
+      });
+    }
   }
 });
 

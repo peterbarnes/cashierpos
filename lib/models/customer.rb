@@ -12,6 +12,7 @@ class Customer
   field :last_name, :type => String
   field :notes, :type => String
   field :organization, :type => String
+  field :phone, :type => String
   field :sku, :type => String, :default => ->{ SecureRandom.hex(6).upcase }
   
   index({ :account_id => 1, :first_name => 1, :last_name => 1 })
@@ -40,5 +41,5 @@ class Customer
   
   accepts_nested_attributes_for :addresses, :phones, :allow_destroy => true
   
-  search_in :email, :first_name, :last_name, :notes, :organization, :sku, :addresses => [:first_line, :city], :phones => [:number]
+  search_in :email, :first_name, :last_name, :notes, :organization, :phone, :sku, :addresses => [:first_line, :city], :phones => [:number]
 end

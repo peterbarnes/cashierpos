@@ -51,6 +51,12 @@
               {{view App.DateField dateBinding="customer.dateOfBirth" viewName="dateOfBirth" class="form-control" placeholder="Date of Birth"}}
             </div>
           </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label" {{bindAttr for="view.notes.elementId"}}>Notes</label>
+            <div class="col-lg-10">
+              {{view Ember.TextField valueBinding="customer.notes" viewName="notes" class="form-control" placeholder="Notes"}}
+            </div>
+          </div>
         </fieldset>
       </form>
     </div>

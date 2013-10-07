@@ -108,8 +108,19 @@ App.Purchase.reopen({
   save: function() {
     console.log('saving...');
   },
-  delete: function() {
-    console.log('deleting...');
+  delete: function(callback) {
+    if (this.id) {
+      $.ajax({
+        url: '/api/purchases/' + this.id,
+        type: 'DELETE',
+        contentType: 'application/json',
+        success: function(result) {
+          if (callback) {
+            callback(result);
+          }
+        }
+      });
+    }
   },
   print: function() {
     console.log('printing...');

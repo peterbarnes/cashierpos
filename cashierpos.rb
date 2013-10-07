@@ -2,8 +2,6 @@ class Cashierpos < Sinatra::Base
 
   configure do
     set :views, File.join(root, 'app/views')
-    set :cache, Dalli::Client.new(nil, {:compression => true, :expires_in => 30 * 60})
-    set :enable_cache, true
     Rabl.register!
   end
   
@@ -74,22 +72,14 @@ class Cashierpos < Sinatra::Base
     params[:offset] ||= 0
     params[:limit] ||= 10
     
-    cache_key = "#{account.id.to_s}_#{request.url}"
-    cache = settings.cache.get(cache_key)
-    
-    unless cache
-      if account.respond_to?(params[:resources])
-        @resources = account.send(params[:resources])
-        @resources = @resources.where(:created_at.gt => 3.days.ago) if params[:filter] == 'newest'
-        @resources = @resources.where(:updated_at.gt => 1.days.ago) if params[:filter] == 'recent'
-        @resources = @resources.asc(:updated_at).limit(params[:limit]).offset(params[:offset])
-        @resources = @resources.full_text_search(params[:query], :allow_empty_search => true)
-        settings.cache.set(cache_key, @resources)
-      else
-        halt 404
-      end
+    if account.respond_to?(params[:resources])
+      @resources = account.send(params[:resources])
+      @resources = @resources.where(:created_at.gt => 3.days.ago) if params[:filter] == 'newest'
+      @resources = @resources.where(:updated_at.gt => 1.days.ago) if params[:filter] == 'recent'
+      @resources = @resources.asc(:updated_at).limit(params[:limit]).offset(params[:offset])
+      @resources = @resources.full_text_search(params[:query], :allow_empty_search => true)
     else
-      @resources = cache
+      halt 404
     end
     
     unless @resources.nil?
@@ -104,22 +94,14 @@ class Cashierpos < Sinatra::Base
     
     params[:filter] ||= 'all'
     
-    cache_key = "#{account.id.to_s}_#{request.url}"
-    cache = settings.cache.get(cache_key)
-    
-    unless cache
-      if account.respond_to?(params[:resources])
-        @resources = account.send(params[:resources])
-        @resources = @resources.where(:created_at.gt => 3.days.ago) if params[:filter] == 'newest'
-        @resources = @resources.where(:updated_at.gt => 1.days.ago) if params[:filter] == 'recent'
-        @resources = @resources.full_text_search(params[:query], :allow_empty_search => true)
-        @count = @resources.count
-        settings.cache.set(cache_key, @count)
-      else
-        @count = 0
-      end
+    if account.respond_to?(params[:resources])
+      @resources = account.send(params[:resources])
+      @resources = @resources.where(:created_at.gt => 3.days.ago) if params[:filter] == 'newest'
+      @resources = @resources.where(:updated_at.gt => 1.days.ago) if params[:filter] == 'recent'
+      @resources = @resources.full_text_search(params[:query], :allow_empty_search => true)
+      @count = @resources.count
     else
-      @count = cache
+      @count = 0
     end
     
     unless @count.nil?
@@ -152,6 +134,164 @@ class Cashierpos < Sinatra::Base
     
     if @resource
       rabl params[:resources].singularize.to_sym, :views => api_views
+    else
+      halt 404
+    end
+  end
+  
+  post '/api/sales/?' do
+    content_type :json
+    
+    @resources = account.sales
+    
+    unless @resources.nil?
+      @resource = @resources.build(JSON.parse(request.body.read)['sale'])
+      
+      if @resource.save
+        status 201
+        rabl :sale, :views => api_views
+      else
+        status 406
+        @resource.errors.to_json
+      end
+    else
+      halt 404
+    end
+  end
+  
+  put '/api/sales/:id/?' do
+    content_type :json
+    
+    @resource = account.sales.where(:id => params[:id]).first
+    
+    unless @resource.nil?
+      @result = @resource.update_attributes(JSON.parse(request.body.read)['sale'])
+      
+      if @result
+        status 200
+        rabl :sale, :views => api_views
+      else
+        status 406
+        @resource.errors.to_json
+      end
+    else
+      halt 404
+    end
+  end
+  
+  delete '/api/sales/:id/?' do
+    content_type :json
+    
+    @resource = account.sales.where(:id => params[:id]).first
+    
+    unless @resource.nil?
+      @result = @resource.destroy
+      
+      if @result
+        status 200
+        {:deleted => true}.to_json
+      else
+        status 406
+      end
+    else
+      halt 404
+    end
+  end
+  
+  post '/api/purchases/?' do
+    content_type :json
+    
+    @resources = account.purchases
+    
+    unless @resources.nil?
+      @resource = @resources.build(JSON.parse(request.body.read)['purchase'])
+      
+      if @resource.save
+        status 201
+        rabl :purchase, :views => api_views
+      else
+        status 406
+        @resource.errors.to_json
+      end
+    else
+      halt 404
+    end
+  end
+  
+  put '/api/purchases/:id/?' do
+    content_type :json
+    
+    @resource = account.purchases.where(:id => params[:id]).first
+    
+    unless @resource.nil?
+      @result = @resource.update_attributes(JSON.parse(request.body.read)['purchase'])
+      
+      if @result
+        status 200
+        rabl :purchase, :views => api_views
+      else
+        status 406
+        @resource.errors.to_json
+      end
+    else
+      halt 404
+    end
+  end
+  
+  delete '/api/purchases/:id/?' do
+    content_type :json
+    
+    @resource = account.purchases.where(:id => params[:id]).first
+    
+    unless @resource.nil?
+      @result = @resource.destroy
+      
+      if @result
+        status 200
+        {:deleted => true}.to_json
+      else
+        status 406
+      end
+    else
+      halt 404
+    end
+  end
+  
+  post '/api/customers/?' do
+    content_type :json
+    
+    @resources = account.customers
+    
+    unless @resources.nil?
+      @resource = @resources.build(JSON.parse(request.body.read)['customer'])
+      
+      if @resource.save
+        status 201
+        rabl :customer, :views => api_views
+      else
+        status 406
+        @resource.errors.to_json
+      end
+    else
+      halt 404
+    end
+  end
+  
+  put '/api/customers/:id/?' do
+    content_type :json
+    
+    @resource = account.customers.where(:id => params[:id]).first
+    
+    unless @resource.nil?
+      @result = @resource.update_attributes(JSON.parse(request.body.read)['customer'])
+      
+      if @result
+        status 200
+        rabl :customer, :views => api_views
+      else
+        status 406
+        @resource.errors.to_json
+      end
     else
       halt 404
     end

@@ -86,10 +86,59 @@ App.Sale = Ember.Object.extend({
 
 App.Sale.reopen({
   save: function() {
-    console.log('saving...');
+    var data = {
+      sale: {
+        id: this.id,
+        sku: this.sku,
+        complete: this.complete,
+        taxRate: this.tax_rate
+      }
+    }
+    if (this.id) {
+      $.ajax({
+        url: '/api/sales/' + this.id,
+        data: JSON.stringify(data),
+        type: 'PUT',
+        contentType: 'application/json',
+        success: function(result) {
+          var sale = result.sale;
+          this.setProperties({
+            id: sale.id,
+            createdAt: new Date(sale.created_at),
+            updatedAt: new Date(sale.updated_at)
+          });
+        }
+      });
+    } else {
+      $.ajax({
+        url: '/api/sales',
+        data: JSON.stringify(data),
+        type: 'POST',
+        contentType: 'application/json',
+        success: function(result) {
+          var sale = result.sale;
+          this.setProperties({
+            id: sale.id,
+            createdAt: new Date(sale.created_at),
+            updatedAt: new Date(sale.updated_at)
+          });
+        }
+      });
+    }
   },
-  delete: function() {
-    console.log('deleting...');
+  delete: function(callback) {
+    if (this.id) {
+      $.ajax({
+        url: '/api/sales/' + this.id,
+        type: 'DELETE',
+        success: function(result) {
+          console.log(result);
+          if (callback) {
+            callback(result);
+          }
+        }
+      });
+    }
   },
   print: function() {
     console.log('printing...');
