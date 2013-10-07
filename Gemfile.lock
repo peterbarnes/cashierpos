@@ -85,6 +85,7 @@ GEM
     uuid (2.3.7)
       macaddr (~> 1.0)
     uuidtools (2.1.4)
+    yui-compressor (0.11.0)
 
 PLATFORMS
   ruby
@@ -104,3 +105,4 @@ DEPENDENCIES
   sprockets
   thin
   uuid
+  yui-compressor
