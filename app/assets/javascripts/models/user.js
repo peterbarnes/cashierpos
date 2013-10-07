@@ -70,25 +70,28 @@ App.User.reopenClass({
     return count;
   },
   find: function(id) {
-    var _user = App.User.create();
-    $.ajax({
-      url: "/api/users/" + id
-    }).then(function(response) {
-      var user = response.user;
-      _user.setProperties({
-        id: user.id,
-        active: user.active,
-        administrator: user.administrator,
-        firstName: user.first_name,
-        lastName: user.last_name,
-        email: user.email,
-        username: user.username,
-        pin: user.pin,
-        createdAt: new Date(user.created_at),
-        updatedAt: new Date(user.updated_at)
+    if (id) {
+      var _user = App.User.create();
+      $.ajax({
+        url: "/api/users/" + id
+      }).then(function(response) {
+        var user = response.user;
+        _user.setProperties({
+          id: user.id,
+          active: user.active,
+          administrator: user.administrator,
+          firstName: user.first_name,
+          lastName: user.last_name,
+          email: user.email,
+          username: user.username,
+          pin: user.pin,
+          createdAt: new Date(user.created_at),
+          updatedAt: new Date(user.updated_at)
+        });
       });
-    });
-    return _user;
+      return _user;
+    }
+    return null;
   },
   fixtures: function() {
     var fixtures = [];

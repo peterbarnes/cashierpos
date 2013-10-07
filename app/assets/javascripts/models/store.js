@@ -72,34 +72,37 @@ App.Store.reopenClass({
     return count;
   },
   find: function(id) {
-    var _store = App.Store.create();
-    $.ajax({
-      url: "/api/stores/" + id
-    }).then(function(response) {
-      var store = response.store;
-      _store.setProperties({
-        id: store.id,
-        name: store.name,
-        description: store.description,
-        taxRate: store.tax_rate,
-        imageUrl: store.image_url,
-        createdAt: new Date(store.created_at),
-        updatedAt: new Date(store.updated_at)
-      });
-      var tills = [];
-      _store.tills.forEach(function(till) {
-        var _till = App.Till.create({
-          id: till.id,
-          name: till.name,
-          minimum: till.minimum,
-          createdAt: new Date(till.created_at),
-          updatedAt: new Date(till.updated_at)
+    if (id) {
+      var _store = App.Store.create();
+      $.ajax({
+        url: "/api/stores/" + id
+      }).then(function(response) {
+        var store = response.store;
+        _store.setProperties({
+          id: store.id,
+          name: store.name,
+          description: store.description,
+          taxRate: store.tax_rate,
+          imageUrl: store.image_url,
+          createdAt: new Date(store.created_at),
+          updatedAt: new Date(store.updated_at)
         });
-        tills.addObject(_till);
+        var tills = [];
+        _store.tills.forEach(function(till) {
+          var _till = App.Till.create({
+            id: till.id,
+            name: till.name,
+            minimum: till.minimum,
+            createdAt: new Date(till.created_at),
+            updatedAt: new Date(till.updated_at)
+          });
+          tills.addObject(_till);
+        });
+        _store.set('tills', tills);
       });
-      _store.set('tills', tills);
-    });
-    return _store;
+      return _store;
+    }
+    return null;
   },
   fixtures: function() {
     var fixtures = [];

@@ -220,72 +220,75 @@ App.Unit.reopenClass({
     return count;
   },
   find: function(id) {
-    var _unit = App.Unit.create();
-    $.ajax({
-      url: "/api/units/" + id
-    }).then(function(response) {
-      var unit = response.unit;
-      _unit.setProperties({
-        id: unit.id,
-        calculated: unit.calculated,
-        filing: unit.filing,
-        quantity: unit.quantity,
-        name: unit.name,
-        sku: unit.sku,
-        price: unit.price,
-        taxable: unit.taxable,
-        createdAt: new Date(unit.created_at),
-        updatedAt: new Date(unit.updated_at)
-      });
-      var components = [];
-      unit.components.forEach(function(_component){
-        var component = App.Component.create({
-          id: _component.id,
-          adjustment: _component.adjustment,
-          adjustmentPercentage: _component.adjustment_percentage,
-          adjustmentCash: _component.adjustment_cash,
-          adjustmentCashPercentage: _component.adjustment_cash_percentage,
-          adjustmentCredit: _component.adjustment_credit,
-          adjustmentCreditPercentage: _component.adjustment_credit_percentage,
-          description: _component.description,
-          name: _component.name,
-          typical: _component.typical,
-          configured: _component.typical
+    if (id) {
+      var _unit = App.Unit.create();
+      $.ajax({
+        url: "/api/units/" + id
+      }).then(function(response) {
+        var unit = response.unit;
+        _unit.setProperties({
+          id: unit.id,
+          calculated: unit.calculated,
+          filing: unit.filing,
+          quantity: unit.quantity,
+          name: unit.name,
+          sku: unit.sku,
+          price: unit.price,
+          taxable: unit.taxable,
+          createdAt: new Date(unit.created_at),
+          updatedAt: new Date(unit.updated_at)
         });
-        components.addObject(component);
-      });
-      _unit.set('components', components);
-      var conditions = [];
-      unit.conditions.forEach(function(_condition){
-        var condition = App.Condition.create({
-          id: _condition.id,
-          adjustment: _condition.adjustment,
-          adjustmentPercentage: _condition.adjustment_percentage,
-          adjustmentCash: _condition.adjustment_cash,
-          adjustmentCashPercentage: _condition.adjustment_cash_percentage,
-          adjustmentCredit: _condition.adjustment_credit,
-          adjustmentCreditPercentage: _condition.adjustment_credit_percentage,
-          description: _condition.description,
-          name: _condition.name
+        var components = [];
+        unit.components.forEach(function(_component){
+          var component = App.Component.create({
+            id: _component.id,
+            adjustment: _component.adjustment,
+            adjustmentPercentage: _component.adjustment_percentage,
+            adjustmentCash: _component.adjustment_cash,
+            adjustmentCashPercentage: _component.adjustment_cash_percentage,
+            adjustmentCredit: _component.adjustment_credit,
+            adjustmentCreditPercentage: _component.adjustment_credit_percentage,
+            description: _component.description,
+            name: _component.name,
+            typical: _component.typical,
+            configured: _component.typical
+          });
+          components.addObject(component);
         });
-        conditions.addObject(condition);
+        _unit.set('components', components);
+        var conditions = [];
+        unit.conditions.forEach(function(_condition){
+          var condition = App.Condition.create({
+            id: _condition.id,
+            adjustment: _condition.adjustment,
+            adjustmentPercentage: _condition.adjustment_percentage,
+            adjustmentCash: _condition.adjustment_cash,
+            adjustmentCashPercentage: _condition.adjustment_cash_percentage,
+            adjustmentCredit: _condition.adjustment_credit,
+            adjustmentCreditPercentage: _condition.adjustment_credit_percentage,
+            description: _condition.description,
+            name: _condition.name
+          });
+          conditions.addObject(condition);
+        });
+        _unit.set('conditions', conditions);
+        _unit.set('variant', App.Variant.create({
+          id: unit.variant.id,
+          adjustment: unit.variant.adjustment,
+          adjustmentPercentage: unit.variant.adjustment_percentage,
+          adjustmentCash: unit.variant.adjustment_cash,
+          adjustmentCashPercentage: unit.variant.adjustment_cash_percentage,
+          adjustmentCredit: unit.variant.adjustment_credit,
+          adjustmentCreditPercentage: unit.variant.adjustment_credit_percentage,
+          description: unit.variant.description,
+          identifier: unit.variant.identifier,
+          identifierType: unit.variant.identifier_type,
+          name: unit.variant.name
+        }));
       });
-      _unit.set('conditions', conditions);
-      _unit.set('variant', App.Variant.create({
-        id: unit.variant.id,
-        adjustment: unit.variant.adjustment,
-        adjustmentPercentage: unit.variant.adjustment_percentage,
-        adjustmentCash: unit.variant.adjustment_cash,
-        adjustmentCashPercentage: unit.variant.adjustment_cash_percentage,
-        adjustmentCredit: unit.variant.adjustment_credit,
-        adjustmentCreditPercentage: unit.variant.adjustment_credit_percentage,
-        description: unit.variant.description,
-        identifier: unit.variant.identifier,
-        identifierType: unit.variant.identifier_type,
-        name: unit.variant.name
-      }));
-    });
-    return _unit;
+      return _unit;
+    }
+    return null;
   },
   fixtures: function() {
     var fixtures = [];

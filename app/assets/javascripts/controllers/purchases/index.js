@@ -103,7 +103,7 @@ App.PurchasesIndexController = Ember.ArrayController.extend({
     return this.get('page') >= this.get('totalPages');
   }.property('page', 'totalPages'),
   total: function() {
-    return App.Sale.count(this.get('query'),this.get('filter'));
+    return App.Purchase.count(this.get('query'),this.get('filter'));
   }.property('searching', 'filter', 'perPage'),
   totalPages: function() {
     return this.get('total') / this.get('perPage');

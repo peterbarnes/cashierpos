@@ -51,20 +51,23 @@ App.Till.reopenClass({
     return count;
   },
   find: function(id) {
-    var _till = App.Till.create();
-    $.ajax({
-      url: "/api/tills/" + id
-    }).then(function(response) {
-      var till = response.till;
-      _till.setProperties({
-        id: till.id,
-        name: till.name,
-        minimum: till.minimum,
-        createdAt: new Date(till.created_at),
-        updatedAt: new Date(till.updated_at)
+    if (id) {
+      var _till = App.Till.create();
+      $.ajax({
+        url: "/api/tills/" + id
+      }).then(function(response) {
+        var till = response.till;
+        _till.setProperties({
+          id: till.id,
+          name: till.name,
+          minimum: till.minimum,
+          createdAt: new Date(till.created_at),
+          updatedAt: new Date(till.updated_at)
+        });
       });
-    });
-    return _till;
+      return _till;
+    }
+    return null;
   },
   fixtures: function() {
     var fixtures = [];

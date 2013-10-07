@@ -85,29 +85,96 @@ App.Sale = Ember.Object.extend({
 });
 
 App.Sale.reopen({
-  save: function() {
+  save: function(callback) {
     var data = {
       sale: {
-        id: this.id,
-        sku: this.sku,
-        complete: this.complete,
-        taxRate: this.tax_rate
+        id: this.get('id'),
+        sku: this.get('sku'),
+        complete: this.get('complete'),
+        taxRate: this.get('taxRate'),
+        customer_id: null,
+        till_id: null,
+        user_id: null,
+        lines: [],
+        payment: null
       }
     }
-    if (this.id) {
+    if (this.get('customer')) {
+      data.sale.customer_id = this.get('customer.id');
+    }
+    if (this.get('till')) {
+      data.sale.till_id = this.get('till.id');
+    }
+    if (this.get('user')) {
+      data.sale.user_id = this.get('user.id');
+    }
+    if (this.get('payment')) {
+      data.sale.payment = {
+        cash: this.get('payment.cash'),
+        credit: this.get('payment.credit'),
+        check: this.get('payment.check'),
+        gift_card: this.get('payment.giftCard'),
+        store_credit: this.get('payment.storeCredit')
+      }
+    }
+    this.get('lines').forEach(function(line) {
+      data.sale.lines.addObject({
+        amount: line.amount,
+        amount_cash: line.amountCash,
+        amount_credit: line.amountCredit,
+        quantity: line.quantity,
+        note: line.note,
+        sku: line.sku,
+        taxable: line.taxable,
+        title: line.title
+      });
+    });
+    if (this.id.indexOf('new') == -1) {
       $.ajax({
         url: '/api/sales/' + this.id,
         data: JSON.stringify(data),
         type: 'PUT',
         contentType: 'application/json',
-        success: function(result) {
+        success: (function(result) {
           var sale = result.sale;
           this.setProperties({
             id: sale.id,
+            sku: sale.sku,
+            complete: sale.complete,
+            taxRate: sale.tax_rate,
+            pdfUrl: sale.pdf_url,
             createdAt: new Date(sale.created_at),
             updatedAt: new Date(sale.updated_at)
           });
-        }
+          this.set('customer', App.Customer.find(sale.customer_id));
+          this.set('till', App.Till.find(sale.till_id));
+          this.set('user', App.User.find(sale.user_id));
+          if (sale.payment) {
+            this.set('payment', App.Payment.create({
+              cash: sale.payment.cash,
+              credit: sale.payment.credit,
+              check: sale.payment.check,
+              giftCard: sale.payment.gift_card,
+              storeCredit: sale.payment.store_credit
+            }));
+          }
+          var lines = [];
+          sale.lines.forEach(function(_line){
+            var line = App.Line.create({
+              amount: _line.amount,
+              quantity: _line.quantity,
+              note: _line.note,
+              sku: _line.sku,
+              taxable: _line.taxable,
+              title: _line.title
+            });
+            lines.addObject(line);
+          });
+          this.set('lines', lines);
+          if (callback) {
+            callback();
+          }
+        }).bind(this)
       });
     } else {
       $.ajax({
@@ -115,14 +182,46 @@ App.Sale.reopen({
         data: JSON.stringify(data),
         type: 'POST',
         contentType: 'application/json',
-        success: function(result) {
+        success: (function(result) {
           var sale = result.sale;
           this.setProperties({
             id: sale.id,
+            sku: sale.sku,
+            complete: sale.complete,
+            taxRate: sale.tax_rate,
+            pdfUrl: sale.pdf_url,
             createdAt: new Date(sale.created_at),
             updatedAt: new Date(sale.updated_at)
           });
-        }
+          this.set('customer', App.Customer.find(sale.customer_id));
+          this.set('till', App.Till.find(sale.till_id));
+          this.set('user', App.User.find(sale.user_id));
+          if (sale.payment) {
+            this.set('payment', App.Payment.create({
+              cash: sale.payment.cash,
+              credit: sale.payment.credit,
+              check: sale.payment.check,
+              giftCard: sale.payment.gift_card,
+              storeCredit: sale.payment.store_credit
+            }));
+          }
+          var lines = [];
+          sale.lines.forEach(function(_line){
+            var line = App.Line.create({
+              amount: _line.amount,
+              quantity: _line.quantity,
+              note: _line.note,
+              sku: _line.sku,
+              taxable: _line.taxable,
+              title: _line.title
+            });
+            lines.addObject(line);
+          });
+          this.set('lines', lines);
+          if (callback) {
+            callback();
+          }
+        }).bind(this)
       });
     }
   },
@@ -171,13 +270,15 @@ App.Sale.reopenClass({
         model.set('customer', App.Customer.find(sale.customer_id));
         model.set('till', App.Till.find(sale.till_id));
         model.set('user', App.User.find(sale.user_id));
-        model.set('payment', App.Payment.create({
-          cash: sale.payment.cash,
-          credit: sale.payment.credit,
-          check: sale.payment.check,
-          giftCard: sale.payment.gift_card,
-          storeCredit: sale.payment.store_credit
-        }));
+        if (sale.payment) {
+          model.set('payment', App.Payment.create({
+            cash: sale.payment.cash,
+            credit: sale.payment.credit,
+            check: sale.payment.check,
+            giftCard: sale.payment.gift_card,
+            storeCredit: sale.payment.store_credit
+          }));
+        }
         var lines = [];
         sale.lines.forEach(function(_line){
           var line = App.Line.create({
@@ -232,13 +333,15 @@ App.Sale.reopenClass({
       _sale.set('customer', App.Customer.find(sale.customer_id));
       _sale.set('till', App.Till.find(sale.till_id));
       _sale.set('user', App.User.find(sale.user_id));
-      _sale.set('payment', App.Payment.create({
-        cash: sale.payment.cash,
-        credit: sale.payment.credit,
-        check: sale.payment.check,
-        giftCard: sale.payment.gift_card,
-        storeCredit: sale.payment.store_credit
-      }));
+      if (sale.payment) {
+        _sale.set('payment', App.Payment.create({
+          cash: sale.payment.cash,
+          credit: sale.payment.credit,
+          check: sale.payment.check,
+          giftCard: sale.payment.gift_card,
+          storeCredit: sale.payment.store_credit
+        }));
+      }
       var lines = [];
       sale.lines.forEach(function(_line){
         var line = App.Line.create({

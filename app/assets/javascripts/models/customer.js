@@ -77,28 +77,31 @@ App.Customer.reopenClass({
     return count;
   },
   find: function(id) {
-    var _customer = App.Customer.create();
-    $.ajax({
-      url: "/api/customers/" + id
-    }).then(function(response) {
-      var customer = response.customer;
-      _customer.setProperties({
-        id: customer.id,
-        firstName: customer.first_name,
-        lastName: customer.last_name,
-        email: customer.email,
-        organization: customer.organization,
-        sku: customer.sku,
-        notes: customer.notes,
-        credit: customer.credit,
-        dateOfBirth: new Date(customer.date_of_birth),
-        imageUrl: customer.image_url,
-        phone: customer.phone,
-        createdAt: new Date(customer.created_at),
-        updatedAt: new Date(customer.updated_at)
+    if (id) {
+      var _customer = App.Customer.create();
+      $.ajax({
+        url: "/api/customers/" + id
+      }).then(function(response) {
+        var customer = response.customer;
+        _customer.setProperties({
+          id: customer.id,
+          firstName: customer.first_name,
+          lastName: customer.last_name,
+          email: customer.email,
+          organization: customer.organization,
+          sku: customer.sku,
+          notes: customer.notes,
+          credit: customer.credit,
+          dateOfBirth: new Date(customer.date_of_birth),
+          imageUrl: customer.image_url,
+          phone: customer.phone,
+          createdAt: new Date(customer.created_at),
+          updatedAt: new Date(customer.updated_at)
+        });
       });
-    });
-    return _customer;
+      return _customer;
+    }
+    return null;
   },
   fixtures: function() {
     var fixtures = [];

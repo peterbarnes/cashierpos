@@ -18,37 +18,37 @@
           <div class="form-group">
             <label class="col-lg-2 control-label" {{bindAttr for="view.quantity.elementId"}}>Quantity</label>
             <div class="col-lg-10">
-              {{view App.NumberField amountBinding="line.quantity" viewName="quantity" min="0" class="form-control"}}
+              {{view App.NumberField valueBinding="line.quantity" viewName="quantity" min="0" class="form-control"}}
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-2 control-label" {{bindAttr for="view.title.elementId"}}>Title</label>
             <div class="col-lg-10">
-              {{view Ember.TextField amountBinding="line.title" viewName="title" class="form-control" placeholder="Title"}}
+              {{view Ember.TextField valueBinding="line.title" viewName="title" class="form-control" placeholder="Title"}}
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-2 control-label" {{bindAttr for="view.sku.elementId"}}>SKU</label>
             <div class="col-lg-10">
-              {{view Ember.TextField amountBinding="line.sku" viewName="sku" class="form-control" placeholder="SKU"}}
+              {{view Ember.TextField valueBinding="line.sku" viewName="sku" class="form-control" placeholder="SKU"}}
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-2 control-label" {{bindAttr for="view.amountCash.elementId"}}>Cash Value</label>
             <div class="col-lg-10">
-              {{view App.NumberField amountBinding="line.amountCashFmt" viewName="amountCash" min="0" step="0.01" class="form-control"}}
+              {{view App.NumberField valueBinding="line.amountCashFmt" viewName="amountCash" min="0" step="0.01" class="form-control"}}
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-2 control-label" {{bindAttr for="view.amountCredit.elementId"}}>Credit Value</label>
             <div class="col-lg-10">
-              {{view App.NumberField amountBinding="line.amountCreditFmt" viewName="amountCredit" min="0" step="0.01" class="form-control"}}
+              {{view App.NumberField valueBinding="line.amountCreditFmt" viewName="amountCredit" min="0" step="0.01" class="form-control"}}
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-2 control-label" {{bindAttr for="view.note.elementId"}}>Note</label>
             <div class="col-lg-10">
-              {{view Ember.TextField amountBinding="line.note" viewName="note" class="form-control" placeholder="Note"}}
+              {{view Ember.TextField valueBinding="line.note" viewName="note" class="form-control" placeholder="Note"}}
             </div>
           </div>
         </fieldset>

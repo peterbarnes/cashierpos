@@ -1,8 +1,9 @@
 App.PurchaseController = Ember.ObjectController.extend({
   actions: {
     save: function(purchase) {
-      purchase.save();
-      this.transitionToRoute('purchases');
+      purchase.save((function() {
+        this.transitionToRoute('purchases');
+      }).bind(this));
     },
     complete: function(purchase) {
       purchase.set('complete', true);

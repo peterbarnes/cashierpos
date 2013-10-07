@@ -161,91 +161,94 @@ App.Item.reopenClass({
     return count;
   },
   find: function(id) {
-    var _item = App.Item.create();
-    $.ajax({
-      url: "/api/items/" + id
-    }).then(function(response) {
-      var item = response.item;
-      _item.setProperties({
-        id: item.id,
-        depth: item.depth,
-        description: item.description,
-        dimensionMeasure: item.dimension_measure,
-        flagged: item.flagged,
-        height: item.height,
-        identifier: item.identifier,
-        identifierType: item.identifier_type,
-        imageUrl: item.image_url,
-        manufacturer: item.manufacturer,
-        name: item.name,
-        price: item.price,
-        priceCash: item.price_cash,
-        priceCredit: item.price_credit,
-        properties: item.properties,
-        saleable: item.saleable,
-        sku: item.sku,
-        taxable: item.taxable,
-        tags: item.tags,
-        weight: item.weight,
-        weightMeasure: item.weight_measure,
-        width: item.width,
-        createdAt: new Date(item.created_at),
-        updatedAt: new Date(item.updated_at)
-      });
-      var components = [];
-      item.components.forEach(function(_component){
-        var component = App.Component.create({
-          id: _component.id,
-          adjustment: _component.adjustment,
-          adjustmentPercentage: _component.adjustment_percentage,
-          adjustmentCash: _component.adjustment_cash,
-          adjustmentCashPercentage: _component.adjustment_cash_percentage,
-          adjustmentCredit: _component.adjustment_credit,
-          adjustmentCreditPercentage: _component.adjustment_credit_percentage,
-          description: _component.description,
-          name: _component.name,
-          typical: _component.typical,
-          configured: _component.typical
+    if (id) {
+      var _item = App.Item.create();
+      $.ajax({
+        url: "/api/items/" + id
+      }).then(function(response) {
+        var item = response.item;
+        _item.setProperties({
+          id: item.id,
+          depth: item.depth,
+          description: item.description,
+          dimensionMeasure: item.dimension_measure,
+          flagged: item.flagged,
+          height: item.height,
+          identifier: item.identifier,
+          identifierType: item.identifier_type,
+          imageUrl: item.image_url,
+          manufacturer: item.manufacturer,
+          name: item.name,
+          price: item.price,
+          priceCash: item.price_cash,
+          priceCredit: item.price_credit,
+          properties: item.properties,
+          saleable: item.saleable,
+          sku: item.sku,
+          taxable: item.taxable,
+          tags: item.tags,
+          weight: item.weight,
+          weightMeasure: item.weight_measure,
+          width: item.width,
+          createdAt: new Date(item.created_at),
+          updatedAt: new Date(item.updated_at)
         });
-        components.addObject(component);
-      });
-      _item.set('components', components);
-      var conditions = [];
-      item.conditions.forEach(function(_condition){
-        var condition = App.Condition.create({
-          id: _condition.id,
-          adjustment: _condition.adjustment,
-          adjustmentPercentage: _condition.adjustment_percentage,
-          adjustmentCash: _condition.adjustment_cash,
-          adjustmentCashPercentage: _condition.adjustment_cash_percentage,
-          adjustmentCredit: _condition.adjustment_credit,
-          adjustmentCreditPercentage: _condition.adjustment_credit_percentage,
-          description: _condition.description,
-          name: _condition.name
+        var components = [];
+        item.components.forEach(function(_component){
+          var component = App.Component.create({
+            id: _component.id,
+            adjustment: _component.adjustment,
+            adjustmentPercentage: _component.adjustment_percentage,
+            adjustmentCash: _component.adjustment_cash,
+            adjustmentCashPercentage: _component.adjustment_cash_percentage,
+            adjustmentCredit: _component.adjustment_credit,
+            adjustmentCreditPercentage: _component.adjustment_credit_percentage,
+            description: _component.description,
+            name: _component.name,
+            typical: _component.typical,
+            configured: _component.typical
+          });
+          components.addObject(component);
         });
-        conditions.addObject(condition);
-      });
-      _item.set('conditions', conditions);
-      var variants = [];
-      item.variants.forEach(function(_variant){
-        var variant = App.Variant.create({
-          id: _variant.id,
-          adjustment: _variant.adjustment,
-          adjustmentPercentage: _variant.adjustment_percentage,
-          adjustmentCash: _variant.adjustment_cash,
-          adjustmentCashPercentage: _variant.adjustment_cash_percentage,
-          adjustmentCredit: _variant.adjustment_credit,
-          adjustmentCreditPercentage: _variant.adjustment_credit_percentage,
-          description: _variant.description,
-          identifier: _variant.identifier,
-          identifierType: _variant.identifier_type,
-          name: _variant.name
+        _item.set('components', components);
+        var conditions = [];
+        item.conditions.forEach(function(_condition){
+          var condition = App.Condition.create({
+            id: _condition.id,
+            adjustment: _condition.adjustment,
+            adjustmentPercentage: _condition.adjustment_percentage,
+            adjustmentCash: _condition.adjustment_cash,
+            adjustmentCashPercentage: _condition.adjustment_cash_percentage,
+            adjustmentCredit: _condition.adjustment_credit,
+            adjustmentCreditPercentage: _condition.adjustment_credit_percentage,
+            description: _condition.description,
+            name: _condition.name
+          });
+          conditions.addObject(condition);
         });
-        variants.addObject(variant);
+        _item.set('conditions', conditions);
+        var variants = [];
+        item.variants.forEach(function(_variant){
+          var variant = App.Variant.create({
+            id: _variant.id,
+            adjustment: _variant.adjustment,
+            adjustmentPercentage: _variant.adjustment_percentage,
+            adjustmentCash: _variant.adjustment_cash,
+            adjustmentCashPercentage: _variant.adjustment_cash_percentage,
+            adjustmentCredit: _variant.adjustment_credit,
+            adjustmentCreditPercentage: _variant.adjustment_credit_percentage,
+            description: _variant.description,
+            identifier: _variant.identifier,
+            identifierType: _variant.identifier_type,
+            name: _variant.name
+          });
+          variants.addObject(variant);
+        });
+        _item.set('variants', variants);
       });
-      _item.set('variants', variants);
-    });
-    return _item;
+      return _item;
+    }
+    return null;
   },
   fixtures: function() {
     var fixtures = [];

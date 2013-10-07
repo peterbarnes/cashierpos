@@ -5,15 +5,15 @@ node :id do |n|
 end
 
 node :customer_id do |n|
-  n.customer.id.to_s
+  n.customer.id.to_s if n.customer
 end
 
 node :till_id do |n|
-  n.till.id.to_s
+  n.till.id.to_s if n.till
 end
 
 node :user_id do |n|
-  n.user.id.to_s
+  n.user.id.to_s if n.user
 end
 
 node :pdf_url do |n|
