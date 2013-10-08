@@ -3,6 +3,11 @@ class Cashierpos < Sinatra::Base
   configure do
     set :views, File.join(root, 'app/views')
     Rabl.register!
+    
+    Mongoid::Search.setup do |config|
+      config.match = :all
+      config.allow_empty_search = true
+    end
   end
   
   helpers do
