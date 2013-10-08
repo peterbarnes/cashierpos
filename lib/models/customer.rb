@@ -9,6 +9,8 @@ class Customer
   field :date_of_birth, :type => Time
   field :email, :type => String
   field :first_name, :type => String
+  field :identifier, :type => String
+  field :identifier_type, :type => String
   field :last_name, :type => String
   field :notes, :type => String
   field :organization, :type => String

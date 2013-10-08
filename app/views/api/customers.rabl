@@ -16,4 +16,4 @@ child :phones, :object_root => false do
   attributes :type, :number
 end
 
-attributes :credit, :date_of_birth, :email, :first_name, :last_name, :notes, :organization, :phone, :sku, :created_at, :updated_at
+attributes :credit, :date_of_birth, :email, :first_name, :identifier, :identifier_type, :last_name, :notes, :organization, :phone, :sku, :created_at, :updated_at
