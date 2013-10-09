@@ -13,7 +13,6 @@ class Sale
   
   increments :sku, :scope => :account_id
   
-  attr_accessible :payment_attributes, :lines_attributes
   attr_reader :sku_formatted, :subtotal, :subtotal_taxable, :subtotal_after_store_credit, :subtotal_taxable_after_store_credit, :tax, :total, :due
   
   validates_presence_of     :tax_rate
@@ -30,7 +29,8 @@ class Sale
   
   after_save :_complete
   
-  accepts_nested_attributes_for :lines, :payment, :allow_destroy => true
+  accepts_nested_attributes_for :lines, :allow_destroy => true
+  accepts_nested_attributes_for :payment
   
   search_in :sku, :note, :customer => [:first_name, :last_name, :sku], :till => [:name], :user => [:username, :email, :first_name, :last_name]
   

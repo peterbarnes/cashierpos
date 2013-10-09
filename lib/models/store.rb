@@ -27,7 +27,8 @@ class Store
   embeds_many :phones,      cascade_callbacks: true
   has_many    :tills
   
-  accepts_nested_attributes_for :address, :phones, :allow_destroy => true
+  accepts_nested_attributes_for :address, :allow_destroy => true
+  accepts_nested_attributes_for :phones, :allow_destroy => true
   
   search_in :name, :description, :address => [:first_line, :city], :phones => [:number]
 end

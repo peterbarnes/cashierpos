@@ -13,7 +13,6 @@ class Purchase
   
   increments :sku, :scope => :account_id
   
-  attr_accessible :lines_attributes
   attr_reader :sku_formatted
   
   validates_inclusion_of  :complete, :in => [true, false]

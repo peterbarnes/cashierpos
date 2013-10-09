@@ -50,7 +50,11 @@ class Item
   has_many                      :units
   has_many                      :variants,    :dependent => :destroy
   
-  accepts_nested_attributes_for :components, :conditions, :tags, :props, :variants, :allow_destroy => true
+  accepts_nested_attributes_for :components, :allow_destroy => true
+  accepts_nested_attributes_for :conditions, :allow_destroy => true
+  accepts_nested_attributes_for :tags, :allow_destroy => true
+  accepts_nested_attributes_for :props, :allow_destroy => true
+  accepts_nested_attributes_for :variants, :allow_destroy => true
   
   search_in :name, :manufacturer, :identifier, :description, :sku
 end
