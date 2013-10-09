@@ -25,7 +25,7 @@ child :lines, :object_root => false do
     n.id.to_s
   end
   
-  attributes :amount_cash, :amount_credit, :note, :quantity, :sku, :title, :trade
+  attributes :amount_cash, :amount_credit, :bullets, :note, :quantity, :sku, :title, :trade
 end
 
 attributes :complete, :sku, :note, :ratio, :created_at, :updated_at

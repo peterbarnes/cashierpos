@@ -6,13 +6,23 @@ App.SaleConfigureController = Ember.ObjectController.extend({
   variant: null,
   actions: {
     add: function() {
-      this.get('model.lines').pushObject(App.Line.create({
+      var line = App.Line.create({
         title: this.get('item.name'),
         amount: this.get('configuredPrice'),
         quantity: 1,
         sku: this.get('item.sku'),
         taxable: this.get('item.taxable'),
-      }));
+      });
+      this.get('components').forEach(function(component) {
+        line.bullets.addObject(component.name);
+      });
+      this.get('conditions').forEach(function(condition) {
+        line.bullets.addObject(condition.name);
+      });
+      if (this.get('variant')) {
+        line.bullets.addObject(this.get('variant.name'));
+      }
+      this.get('model.lines').pushObject(line);
       this.transitionToRoute('sale');
     },
     cancel: function() {

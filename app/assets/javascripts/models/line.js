@@ -3,6 +3,7 @@ App.Line = Ember.Object.extend({
   amount: 0,
   amountCash: 0,
   amountCredit: 0,
+  bullets: [],
   quantity: 0,
   note: "",
   sku: "",

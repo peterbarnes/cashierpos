@@ -126,6 +126,7 @@ App.Sale.reopen({
         amount: line.get('amount'),
         amount_cash: line.get('amountCash'),
         amount_credit: line.get('amountCredit'),
+        bullets: line.get('bullets'),
         quantity: line.get('quantity'),
         note: line.get('note'),
         sku: line.get('sku'),
@@ -170,6 +171,7 @@ App.Sale.reopen({
             var line = App.Line.create({
               id: _line.id,
               amount: _line.amount,
+              bullets: _line.bullets,
               quantity: _line.quantity,
               note: _line.note,
               sku: _line.sku,
@@ -220,6 +222,7 @@ App.Sale.reopen({
             var line = App.Line.create({
               id: _line.id,
               amount: _line.amount,
+              bullets: _line.bullets,
               quantity: _line.quantity,
               note: _line.note,
               sku: _line.sku,
@@ -339,6 +342,7 @@ App.Sale.reopenClass({
         var line = App.Line.create({
           id: _line.id,
           amount: _line.amount,
+          bullets: _line.bullets,
           quantity: _line.quantity,
           note: _line.note,
           sku: _line.sku,

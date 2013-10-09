@@ -5,6 +5,7 @@ class Line
   field :amount, :type => Integer,  :default => 0
   field :amount_cash, :type => Integer,  :default => 0
   field :amount_credit, :type => Integer,  :default => 0
+  field :bullets, :type => Array, :default => []
   field :note, :type => String
   field :quantity, :type => Integer,  :default => 1
   field :sku, :type => String
