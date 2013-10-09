@@ -10,13 +10,24 @@ App.SaleIndexController = Ember.ObjectController.extend({
         var units = App.Unit.match(query);
         var controller = this;
         units.forEach(function(unit) {
-          controller.get('model.lines').pushObject(App.Line.create({
+          var line = App.Line.create({
             title: unit.get('name'),
             amount: unit.get('calculated') ? unit.get('priceCalculated') : unit.get('price'),
             quantity: 1,
+            inventory: true,
             sku: unit.get('sku'),
             taxable: unit.get('taxable'),
-          }));
+          });
+          unit.get('components').forEach(function(component) {
+            line.bullets.addObject(component.name);
+          });
+          unit.get('conditions').forEach(function(condition) {
+            line.bullets.addObject(condition.name);
+          });
+          if (unit.get('variant')) {
+            line.bullets.addObject(unit.get('variant.name'));
+          }
+          controller.get('model.lines').pushObject(line);
         });
       } else {
         this.transitionToRoute('sale.search', this.get('query'));

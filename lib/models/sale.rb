@@ -96,17 +96,16 @@ class Sale
   
   def _complete
     if complete
-      if till && payment
-        till.balance += payment.cash
-        till.balance += due
-        till.save
+      if till && payment && user
+        description = "SKU #{sku_formatted} #{Time.now.to_s} (#{user.fullname})"
+        till.adjustments.create(:amount => payment.cash - due, :description => description, :user => user)
       end
       if customer && payment
         customer.credit -= payment.store_credit
         customer.save
       end
       lines.each do |line|
-        if line.sku
+        if line.inventory && line.sku
           unit = Unit.where(:sku => line.sku).first
           if unit
             unit.quantity -= 1

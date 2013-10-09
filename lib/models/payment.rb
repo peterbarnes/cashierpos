@@ -12,4 +12,8 @@ class Payment
   
   embedded_in     :purchase
   embedded_in     :sale
+  
+  def total
+    cash + credit + check + gift_card
+  end
 end

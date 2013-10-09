@@ -66,7 +66,7 @@ App.Component.FIXTURES = [
     adjustmentCredit: 1.22,
     adjustmentCreditPercentage: true,
     description: "Lorem Ipsum...",
-    name: "Component 1",
+    name: "Component A",
     typical: true
   },
   {
@@ -78,7 +78,7 @@ App.Component.FIXTURES = [
     adjustmentCredit: 2.33,
     adjustmentCreditPercentage: false,
     description: "Lorem Ipsum...",
-    name: "Component 1",
+    name: "Component B",
     typical: false
   }
 ];

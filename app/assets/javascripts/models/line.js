@@ -4,12 +4,17 @@ App.Line = Ember.Object.extend({
   amountCash: 0,
   amountCredit: 0,
   bullets: [],
+  inventory: false,
   quantity: 0,
   note: "",
   sku: "",
   taxable: true,
   title: "",
   remove: false,
+  init: function() {
+    this._super();
+    this.set('bullets', Ember.A());
+  },
   amountFmt: function(key, amount) {
     if (amount) {
       this.set('amount', parseInt(Math.round(1000 * amount * 100) / 1000));

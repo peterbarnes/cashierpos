@@ -36,14 +36,60 @@ class Purchase
     return sprintf('%09d', sku)
   end
   
+  def quantity
+    quantity = 0
+    lines.each do |line|
+      quantity += line.quantity
+    end
+    quantity
+  end
+  
+  def subtotal_cash
+    subtotal = 0
+    lines.each do |line|
+      subtotal += line.subtotal_cash
+    end
+    subtotal
+  end
+  
+  def subtotal_credit
+    subtotal = 0
+    lines.each do |line|
+      subtotal += line.subtotal_credit
+    end
+    subtotal
+  end
+  
+  def cash
+    if ratio > 0
+      cash_multiplier = 1 - ratio
+    else
+      cash_multiplier = ratio * -1
+    end
+    (subtotal_cash * cash_multiplier).round.to_i
+  end
+  
+  def credit
+    if ratio > 0
+      credit_multiplier = ratio
+    else
+      credit_multiplier = -1 - ratio
+    end
+    (subtotal_credit * credit_multiplier).round.to_i
+  end
+  
+  def due
+    cash
+  end
+  
   def _complete
     if complete
-      if till
-        till.balance += cash
-        till.save
+      if till && user
+        description = "SKU #{sku_formatted} #{Time.now.to_s} (#{user.fullname})"
+        till.adjustments.create(:amount => cash * -1, :description => description, :user => user)
       end
       if customer
-        customer.credit -= credit
+        customer.credit += credit
         customer.save
       end
     end
