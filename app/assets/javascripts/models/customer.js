@@ -148,7 +148,7 @@ App.Customer.reopen({
         data: JSON.stringify(data),
         type: 'PUT',
         contentType: 'application/json',
-        success: function(result) {
+        success: (function(result) {
           var customer = result.customer;
           this.setProperties({
             id: customer.id,
@@ -167,7 +167,7 @@ App.Customer.reopen({
             createdAt: new Date(customer.created_at),
             updatedAt: new Date(customer.updated_at)
           });
-        }
+        }).bind(this)
       });
     } else {
       $.ajax({
@@ -175,7 +175,7 @@ App.Customer.reopen({
         data: JSON.stringify(data),
         type: 'POST',
         contentType: 'application/json',
-        success: function(result) {
+        success: (function(result) {
           var customer = result.customer;
           this.setProperties({
             id: customer.id,
@@ -194,7 +194,7 @@ App.Customer.reopen({
             createdAt: new Date(customer.created_at),
             updatedAt: new Date(customer.updated_at)
           });
-        }
+        }).bind(this)
       });
     }
   }

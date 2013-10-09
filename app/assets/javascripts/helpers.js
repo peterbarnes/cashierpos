@@ -7,6 +7,11 @@ Ember.Handlebars.registerBoundHelper('boolean', function(value) {
   if (value) { return "Yes"; } else { return "No"; }
 });
 
+App.SearchField = Ember.TextField.extend({
+  attributeBindings: ['autofocus'],
+  autofocus: 'autofocus'
+});
+
 App.NumberField = Ember.TextField.extend({
   type: 'number',
   attributeBindings: ['min', 'max', 'step']

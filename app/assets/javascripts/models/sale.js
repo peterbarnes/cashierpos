@@ -3,6 +3,7 @@ App.Sale = Ember.Object.extend({
   complete: false,
   taxRate: 0,
   pdfUrl: "",
+  note: "",
   configurable: null,
   customer: null,
   till: null,
@@ -92,11 +93,12 @@ App.Sale.reopen({
         sku: this.get('sku'),
         complete: this.get('complete'),
         taxRate: this.get('taxRate'),
+        note: this.get('note'),
         customer_id: null,
         till_id: null,
         user_id: null,
-        lines: [],
-        payment: null
+        lines_attributes: [],
+        payment_attributes: null
       }
     }
     if (this.get('customer')) {
@@ -109,7 +111,8 @@ App.Sale.reopen({
       data.sale.user_id = this.get('user.id');
     }
     if (this.get('payment')) {
-      data.sale.payment = {
+      data.sale.payment_attributes = {
+        id: this.get('payment.id'),
         cash: this.get('payment.cash'),
         credit: this.get('payment.credit'),
         check: this.get('payment.check'),
@@ -118,7 +121,8 @@ App.Sale.reopen({
       }
     }
     this.get('lines').forEach(function(line) {
-      data.sale.lines.addObject({
+      data.sale.lines_attributes.addObject({
+        id: line.get('id'),
         amount: line.get('amount'),
         amount_cash: line.get('amountCash'),
         amount_credit: line.get('amountCredit'),
@@ -144,6 +148,7 @@ App.Sale.reopen({
             complete: sale.complete,
             taxRate: sale.tax_rate,
             pdfUrl: sale.pdf_url,
+            note: sale.note,
             createdAt: new Date(sale.created_at),
             updatedAt: new Date(sale.updated_at)
           });
@@ -152,6 +157,7 @@ App.Sale.reopen({
           this.set('user', App.User.find(sale.user_id));
           if (sale.payment) {
             this.set('payment', App.Payment.create({
+              id: sale.payment.id,
               cash: sale.payment.cash,
               credit: sale.payment.credit,
               check: sale.payment.check,
@@ -162,6 +168,7 @@ App.Sale.reopen({
           var lines = [];
           sale.lines.forEach(function(_line){
             var line = App.Line.create({
+              id: _line.id,
               amount: _line.amount,
               quantity: _line.quantity,
               note: _line.note,
@@ -191,6 +198,7 @@ App.Sale.reopen({
             complete: sale.complete,
             taxRate: sale.tax_rate,
             pdfUrl: sale.pdf_url,
+            note: sale.note,
             createdAt: new Date(sale.created_at),
             updatedAt: new Date(sale.updated_at)
           });
@@ -199,6 +207,7 @@ App.Sale.reopen({
           this.set('user', App.User.find(sale.user_id));
           if (sale.payment) {
             this.set('payment', App.Payment.create({
+              id: sale.payment.id,
               cash: sale.payment.cash,
               credit: sale.payment.credit,
               check: sale.payment.check,
@@ -209,6 +218,7 @@ App.Sale.reopen({
           var lines = [];
           sale.lines.forEach(function(_line){
             var line = App.Line.create({
+              id: _line.id,
               amount: _line.amount,
               quantity: _line.quantity,
               note: _line.note,
@@ -265,34 +275,13 @@ App.Sale.reopenClass({
           complete: sale.complete,
           taxRate: sale.tax_rate,
           pdfUrl: sale.pdf_url,
+          note: sale.note,
           createdAt: new Date(sale.created_at),
           updatedAt: new Date(sale.updated_at)
         });
         model.set('customer', App.Customer.find(sale.customer_id));
         model.set('till', App.Till.find(sale.till_id));
         model.set('user', App.User.find(sale.user_id));
-        if (sale.payment) {
-          model.set('payment', App.Payment.create({
-            cash: sale.payment.cash,
-            credit: sale.payment.credit,
-            check: sale.payment.check,
-            giftCard: sale.payment.gift_card,
-            storeCredit: sale.payment.store_credit
-          }));
-        }
-        var lines = [];
-        sale.lines.forEach(function(_line){
-          var line = App.Line.create({
-            amount: _line.amount,
-            quantity: _line.quantity,
-            note: _line.note,
-            sku: _line.sku,
-            taxable: _line.taxable,
-            title: _line.title
-          });
-          lines.addObject(line);
-        });
-        model.set('lines', lines);
         sales.addObject(model);
       });
       if (callback) {
@@ -328,6 +317,7 @@ App.Sale.reopenClass({
         complete: sale.complete,
         taxRate: sale.tax_rate,
         pdfUrl: sale.pdf_url,
+        note: sale.note,
         createdAt: new Date(sale.created_at),
         updatedAt: new Date(sale.updated_at)
       });
@@ -336,6 +326,7 @@ App.Sale.reopenClass({
       _sale.set('user', App.User.find(sale.user_id));
       if (sale.payment) {
         _sale.set('payment', App.Payment.create({
+          id: sale.payment.id,
           cash: sale.payment.cash,
           credit: sale.payment.credit,
           check: sale.payment.check,
@@ -346,6 +337,7 @@ App.Sale.reopenClass({
       var lines = [];
       sale.lines.forEach(function(_line){
         var line = App.Line.create({
+          id: _line.id,
           amount: _line.amount,
           quantity: _line.quantity,
           note: _line.note,

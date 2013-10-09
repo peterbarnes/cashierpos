@@ -21,11 +21,19 @@ node :pdf_url do |n|
 end
 
 child :lines, :object_root => false do
+  node :id do |n|
+    n.id.to_s
+  end
+  
   attributes :amount, :note, :quantity, :sku, :taxable, :title
 end
 
 child :payment, :object_root => false do
+  node :id do |n|
+    n.id.to_s
+  end
+  
   attributes :cash, :credit, :check, :gift_card, :store_credit
 end
 
-attributes :complete, :sku, :tax_rate, :created_at, :updated_at
+attributes :complete, :sku, :note, :tax_rate, :created_at, :updated_at

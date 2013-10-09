@@ -6,6 +6,7 @@
     </div>
     <div class="navbar-nav">
       <button {{action 'selectUser'}} type="button" class="btn btn-default navbar-btn">
+        <span class="glyphicon glyphicon-user"></span>
         {{#if user}}
         {{user.fullname}}
         {{else}}
@@ -13,6 +14,7 @@
         {{/if}}
       </button>
       <button {{action 'selectTill'}} type="button" class="btn btn-default navbar-btn">
+        <span class="glyphicon glyphicon-usd"></span>
         {{#if till}}
         {{till.name}}
         {{else}}
@@ -21,6 +23,7 @@
       </button>
       <div class="btn-group">
         <button {{action 'selectCustomer'}} type="button" class="btn btn-default navbar-btn">
+          <span class="glyphicon glyphicon-user"></span>
           {{#if customer}}
           {{customer.fullname}}
           {{else}}

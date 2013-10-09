@@ -2,6 +2,7 @@ App.Purchase = Ember.Object.extend({
   sku: "",
   complete: false,
   pdfUrl: "",
+  note: "",
   cash: 0,
   credit: 0,
   ratio: 1,
@@ -112,10 +113,11 @@ App.Purchase.reopen({
         sku: this.get('sku'),
         complete: this.get('complete'),
         ratio: this.get('ratio'),
+        note: this.get('note'),
         customer_id: null,
         till_id: null,
         user_id: null,
-        lines: []
+        lines_attributes: []
       }
     }
     if (this.get('customer')) {
@@ -128,7 +130,8 @@ App.Purchase.reopen({
       data.purchase.user_id = this.get('user.id');
     }
     this.get('lines').forEach(function(line) {
-      data.purchase.lines.addObject({
+      data.purchase.lines_attributes.addObject({
+        id: line.get('id'),
         amount: line.get('amount'),
         amount_cash: line.get('amountCash'),
         amount_credit: line.get('amountCredit'),
@@ -154,6 +157,7 @@ App.Purchase.reopen({
             complete: purchase.complete,
             ratio: parseFloat(purchase.ratio),
             pdfUrl: purchase.pdf_url,
+            note: purchase.note,
             createdAt: new Date(purchase.created_at),
             updatedAt: new Date(purchase.updated_at)
           });
@@ -163,6 +167,7 @@ App.Purchase.reopen({
           var lines = [];
           purchase.lines.forEach(function(_line){
             var line = App.Line.create({
+              id: _line.id,
               amountCash: _line.amount_cash,
               amountCredit: _line.amount_credit,
               quantity: _line.quantity,
@@ -193,6 +198,7 @@ App.Purchase.reopen({
             complete: purchase.complete,
             ratio: parseFloat(purchase.ratio),
             pdfUrl: purchase.pdf_url,
+            note: purchase.note,
             createdAt: new Date(purchase.created_at),
             updatedAt: new Date(purchase.updated_at)
           });
@@ -202,6 +208,7 @@ App.Purchase.reopen({
           var lines = [];
           purchase.lines.forEach(function(_line){
             var line = App.Line.create({
+              id: _line.id,
               amountCash: _line.amount_cash,
               amountCredit: _line.amount_credit,
               quantity: _line.quantity,
@@ -259,25 +266,13 @@ App.Purchase.reopenClass({
           complete: purchase.complete,
           ratio: parseFloat(purchase.ratio),
           pdfUrl: purchase.pdf_url,
+          note: purchase.note,
           createdAt: new Date(purchase.created_at),
           updatedAt: new Date(purchase.updated_at)
         });
         model.set('customer', App.Customer.find(purchase.customer_id));
         model.set('till', App.Till.find(purchase.till_id));
         model.set('user', App.User.find(purchase.user_id));
-        var lines = [];
-        purchase.lines.forEach(function(_line){
-          var line = App.Line.create({
-            amountCash: _line.amount_cash,
-            amountCredit: _line.amount_credit,
-            quantity: _line.quantity,
-            note: _line.note,
-            sku: _line.sku,
-            title: _line.title
-          });
-          lines.addObject(line);
-        });
-        model.set('lines', lines);
         purchases.addObject(model);
       });
       if (callback) {
@@ -314,6 +309,7 @@ App.Purchase.reopenClass({
           complete: purchase.complete,
           ratio: parseFloat(purchase.ratio),
           pdfUrl: purchase.pdf_url,
+          note: purchase.note,
           createdAt: new Date(purchase.created_at),
           updatedAt: new Date(purchase.updated_at)
         });
@@ -323,6 +319,7 @@ App.Purchase.reopenClass({
         var lines = [];
         purchase.lines.forEach(function(_line){
           var line = App.Line.create({
+            id: _line.id,
             amountCash: _line.amount_cash,
             amountCredit: _line.amount_credit,
             quantity: _line.quantity,

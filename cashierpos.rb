@@ -69,6 +69,8 @@ class Cashierpos < Sinatra::Base
     
     if account.respond_to?(params[:resources])
       @resources = account.send(params[:resources])
+      @resources = @resources.where(:complete => false) if params[:filter] == 'active'
+      @resources = @resources.where(:complete => true) if params[:filter] == 'complete'
       @resources = @resources.where(:created_at.gt => 3.days.ago) if params[:filter] == 'newest'
       @resources = @resources.where(:updated_at.gt => 1.days.ago) if params[:filter] == 'recent'
       @resources = @resources.desc(:updated_at).limit(params[:limit]).offset(params[:offset])
@@ -92,6 +94,8 @@ class Cashierpos < Sinatra::Base
     
     if account.respond_to?(params[:resources])
       @resources = account.send(params[:resources])
+      @resources = @resources.where(:complete => false) if params[:filter] == 'active'
+      @resources = @resources.where(:complete => true) if params[:filter] == 'complete'
       @resources = @resources.where(:created_at.gt => 3.days.ago) if params[:filter] == 'newest'
       @resources = @resources.where(:updated_at.gt => 1.days.ago) if params[:filter] == 'recent'
       @resources = @resources.full_text_search(params[:query], :allow_empty_search => true)

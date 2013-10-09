@@ -6,6 +6,7 @@
     </div>
     <div class="navbar-nav">
       <button {{action 'selectUser'}} type="button" class="btn btn-default navbar-btn">
+        <span class="glyphicon glyphicon-user"></span>
         {{#if user}}
         {{user.fullname}}
         {{else}}
@@ -13,6 +14,7 @@
         {{/if}}
       </button>
       <button {{action 'selectTill'}} type="button" class="btn btn-default navbar-btn">
+        <span class="glyphicon glyphicon-usd"></span>
         {{#if till}}
         {{till.name}}
         {{else}}
@@ -21,6 +23,7 @@
       </button>
       <div class="btn-group">
         <button {{action 'selectCustomer'}} type="button" class="btn btn-default navbar-btn">
+          <span class="glyphicon glyphicon-user"></span>
           {{#if customer}}
           {{customer.fullname}}
           {{else}}
@@ -32,11 +35,11 @@
         {{/if}}
         <button {{action 'addCustomer'}} type="button" class="btn btn-default navbar-btn"><span class="glyphicon glyphicon-plus"></span></button>
       </div>
+      <button {{action 'payment'}} type="button" class="btn btn-default navbar-btn"><span class="glyphicon glyphicon-credit-card"></span> Payment</button>
     </div>
     <div class="navbar-right">
       <span class="navbar-text"><strong>{{dueLabel}}</strong></span>
       <span class="navbar-text"><strong>${{currency due}}</strong></span>
-      <button {{action 'payment'}} type="button" class="btn btn-default navbar-btn"><span class="glyphicon glyphicon-usd"></span> Payment</button>
       <button {{action 'save' this}} type="button" class="btn btn-default navbar-btn"><span class="glyphicon glyphicon-floppy-save"></span> Save</button>
       <button {{action 'complete' this}} {{bindAttr disabled="nonCompletable"}} type="button" class="btn btn-primary navbar-btn"><span class="glyphicon glyphicon-ok"></span> Complete</button>
     </div>

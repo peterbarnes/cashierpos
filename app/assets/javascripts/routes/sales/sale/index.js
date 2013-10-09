@@ -1,5 +1,5 @@
 App.SaleIndexRoute = Ember.Route.extend({
-  model: function() {
+  model: function(params) {
     return this.modelFor('sale');
   },
   setupController: function(controller, model) {

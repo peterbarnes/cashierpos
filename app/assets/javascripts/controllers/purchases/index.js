@@ -1,6 +1,6 @@
 App.PurchasesIndexController = Ember.ArrayController.extend({
   query: '',
-  filter: 'all',
+  filter: 'active',
   page: 1,
   perPage: 10,
   newCount: 0,
@@ -13,7 +13,7 @@ App.PurchasesIndexController = Ember.ArrayController.extend({
     },
     load: function(purchase) {
       purchase.ratioChanged();
-      this.transitionToRoute('purchase', purchase);
+      this.transitionToRoute('purchase', purchase.id);
     },
     print: function(purchase) {
       purchase.print();
@@ -41,8 +41,12 @@ App.PurchasesIndexController = Ember.ArrayController.extend({
       this.set('query', '');
       this.set('content', App.Purchase.query(this.get('query'),this.get('filter'),this.get('page'),this.get('perPage')));
     },
-    all: function() {
-      this.set('filter', 'all');
+    active: function() {
+      this.set('filter', 'active');
+      this.set('content', App.Purchase.query(this.get('query'),this.get('filter'),this.get('page'),this.get('perPage')));
+    },
+    complete: function() {
+      this.set('filter', 'complete');
       this.set('content', App.Purchase.query(this.get('query'),this.get('filter'),this.get('page'),this.get('perPage')));
     },
     newest: function() {
@@ -76,8 +80,11 @@ App.PurchasesIndexController = Ember.ArrayController.extend({
       this.set('content', App.Purchase.query(this.get('query'),this.get('filter'),this.get('page'),this.get('perPage')));
     }
   },
-  isFilterAll: function() {
-    return this.get('filter') == 'all';
+  isFilterActive: function() {
+    return this.get('filter') == 'active';
+  }.property('filter'),
+  isFilterComplete: function() {
+    return this.get('filter') == 'complete';
   }.property('filter'),
   isFilterNewest: function() {
     return this.get('filter') == 'newest';

@@ -44,7 +44,7 @@ App.SaleIndexController = Ember.ObjectController.extend({
   keypress: function(event) {
     if (event.charCode == 223) {
       this.set('scanning', true);
-      $('input.search').focus();
+      $('form.item_search input[type=text]').focus();
       event.preventDefault();
     }
   }

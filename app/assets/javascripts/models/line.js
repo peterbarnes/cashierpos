@@ -1,4 +1,5 @@
 App.Line = Ember.Object.extend({
+  id: null,
   amount: 0,
   amountCash: 0,
   amountCredit: 0,

@@ -1,6 +1,6 @@
 App.SalesIndexController = Ember.ArrayController.extend({
   query: '',
-  filter: 'all',
+  filter: 'active',
   page: 1,
   perPage: 10,
   newCount: 0,
@@ -12,7 +12,7 @@ App.SalesIndexController = Ember.ArrayController.extend({
       this.transitionToRoute('sale', sale);
     },
     load: function(sale) {
-      this.transitionToRoute('sale', sale);
+      this.transitionToRoute('sale', sale.id);
     },
     print: function(sale) {
       sale.print();
@@ -40,8 +40,12 @@ App.SalesIndexController = Ember.ArrayController.extend({
       this.set('query', '');
       this.set('content', App.Sale.query(this.get('query'),this.get('filter'),this.get('page'),this.get('perPage')));
     },
-    all: function() {
-      this.set('filter', 'all');
+    active: function() {
+      this.set('filter', 'active');
+      this.set('content', App.Sale.query(this.get('query'),this.get('filter'),this.get('page'),this.get('perPage')));
+    },
+    complete: function() {
+      this.set('filter', 'complete');
       this.set('content', App.Sale.query(this.get('query'),this.get('filter'),this.get('page'),this.get('perPage')));
     },
     newest: function() {
@@ -75,8 +79,11 @@ App.SalesIndexController = Ember.ArrayController.extend({
       this.set('content', App.Sale.query(this.get('query'),this.get('filter'),this.get('page'),this.get('perPage')));
     }
   },
-  isFilterAll: function() {
-    return this.get('filter') == 'all';
+  isFilterActive: function() {
+    return this.get('filter') == 'active';
+  }.property('filter'),
+  isFilterComplete: function() {
+    return this.get('filter') == 'complete';
   }.property('filter'),
   isFilterNewest: function() {
     return this.get('filter') == 'newest';

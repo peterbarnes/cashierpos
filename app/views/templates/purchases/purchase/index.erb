@@ -5,7 +5,7 @@
         <form class="item_search form-inline pull-left">
           <div class="form-group">
             <div class="input-group">
-              {{view Ember.TextField valueBinding="query" class="form-control" placeholder="Search..."}}
+              {{view App.SearchField valueBinding="query" class="form-control" placeholder="Search..."}}
               <span class="input-group-btn">
                 <button type="submit" {{action 'search'}} class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Search</button>
               </span>
@@ -97,6 +97,8 @@
           <p class="lead pull-left"><strong>{{dueLabel}}</strong></p>
           <p class="lead pull-right"><strong>${{currency due}}</strong></p>
         </div>
+        <hr>
+        {{view Ember.TextArea valueBinding="note" class="form-control" placeholder="Add a note..."}}
       </div>
     </div>
   </div>

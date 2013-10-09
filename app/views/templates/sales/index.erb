@@ -7,16 +7,17 @@
   <div class="filter">
     <div class="filter_container row">
       <div class='filter_nav col-lg-4'>
-        <button {{action 'all'}} type="button" {{bindAttr class=":all :btn isFilterAll:btn-primary:btn-default"}}>All</button>
-        <button {{action 'newest'}} type="button" {{bindAttr class=":newest :btn isFilterNewest:btn-primary:btn-default"}}>Newest</button>
-        <button {{action 'recent'}} type="button" {{bindAttr class=":recent :btn isFilterRecent:btn-primary:btn-default"}}>Recent</button>
+        <button {{action 'active'}} type="button" {{bindAttr class=":btn isFilterActive:btn-primary:btn-default"}}>Active</button>
+        <button {{action 'complete'}} type="button" {{bindAttr class=":btn isFilterComplete:btn-primary:btn-default"}}>Complete</button>
+        <button {{action 'newest'}} type="button" {{bindAttr class=":btn isFilterNewest:btn-primary:btn-default"}}>Newest</button>
+        <button {{action 'recent'}} type="button" {{bindAttr class=":btn isFilterRecent:btn-primary:btn-default"}}>Recent</button>
       </div>
       <div class='filter_search col-lg-8'>
         <div class='filter_search_form pull-right'>
           <form class="search form-inline">
             <button type="button" {{bindAttr class=":btn :btn-default searching:visible:hidden"}}><span class="glyphicon glyphicon-refresh"></span></button>
             <div class="form-group">
-              {{view Ember.TextField valueBinding="query" class="form-control" placeholder="Search..."}}
+              {{view App.SearchField valueBinding="query" class="form-control" placeholder="Search..."}}
             </div>
             <button type="submit" {{action 'search'}} class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Search</button>
             <button type="button" {{action 'clear'}} class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Clear</button>
@@ -29,14 +30,11 @@
   <table class="sales table table-striped">
     <thead>
       <tr>
-        <th>Created</th>
         <th>Updated</th>
         <th>User</th>
         <th>Till</th>
         <th>Customer</th>
-        <th>Quantity</th>
-        <th>Total</th>
-        <th>Complete</th>
+        <th>Notes</th>
         <th>Edit</th>
         <th>View</th>
         <th>Print</th>
@@ -46,8 +44,7 @@
     <tbody>
       {{#each sale in controller}}
       <tr>
-        <td>{{date sale.createdAt "%m-%d-%Y %I:%M %p"}}</td>
-        <td>{{date sale.createdAt "%m-%d-%Y %I:%M %p"}}</td>
+        <td>{{date sale.updatedAt "%m-%d-%Y %I:%M %p"}}</td>
         <td>
           {{#if sale.user}}
           {{sale.user.fullname}}
@@ -69,9 +66,7 @@
           None
           {{/if}}
         </td>
-        <td>{{sale.quantity}}</td>
-        <td>${{currency sale.total}}</td>
-        <td>{{boolean sale.complete}}</td>
+        <td>{{sale.note}}</td>
         <td>
           <button {{action 'load' sale}} {{bindAttr disabled='sale.complete'}} type="button" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</button>
         </td>

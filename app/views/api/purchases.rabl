@@ -20,8 +20,4 @@ node :pdf_url do |n|
   "http://#{n.account.token}.cashierapp.#{settings.production? ? 'com' : 'dev'}/api/purchases/#{n.id.to_s}.pdf"
 end
 
-child :lines, :object_root => false do
-  attributes :amount_cash, :amount_credit, :note, :quantity, :sku, :title, :trade
-end
-
-attributes :complete, :sku, :ratio, :created_at, :updated_at
+attributes :complete, :sku, :note, :ratio, :created_at, :updated_at

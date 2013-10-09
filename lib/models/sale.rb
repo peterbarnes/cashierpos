@@ -5,6 +5,7 @@ class Sale
   include Mongoid::Autoinc
   
   field :complete, :type => Boolean,  :default => false
+  field :note, :type => String
   field :sku, :type => Integer
   field :tax_rate, :type => Float,    :default => 0
   
@@ -12,6 +13,7 @@ class Sale
   
   increments :sku, :scope => :account_id
   
+  attr_accessible :payment_attributes, :lines_attributes
   attr_reader :sku_formatted, :subtotal, :subtotal_taxable, :subtotal_after_store_credit, :subtotal_taxable_after_store_credit, :tax, :total, :due
   
   validates_presence_of     :tax_rate
@@ -30,7 +32,7 @@ class Sale
   
   accepts_nested_attributes_for :lines, :payment, :allow_destroy => true
   
-  search_in :sku, :customer => [:first_name, :last_name, :sku], :till => [:name], :user => [:username, :email, :first_name, :last_name]
+  search_in :sku, :note, :customer => [:first_name, :last_name, :sku], :till => [:name], :user => [:username, :email, :first_name, :last_name]
   
   def sku_formatted
     return sprintf('%09d', sku)

@@ -1,4 +1,5 @@
 App.Payment = Ember.Object.extend({
+  id: null,
   cash: 0,
   credit: 0,
   check: 0,
