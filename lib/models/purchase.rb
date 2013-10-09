@@ -5,6 +5,7 @@ class Purchase
   include Mongoid::Autoinc
   
   field :complete, :type => Boolean,  :default => false
+  field :flagged, :type => Boolean,   :default => false
   field :note, :type => String
   field :sku, :type => Integer
   field :ratio, :type => Float,    :default => 1

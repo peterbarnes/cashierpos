@@ -17,6 +17,10 @@ App.SalesIndexController = Ember.ArrayController.extend({
     print: function(sale) {
       sale.print();
     },
+    flag: function(sale) {
+      sale.set('flagged', !sale.get('flagged'));
+      sale.save();
+    },
     view: function(sale) {
       window.open(sale.get('pdfUrl'));
     },
@@ -48,8 +52,8 @@ App.SalesIndexController = Ember.ArrayController.extend({
       this.set('filter', 'complete');
       this.set('content', App.Sale.query(this.get('query'),this.get('filter'),this.get('page'),this.get('perPage')));
     },
-    newest: function() {
-      this.set('filter', 'newest');
+    flagged: function() {
+      this.set('filter', 'flagged');
       this.set('content', App.Sale.query(this.get('query'),this.get('filter'),this.get('page'),this.get('perPage')));
     },
     recent: function() {
@@ -85,8 +89,8 @@ App.SalesIndexController = Ember.ArrayController.extend({
   isFilterComplete: function() {
     return this.get('filter') == 'complete';
   }.property('filter'),
-  isFilterNewest: function() {
-    return this.get('filter') == 'newest';
+  isFilterFlagged: function() {
+    return this.get('filter') == 'flagged';
   }.property('filter'),
   isFilterRecent: function() {
     return this.get('filter') == 'recent';

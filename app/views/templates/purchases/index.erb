@@ -9,7 +9,7 @@
       <div class='filter_nav col-lg-4'>
         <button {{action 'active'}} type="button" {{bindAttr class=":btn isFilterActive:btn-primary:btn-default"}}>Active</button>
         <button {{action 'complete'}} type="button" {{bindAttr class=":btn isFilterComplete:btn-primary:btn-default"}}>Complete</button>
-        <button {{action 'newest'}} type="button" {{bindAttr class=":btn isFilterNewest:btn-primary:btn-default"}}>Newest</button>
+        <button {{action 'flagged'}} type="button" {{bindAttr class=":btn isFilterFlagged:btn-primary:btn-default"}}>Flagged</button>
         <button {{action 'recent'}} type="button" {{bindAttr class=":btn isFilterRecent:btn-primary:btn-default"}}>Recent</button>
       </div>
       <div class='filter_search col-lg-8'>
@@ -30,12 +30,14 @@
   <table class="purchases table table-striped">
     <thead>
       <tr>
+        <th><span class="glyphicon glyphicon-flag"></span></th>
         <th>Updated</th>
         <th>User</th>
         <th>Till</th>
         <th>Customer</th>
         <th>Notes</th>
         <th>Edit</th>
+        <th>Flag</th>
         <th>View</th>
         <th>Print</th>
         <th>Delete</th>
@@ -44,6 +46,11 @@
     <tbody>
       {{#each purchase in controller}}
       <tr>
+        <td>
+          {{#if purchase.flagged}}
+          <span class="glyphicon glyphicon-flag"></span>
+          {{/if}}
+        </td>
         <td>{{date purchase.updatedAt "%m-%d-%Y %I:%M %p"}}</td>
         <td>
           {{#if purchase.user}}
@@ -69,6 +76,9 @@
         <td>{{purchase.note}}</td>
         <td>
           <button {{action 'load' purchase}} {{bindAttr disabled='purchase.complete'}} type="button" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</button>
+        </td>
+        <td>
+          <button {{action 'flag' purchase}} type="button" class="btn"><span class="glyphicon glyphicon-flag"></span> Flag</button>
         </td>
         <td>
           <button {{action 'view' purchase}} type="button" class="btn">View</button>

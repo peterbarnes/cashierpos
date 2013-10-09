@@ -36,4 +36,4 @@ child :payment, :object_root => false do
   attributes :cash, :credit, :check, :gift_card, :store_credit
 end
 
-attributes :complete, :sku, :note, :tax_rate, :created_at, :updated_at
+attributes :complete, :flagged, :sku, :note, :tax_rate, :created_at, :updated_at

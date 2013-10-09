@@ -28,4 +28,4 @@ child :lines, :object_root => false do
   attributes :amount_cash, :amount_credit, :bullets, :note, :quantity, :sku, :title, :trade
 end
 
-attributes :complete, :sku, :note, :ratio, :created_at, :updated_at
+attributes :complete, :flagged, :sku, :note, :ratio, :created_at, :updated_at

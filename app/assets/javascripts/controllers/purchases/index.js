@@ -15,6 +15,10 @@ App.PurchasesIndexController = Ember.ArrayController.extend({
       purchase.ratioChanged();
       this.transitionToRoute('purchase', purchase.id);
     },
+    flag: function(purchase) {
+      purchase.set('flagged', !purchase.get('flagged'));
+      purchase.save();
+    },
     print: function(purchase) {
       purchase.print();
     },
@@ -49,8 +53,8 @@ App.PurchasesIndexController = Ember.ArrayController.extend({
       this.set('filter', 'complete');
       this.set('content', App.Purchase.query(this.get('query'),this.get('filter'),this.get('page'),this.get('perPage')));
     },
-    newest: function() {
-      this.set('filter', 'newest');
+    flagged: function() {
+      this.set('filter', 'flagged');
       this.set('content', App.Purchase.query(this.get('query'),this.get('filter'),this.get('page'),this.get('perPage')));
     },
     recent: function() {
@@ -86,8 +90,8 @@ App.PurchasesIndexController = Ember.ArrayController.extend({
   isFilterComplete: function() {
     return this.get('filter') == 'complete';
   }.property('filter'),
-  isFilterNewest: function() {
-    return this.get('filter') == 'newest';
+  isFilterFlagged: function() {
+    return this.get('filter') == 'flagged';
   }.property('filter'),
   isFilterRecent: function() {
     return this.get('filter') == 'recent';
