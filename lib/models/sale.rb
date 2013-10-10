@@ -33,7 +33,7 @@ class Sale
   accepts_nested_attributes_for :lines, :allow_destroy => true
   accepts_nested_attributes_for :payment
   
-  search_in :sku, :note, :customer => [:first_name, :last_name, :sku], :till => [:name], :user => [:username, :email, :first_name, :last_name]
+  search_in :sku, :note, :lines => [:sku, :note], :customer => [:first_name, :last_name, :sku], :till => [:name], :user => [:username, :email, :first_name, :last_name]
   
   def sku_formatted
     return sprintf('%09d', sku)
