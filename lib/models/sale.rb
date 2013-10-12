@@ -39,6 +39,14 @@ class Sale
     return sprintf('%09d', sku)
   end
   
+  def quantity
+    quantity = 0
+    lines.each do |line|
+      quantity += line.quantity
+    end
+    quantity
+  end
+  
   def subtotal
     subtotal = 0
     lines.each do |line|

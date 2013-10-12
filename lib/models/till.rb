@@ -5,6 +5,7 @@ class Till
   
   field :minimum,           :type => Integer,   :default => 0
   field :name,              :type => String
+  field :url,               :type => String
   
   index({ :account_id => 1, :name => 1 })
 

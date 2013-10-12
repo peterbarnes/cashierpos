@@ -1,3 +1,4 @@
+require 'pg'
 require_relative 'bootstrap.rb'
 
 namespace :cashierpos do

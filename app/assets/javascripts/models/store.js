@@ -42,6 +42,7 @@ App.Store.reopenClass({
             id: till.id,
             name: till.name,
             minimum: till.minimum,
+            url: till.url,
             createdAt: new Date(till.created_at),
             updatedAt: new Date(till.updated_at)
           });
@@ -93,6 +94,7 @@ App.Store.reopenClass({
             id: till.id,
             name: till.name,
             minimum: till.minimum,
+            url: till.url,
             createdAt: new Date(till.created_at),
             updatedAt: new Date(till.updated_at)
           });

@@ -21,7 +21,7 @@ child :tills, :object_root => false do
     n.id.to_s
   end
   
-  attributes :minimum, :name, :created_at, :updated_at
+  attributes :minimum, :name, :url, :created_at, :updated_at
 end
 
 attributes :description, :legal, :name, :tax_rate, :created_at, :updated_at

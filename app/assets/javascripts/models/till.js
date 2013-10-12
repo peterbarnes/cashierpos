@@ -1,6 +1,7 @@
 App.Till = Ember.Object.extend({
   id: null,
   name: "",
+  url: "",
   minimum: 0,
   createdAt: new Date(),
   updatedAt: new Date()
@@ -24,6 +25,7 @@ App.Till.reopenClass({
           id: till.id,
           name: till.name,
           minimum: till.minimum,
+          url: till.url,
           createdAt: new Date(till.created_at),
           updatedAt: new Date(till.updated_at)
         });
@@ -61,6 +63,7 @@ App.Till.reopenClass({
           id: till.id,
           name: till.name,
           minimum: till.minimum,
+          url: till.url,
           createdAt: new Date(till.created_at),
           updatedAt: new Date(till.updated_at)
         });
@@ -75,17 +78,12 @@ App.Till.reopenClass({
       var _till = App.Till.create({
         id: till.id,
         name: till.name,
-        minimum: till.minimum
+        minimum: till.minimum,
+        url: till.url
       });
       fixtures.pushObject(_till);
     });
     return fixtures;
-  }
-});
-
-App.Till.reopen({
-  save: function() {
-    
   }
 });
 

@@ -81,7 +81,6 @@ class Cashierpos < Sinatra::Base
     
     unless @resources.nil?
       rabl params[:resources].to_sym, :views => api_views
-      #@resources.to_json
     else
       halt 404
     end
@@ -137,7 +136,7 @@ class Cashierpos < Sinatra::Base
     else
       halt 404
     end
-  end
+  end 
   
   post '/api/sales/?' do
     content_type :json
@@ -198,6 +197,25 @@ class Cashierpos < Sinatra::Base
     end
   end
   
+  get '/api/sales/print/:id' do
+    content_type :json
+    
+    @resource = account.sales.where(:id => params[:id]).first
+    
+    unless @resource.nil?
+      @url = @resource.till.url if @resource.till
+      
+      if @url
+        @data = rabl :sale_print, :views => api_views
+      end
+      
+      status 200
+      @data
+    else
+      halt 404
+    end
+  end
+  
   post '/api/purchases/?' do
     content_type :json
     
@@ -252,6 +270,25 @@ class Cashierpos < Sinatra::Base
       else
         status 406
       end
+    else
+      halt 404
+    end
+  end
+  
+  get '/api/purchases/print/:id' do
+    content_type :json
+    
+    @resource = account.purchases.where(:id => params[:id]).first
+    
+    unless @resource.nil?
+      @url = @resource.till.url if @resource.till
+      
+      if @url
+        @data = rabl :purchase_print, :views => api_views
+      end
+      
+      status 200
+      @data
     else
       halt 404
     end
