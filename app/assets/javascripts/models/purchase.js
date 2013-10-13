@@ -175,7 +175,6 @@ App.Purchase.reopen({
               id: _line.id,
               amountCash: _line.amount_cash,
               amountCredit: _line.amount_credit,
-              bullets: _line.bullets,
               inventory: _line.inventory,
               quantity: _line.quantity,
               note: _line.note,
@@ -183,6 +182,7 @@ App.Purchase.reopen({
               taxable: _line.taxable,
               title: _line.title
             });
+            line.set('bullets', _line.bullets);
             lines.addObject(line);
           });
           this.set('lines', lines);
@@ -222,7 +222,6 @@ App.Purchase.reopen({
               id: _line.id,
               amountCash: _line.amount_cash,
               amountCredit: _line.amount_credit,
-              bullets: _line.bullets,
               inventory: _line.inventory,
               quantity: _line.quantity,
               note: _line.note,
@@ -230,6 +229,7 @@ App.Purchase.reopen({
               taxable: _line.taxable,
               title: _line.title
             });
+            line.set('bullets', _line.bullets);
             lines.addObject(line);
           });
           this.set('lines', lines);
@@ -348,13 +348,13 @@ App.Purchase.reopenClass({
             id: _line.id,
             amountCash: _line.amount_cash,
             amountCredit: _line.amount_credit,
-            bullets: _line.bullets,
             inventory: _line.inventory,
             quantity: _line.quantity,
             note: _line.note,
             sku: _line.sku,
             title: _line.title
           });
+          line.set('bullets', _line.bullets);
           lines.addObject(line);
         });
         _purchase.set('lines', lines);

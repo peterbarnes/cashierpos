@@ -175,7 +175,6 @@ App.Sale.reopen({
             var line = App.Line.create({
               id: _line.id,
               amount: _line.amount,
-              bullets: _line.bullets,
               inventory: _line.inventory,
               quantity: _line.quantity,
               note: _line.note,
@@ -183,6 +182,7 @@ App.Sale.reopen({
               taxable: _line.taxable,
               title: _line.title
             });
+            line.set('bullets', _line.bullets);
             lines.addObject(line);
           });
           this.set('lines', lines);
@@ -231,7 +231,6 @@ App.Sale.reopen({
             var line = App.Line.create({
               id: _line.id,
               amount: _line.amount,
-              bullets: _line.bullets,
               inventory: _line.inventory,
               quantity: _line.quantity,
               note: _line.note,
@@ -239,6 +238,7 @@ App.Sale.reopen({
               taxable: _line.taxable,
               title: _line.title
             });
+            line.set('bullets', _line.bullets);
             lines.addObject(line);
           });
           this.set('lines', lines);
@@ -365,7 +365,6 @@ App.Sale.reopenClass({
         var line = App.Line.create({
           id: _line.id,
           amount: _line.amount,
-          bullets: _line.bullets,
           inventory: _line.inventory,
           quantity: _line.quantity,
           note: _line.note,
@@ -373,6 +372,7 @@ App.Sale.reopenClass({
           taxable: _line.taxable,
           title: _line.title
         });
+        line.set('bullets', _line.bullets);
         lines.addObject(line);
       });
       _sale.set('lines', lines);
