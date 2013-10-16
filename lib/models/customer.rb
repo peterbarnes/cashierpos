@@ -6,7 +6,7 @@ class Customer
   include Mongoid::Search
   
   field :credit, :type => Integer,  :default => 0
-  field :date_of_birth, :type => Time
+  field :date_of_birth, :type => Date, :default => ->{ Date.new }
   field :email, :type => String
   field :first_name, :type => String
   field :identifier, :type => String

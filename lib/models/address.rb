@@ -9,7 +9,7 @@ class Address
   field :state, :type => String
   field :zip, :type => String
   
-  validates_presence_of :type, :city, :country, :first_line, :state, :zip
+  validates_presence_of :type
   
   embedded_in :customer
   embedded_in :store
