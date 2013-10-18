@@ -16,10 +16,6 @@ node :user_id do |n|
   n.user.id.to_s if n.user
 end
 
-node :pdf_url do |n|
-  "http://#{n.account.token}.cashierapp.#{settings.production? ? 'com' : 'dev'}/api/purchases/#{n.id.to_s}.pdf"
-end
-
 child :lines, :object_root => false do
   node :id do |n|
     n.id.to_s

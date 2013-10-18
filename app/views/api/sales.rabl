@@ -16,8 +16,4 @@ node :user_id do |n|
   n.user.id.to_s if n.user
 end
 
-node :pdf_url do |n|
-  "http://#{n.account.token}.cashierapp.#{settings.production? ? 'com' : 'dev'}/api/sales/#{n.id.to_s}.pdf"
-end
-
 attributes :complete, :flagged, :sku, :note, :tax_rate, :created_at, :updated_at

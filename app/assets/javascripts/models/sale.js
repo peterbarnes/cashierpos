@@ -3,7 +3,6 @@ App.Sale = Ember.Object.extend({
   complete: false,
   flagged: false,
   taxRate: 0,
-  pdfUrl: "",
   note: "",
   configurable: null,
   customer: null,
@@ -78,9 +77,15 @@ App.Sale = Ember.Object.extend({
       return "Change Due:";
     }
   }.property('due'),
+  saveable: function() {
+    return !this.get('complete');
+  }.property('complete'),
+  nonSaveable: function() {
+    return !this.get('saveable');
+  }.property('saveable'),
   completable: function() {
-    return this.get('user') && this.get('till') && this.get('payment') && this.get('quantity') > 0 && this.get('due') <= 0;
-  }.property('user', 'till', 'payment', 'quantity', 'due'),
+    return !this.get('complete') && this.get('user') && this.get('till') && this.get('payment') && this.get('quantity') > 0 && this.get('due') <= 0;
+  }.property('complete', 'user', 'till', 'payment', 'quantity', 'due'),
   nonCompletable: function() {
     return !this.get('completable');
   }.property('completable')
@@ -152,7 +157,6 @@ App.Sale.reopen({
             complete: sale.complete,
             flagged: sale.flagged,
             taxRate: sale.tax_rate,
-            pdfUrl: sale.pdf_url,
             note: sale.note,
             createdAt: new Date(sale.created_at),
             updatedAt: new Date(sale.updated_at)
@@ -208,7 +212,6 @@ App.Sale.reopen({
             complete: sale.complete,
             flagged: sale.flagged,
             taxRate: sale.tax_rate,
-            pdfUrl: sale.pdf_url,
             note: sale.note,
             createdAt: new Date(sale.created_at),
             updatedAt: new Date(sale.updated_at)
@@ -299,7 +302,6 @@ App.Sale.reopenClass({
           complete: sale.complete,
           flagged: sale.flagged,
           taxRate: sale.tax_rate,
-          pdfUrl: sale.pdf_url,
           note: sale.note,
           createdAt: new Date(sale.created_at),
           updatedAt: new Date(sale.updated_at)
@@ -342,7 +344,6 @@ App.Sale.reopenClass({
         complete: sale.complete,
         flagged: sale.flagged,
         taxRate: sale.tax_rate,
-        pdfUrl: sale.pdf_url,
         note: sale.note,
         createdAt: new Date(sale.created_at),
         updatedAt: new Date(sale.updated_at)
@@ -387,7 +388,6 @@ App.Sale.reopenClass({
         sku: sale.sku,
         complete: sale.complete,
         taxRate: sale.taxRate,
-        pdfUrl: sale.pdfUrl
       });
       _sale.set('customer', App.Customer.fixtures().objectAt(0));
       _sale.set('till', App.Till.fixtures().objectAt(0));
@@ -406,13 +406,11 @@ App.Sale.FIXTURES = [
     sku: "BFC94FA0-D0BC-0130-AD86-109ADD6B8334",
     complete: false,
     taxRate: 0.07,
-    pdfUrl: "http://www.example.com/example.pdf"
   },
   {
     id: 1,
     sku: "BFC94FA0-D0BC-0130-AD86-109ADD6B8334",
     complete: false,
     taxRate: 0.07,
-    pdfUrl: "http://www.example.com/example.pdf"
   }
 ];

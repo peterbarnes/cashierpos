@@ -29,8 +29,8 @@ App.PurchasesIndexController = Ember.ArrayController.extend({
         }).bind(this));
       }
     },
-    view: function(sale) {
-      window.open(sale.get('pdfUrl'));
+    view: function(purchase) {
+      this.send('load', purchase);
     },
     search: function() {
       this.set('searching', true);

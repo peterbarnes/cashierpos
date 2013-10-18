@@ -42,6 +42,7 @@ class User
   has_many        :activities
   has_many        :purchases
   has_many        :sales
+  has_one         :till
   
   search_in :username, :email, :first_name, :last_name
   

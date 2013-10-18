@@ -2,7 +2,6 @@ App.Purchase = Ember.Object.extend({
   sku: "",
   complete: false,
   flagged: false,
-  pdfUrl: "",
   note: "",
   cash: 0,
   credit: 0,
@@ -54,6 +53,12 @@ App.Purchase = Ember.Object.extend({
   dueLabel: function() {
     return "Change Due:";
   }.property(),
+  saveable: function() {
+    return !this.get('complete');
+  }.property('complete'),
+  nonSaveable: function() {
+    return !this.get('saveable');
+  }.property('saveable'),
   completable: function() {
     return this.get('user') && this.get('customer') && this.get('till') && this.get('quantity') > 0 && this.get('due') >= 0;
   }.property('user', 'till', 'customer', 'quantity', 'due'),
@@ -161,7 +166,6 @@ App.Purchase.reopen({
             complete: purchase.complete,
             flagged: purchase.flagged,
             ratio: parseFloat(purchase.ratio),
-            pdfUrl: purchase.pdf_url,
             note: purchase.note,
             createdAt: new Date(purchase.created_at),
             updatedAt: new Date(purchase.updated_at)
@@ -208,7 +212,6 @@ App.Purchase.reopen({
             complete: purchase.complete,
             flagged: purchase.flagged,
             ratio: parseFloat(purchase.ratio),
-            pdfUrl: purchase.pdf_url,
             note: purchase.note,
             createdAt: new Date(purchase.created_at),
             updatedAt: new Date(purchase.updated_at)
@@ -290,7 +293,6 @@ App.Purchase.reopenClass({
           complete: purchase.complete,
           flagged: purchase.flagged,
           ratio: parseFloat(purchase.ratio),
-          pdfUrl: purchase.pdf_url,
           note: purchase.note,
           createdAt: new Date(purchase.created_at),
           updatedAt: new Date(purchase.updated_at)
@@ -334,7 +336,6 @@ App.Purchase.reopenClass({
           complete: purchase.complete,
           flagged: purchase.flagged,
           ratio: parseFloat(purchase.ratio),
-          pdfUrl: purchase.pdf_url,
           note: purchase.note,
           createdAt: new Date(purchase.created_at),
           updatedAt: new Date(purchase.updated_at)
@@ -370,7 +371,6 @@ App.Purchase.reopenClass({
         id: purchase.id,
         sku: purchase.sku,
         complete: purchase.complete,
-        pdfUrl: purchase.pdfUrl,
         ratio: purchase.ratio
       });
       _purchase.set('customer', App.Customer.fixtures().objectAt(0));
@@ -389,7 +389,6 @@ App.Purchase.FIXTURES = [
     id: 0,
     sku: "BFC94FA0-D0BC-0130-AD33-109ADD6B83AAA",
     complete: false,
-    pdfUrl: "http://www.example.com/example.pdf",
     ratio: 1
   }
 ];
