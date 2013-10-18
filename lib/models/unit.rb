@@ -2,17 +2,14 @@ class Unit
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::Search
-  include Mongoid::Autoinc
   
   field :price, :type => Integer,       :default => 0
   field :quantity, :type => Integer,    :default => 1
-  field :sku, :type => String,          :default => ->{ SecureRandom.hex(6).upcase }
+  field :sku, :type => Integer
   field :calculated, :type => Boolean,  :default => true
   field :filing, :type => Integer
   
   index({ :account_id => 1, :sku => 1 })
-  
-  increments :filing
   
   attr_reader :price_calculated, :name
   
@@ -34,10 +31,6 @@ class Unit
     if item
       item.name
     end
-  end
-  
-  def filing_formatted
-    return sprintf('%07d', filing).insert(3, ' ')
   end
   
   def price_calculated

@@ -37,8 +37,8 @@
         <th>Customer</th>
         <th>Notes</th>
         <th>Edit</th>
-        <th>Flag</th>
         <th>View</th>
+        <th>Flag</th>
         <th>Print</th>
         <th>Delete</th>
       </tr>
@@ -78,10 +78,10 @@
           <button {{action 'load' sale}} {{bindAttr disabled='sale.complete'}} type="button" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</button>
         </td>
         <td>
-          <button {{action 'flag' sale}} type="button" class="btn"><span class="glyphicon glyphicon-flag"></span> Flag</button>
+          <button {{action 'view' sale}} type="button" class="btn">View</button>
         </td>
         <td>
-          <button {{action 'view' sale}} type="button" class="btn">View</button>
+          <button {{action 'flag' sale}} type="button" class="btn"><span class="glyphicon glyphicon-flag"></span> Flag</button>
         </td>
         <td>
           <button {{action 'print' sale}} type="button" class="btn"><span class="glyphicon glyphicon-print"></span> Print</button>
