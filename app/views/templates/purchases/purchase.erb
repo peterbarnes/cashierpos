@@ -9,7 +9,7 @@
         <button {{action 'selectUser'}} type="button" class="btn btn-default navbar-btn">
           <span class="glyphicon glyphicon-user"></span>
           {{#if user}}
-          {{user.fullname}}
+          {{user.fullname}} | {{user.till.name}}
           {{else}}
           No User
           {{/if}}
