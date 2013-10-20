@@ -9,7 +9,6 @@ App.Router.map(function() {
       this.route('customer', { path: "/customer" });
       this.route('addcustomer', { path: "/addcustomer" });
       this.route('editcustomer', { path: "/editcustomer" });
-      this.route('till', { path: "/till" });
     });
   });
   this.resource('purchases', function() {
@@ -21,7 +20,6 @@ App.Router.map(function() {
       this.route('customer', { path: "/customer" });
       this.route('addcustomer', { path: "/addcustomer" });
       this.route('editcustomer', { path: "/editcustomer" });
-      this.route('till', { path: "/till" });
     });
   });
 });

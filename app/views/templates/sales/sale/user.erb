@@ -39,6 +39,7 @@
         <th>First Name</th>
         <th>Last Name</th>
         <th>Username</th>
+        <th>Till</th>
         <th>PIN</th>
         <th>Select</th>
       </tr>
@@ -50,6 +51,7 @@
         <td>{{user.firstName}}</td>
         <td>{{user.lastName}}</td>
         <td>{{user.username}}</td>
+        <td>{{user.till.name}}</td>
         <td class="pin">{{view Ember.TextField valueBinding="user.pinValue" class="pin form-control" placeholder="PIN" type="password"}}</td>
         <td>
           <button {{action 'select' user}} {{bindAttr disabled='user.authenticated'}} type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Select</button>

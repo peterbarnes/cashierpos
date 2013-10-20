@@ -3,24 +3,19 @@
   <div class="navbar navbar-inverse navbar-fixed-bottom">
     <div class="navbar-header">
       <span class="navbar-brand footer"></span>
-    </div>
+    </div class="btn-group">
     <div class="navbar-nav">
-      <button {{action 'selectUser'}} type="button" class="btn btn-default navbar-btn">
-        <span class="glyphicon glyphicon-user"></span>
-        {{#if user}}
-        {{user.fullname}}
-        {{else}}
-        No User
-        {{/if}}
-      </button>
-      <button {{action 'selectTill'}} type="button" class="btn btn-default navbar-btn">
-        <span class="glyphicon glyphicon-usd"></span>
-        {{#if till}}
-        {{till.name}}
-        {{else}}
-        No Till
-        {{/if}}
-      </button>
+      <div>
+        <button {{action 'selectUser'}} type="button" class="btn btn-default navbar-btn">
+          <span class="glyphicon glyphicon-user"></span>
+          {{#if user}}
+          {{user.fullname}}
+          {{else}}
+          No User
+          {{/if}}
+        </button>
+        <button {{action 'clearUser' this}} type="button" class="btn btn-default navbar-btn"><span class="glyphicon glyphicon-remove"></span></button>
+      </div>
       <div class="btn-group">
         <button {{action 'selectCustomer'}} type="button" class="btn btn-default navbar-btn">
           <span class="glyphicon glyphicon-user"></span>

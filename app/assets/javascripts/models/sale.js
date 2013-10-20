@@ -14,8 +14,14 @@ App.Sale = Ember.Object.extend({
   updatedAt: new Date(),
   init: function() {
     this._super();
-    this.set('payment', App.Payment.create());
     this.set('lines', Ember.A());
+    this.set('payment', App.Payment.create());
+    var userId = $.cookie('cashierpos.user');
+    var tillId = $.cookie('cashierpos.till');
+    if (userId && tillId) {
+      this.set('user', App.User.find(userId));
+      this.set('till', App.Till.find(tillId));
+    }
   },
   quantity: function() {
     var lines = this.get('lines');
@@ -349,8 +355,15 @@ App.Sale.reopenClass({
         updatedAt: new Date(sale.updated_at)
       });
       _sale.set('customer', App.Customer.find(sale.customer_id));
-      _sale.set('till', App.Till.find(sale.till_id));
-      _sale.set('user', App.User.find(sale.user_id));
+      var userId = $.cookie('cashierpos.user');
+      var tillId = $.cookie('cashierpos.till');
+      if (userId && tillId) {
+        _sale.set('user', App.User.find(userId));
+        _sale.set('till', App.Till.find(tillId));
+      } else {
+        _sale.set('user', App.User.find(sale.user_id));
+        _sale.set('till', App.Till.find(sale.till_id));
+      }
       if (sale.payment) {
         _sale.set('payment', App.Payment.create({
           id: sale.payment.id,

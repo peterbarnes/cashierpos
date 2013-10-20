@@ -1,6 +1,8 @@
 App.SaleController = Ember.ObjectController.extend({
   actions: {
     save: function(sale) {
+      sale.set('user', null);
+      sale.set('till', null);
       sale.save((function() {
         this.transitionToRoute('sales');
       }).bind(this));
@@ -14,11 +16,14 @@ App.SaleController = Ember.ObjectController.extend({
     payment: function() {
       this.transitionToRoute('sale.payment');
     },
-    selectTill: function() {
-      this.transitionToRoute('sale.till');
-    },
     selectUser: function() {
       this.transitionToRoute('sale.user');
+    },
+    clearUser: function(sale) {
+      sale.set('user', null);
+      sale.set('till', null);
+      $.removeCookie('cashierpos.user');
+      $.removeCookie('cashierpos.till');
     },
     selectCustomer: function() {
       this.transitionToRoute('sale.customer');

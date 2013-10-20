@@ -10,7 +10,10 @@ App.SaleUserController = Ember.ObjectController.extend({
       this.transitionToRoute('sale');
     },
     select: function(user) {
+      $.cookie("cashierpos.user", user.get('id'));
+      $.cookie("cashierpos.till", user.get('till.id'));
       this.set('model.user', user);
+      this.set('model.till', user.get('till'));
       this.transitionToRoute('sale');
     },
     search: function() {

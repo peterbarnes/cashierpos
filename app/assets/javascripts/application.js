@@ -1,4 +1,5 @@
 //= require ./vendor/jquery
+//= require ./vendor/jquery.cookie
 //= require ./vendor/bootstrap
 //= require ./vendor/handlebars
 //= require ./vendor/ember

@@ -9,6 +9,7 @@ App.User = Ember.Object.extend({
   pin: "",
   pinValue: "",
   gravatarUrl: "",
+  till: null,
   createdAt: new Date(),
   updatedAt: new Date(),
   fullname: function() {
@@ -48,6 +49,7 @@ App.User.reopenClass({
           createdAt: new Date(user.created_at),
           updatedAt: new Date(user.updated_at)
         });
+        model.set('till', App.Till.find(user.till_id));
         users.addObject(model);
       });
       if (callback) {
@@ -71,7 +73,7 @@ App.User.reopenClass({
     });
     return count;
   },
-  find: function(id) {
+  find: function(id, callback) {
     if (id) {
       var _user = App.User.create();
       $.ajax({
@@ -88,9 +90,14 @@ App.User.reopenClass({
           username: user.username,
           pin: user.pin,
           gravatarUrl: user.gravatar_url,
+          tillId: user.till_id,
           createdAt: new Date(user.created_at),
           updatedAt: new Date(user.updated_at)
         });
+        _user.set('till', App.Till.find(user.till_id));
+        if (callback) {
+          callback();
+        }
       });
       return _user;
     }

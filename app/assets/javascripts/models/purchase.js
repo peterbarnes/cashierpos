@@ -16,6 +16,12 @@ App.Purchase = Ember.Object.extend({
   init: function() {
     this._super();
     this.set('lines', Ember.A());
+    var userId = $.cookie('cashierpos.user');
+    var tillId = $.cookie('cashierpos.till');
+    if (userId && tillId) {
+      this.set('user', App.User.find(userId));
+      this.set('till', App.Till.find(tillId));
+    }
   },
   quantity: function() {
     var lines = this.get('lines');
@@ -341,8 +347,15 @@ App.Purchase.reopenClass({
           updatedAt: new Date(purchase.updated_at)
         });
         _purchase.set('customer', App.Customer.find(purchase.customer_id));
-        _purchase.set('till', App.Till.find(purchase.till_id));
-        _purchase.set('user', App.User.find(purchase.user_id));
+        var userId = $.cookie('cashierpos.user');
+        var tillId = $.cookie('cashierpos.till');
+        if (userId && tillId) {
+          _purchase.set('user', App.User.find(userId));
+          _purchase.set('till', App.Till.find(tillId));
+        } else {
+          _purchase.set('user', App.User.find(purchase.user_id));
+          _purchase.set('till', App.Till.find(purchase.till_id));
+        }
         var lines = [];
         purchase.lines.forEach(function(_line){
           var line = App.Line.create({
