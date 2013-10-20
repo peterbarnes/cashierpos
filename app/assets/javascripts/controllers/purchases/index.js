@@ -30,7 +30,7 @@ App.PurchasesIndexController = Ember.ArrayController.extend({
       }
     },
     view: function(purchase) {
-      this.send('load', purchase);
+      
     },
     search: function() {
       this.set('searching', true);

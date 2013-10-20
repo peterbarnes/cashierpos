@@ -22,7 +22,7 @@ App.SalesIndexController = Ember.ArrayController.extend({
       sale.save();
     },
     view: function(sale) {
-      this.send('load', sale);
+      
     },
     delete: function(sale) {
       if (confirm('Are you sure you want to delete this sale?')) {

@@ -37,9 +37,8 @@
         <th>Customer</th>
         <th>Notes</th>
         <th>Edit</th>
-        <th>View</th>
         <th>Flag</th>
-        <th>Print</th>
+        <th>Receipt</th>
         <th>Delete</th>
       </tr>
     </thead>
@@ -78,13 +77,13 @@
           <button {{action 'load' sale}} {{bindAttr disabled='sale.complete'}} type="button" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</button>
         </td>
         <td>
-          <button {{action 'view' sale}} type="button" class="btn">View</button>
+          <button {{action 'flag' sale}} type="button" class="btn btn-default"><span class="glyphicon glyphicon-flag"></span> Flag</button>
         </td>
         <td>
-          <button {{action 'flag' sale}} type="button" class="btn"><span class="glyphicon glyphicon-flag"></span> Flag</button>
-        </td>
-        <td>
-          <button {{action 'print' sale}} type="button" class="btn"><span class="glyphicon glyphicon-print"></span> Print</button>
+          <div class="btn-group">
+            <button {{action 'print' sale}} type="button" class="btn btn-default"><span class="glyphicon glyphicon-print"></span> Print</button>
+            <button {{action 'view' sale}} type="button" class="btn btn-default"><span class="glyphicon glyphicon-eye-open"></span> View</button>
+          </div>
         </td>
         <td>
           <button {{action 'delete' sale}} {{bindAttr disabled='sale.complete'}} type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>
