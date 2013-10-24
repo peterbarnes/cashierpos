@@ -19,5 +19,4 @@ gem 'bcrypt-ruby', :require => 'bcrypt'
   
 group :development, :test do
   gem 'shotgun'
-  gem 'pg'
 end
