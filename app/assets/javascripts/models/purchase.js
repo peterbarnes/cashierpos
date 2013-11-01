@@ -196,9 +196,6 @@ App.Purchase.reopen({
             lines.addObject(line);
           });
           this.set('lines', lines);
-          if (this.get('complete')) {
-            this.print();
-          }
           if (callback) {
             callback();
           }
@@ -242,9 +239,6 @@ App.Purchase.reopen({
             lines.addObject(line);
           });
           this.set('lines', lines);
-          if (this.get('complete')) {
-            this.print();
-          }
           if (callback) {
             callback();
           }
@@ -262,17 +256,6 @@ App.Purchase.reopen({
           if (callback) {
             callback(result);
           }
-        }
-      });
-    }
-  },
-  print: function() {
-    if (this.id) {
-      $.ajax({
-        url: '/api/sales/print/' + this.id,
-        type: 'GET',
-        success: function(result) {
-          console.log(result);
         }
       });
     }

@@ -8,10 +8,12 @@ App.PurchaseController = Ember.ObjectController.extend({
       }).bind(this));
     },
     complete: function(purchase) {
+      var win = window.open();
       purchase.set('complete', true);
       purchase.save((function() {
         this.transitionToRoute('purchases');
-      }).bind(this));
+        win.location = window.location.protocol + '//' + window.location.host + '/receipt/purchase/' + purchase.id + '/?print=true'
+      }).bind(this, purchase));
     },
     selectUser: function() {
       this.transitionToRoute('purchase.user');

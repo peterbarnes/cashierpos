@@ -1,0 +1,8 @@
+/*
+ *= require ./bootstrap
+ *= require_self
+*/
+
+body { background-color: #999999; padding-top: 70px; }
+
+.page { background-color: white; box-shadow: 1px 1px 3px #333333; }

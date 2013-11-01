@@ -15,14 +15,14 @@ App.SalesIndexController = Ember.ArrayController.extend({
       this.transitionToRoute('sale', sale.id);
     },
     print: function(sale) {
-      sale.print();
+      window.open(window.location.protocol + '//' + window.location.host + '/receipt/sale/' + sale.id + '/?print=true');
     },
     flag: function(sale) {
       sale.set('flagged', !sale.get('flagged'));
       sale.save();
     },
     view: function(sale) {
-      
+      window.open(window.location.protocol + '//' + window.location.host + '/receipt/sale/' + sale.id);
     },
     delete: function(sale) {
       if (confirm('Are you sure you want to delete this sale?')) {

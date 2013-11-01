@@ -20,7 +20,7 @@ App.PurchasesIndexController = Ember.ArrayController.extend({
       purchase.save();
     },
     print: function(purchase) {
-      purchase.print();
+      window.open(window.location.protocol + '//' + window.location.host + '/receipt/purchase/' + purchase.id + '/?print=true');
     },
     delete: function(purchase) {
       if (confirm('Are you sure you want to delete this purchase?')) {
@@ -30,7 +30,7 @@ App.PurchasesIndexController = Ember.ArrayController.extend({
       }
     },
     view: function(purchase) {
-      
+      window.open(window.location.protocol + '//' + window.location.host + '/receipt/purchase/' + purchase.id);
     },
     search: function() {
       this.set('searching', true);

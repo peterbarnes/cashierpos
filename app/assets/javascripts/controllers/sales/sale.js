@@ -8,10 +8,12 @@ App.SaleController = Ember.ObjectController.extend({
       }).bind(this));
     },
     complete: function(sale) {
+      var win = window.open();
       sale.set('complete', true);
       sale.save((function() {
         this.transitionToRoute('sales');
-      }).bind(this));
+        win.location = window.location.protocol + '//' + window.location.host + '/receipt/sale/' + sale.id + '/?print=true'
+      }).bind(this, sale));
     },
     payment: function() {
       this.transitionToRoute('sale.payment');
