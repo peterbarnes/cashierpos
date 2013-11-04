@@ -1,3 +1,77 @@
-<div class="row">
-  <div class="col-lg-12"></div>
+<br>
+<p class="lead text-center"><strong><%= @purchase.account.title %></strong></p>
+<p class="text-center">
+  <% if @purchase.till && @purchase.till.store && @purchase.till.store.address %>
+    <%= @purchase.till.store.name %><br>
+    <%= @purchase.till.store.address.first_line %><br>
+    <% if @purchase.till.store.address.second_line %>
+      <%= @purchase.till.store.address.second_line %><br>
+    <% end %>
+    <%= "#{@purchase.till.store.address.city}, #{@purchase.till.store.address.state} #{@purchase.till.store.address.zip} #{@purchase.till.store.address.country}" %><br>
+    <% @purchase.till.store.phones.each do |phone| %>
+      <%= phone.number %><br>
+    <% end %>
+    <%= @purchase.till.store.description if @purchase.till.store.description %>
+  <% end %>
+</p>
+<br><br>
+<div class="clearfix">
+  <p class="pull-left">
+    <%= "#{@purchase.updated_at.strftime('%m/%d/%y %I:%M:%S %p')}"%><br>
+    <%= "Customer: #{@purchase.customer.fullname}" if @purchase.customer %><br>
+    <%= "Till: #{@purchase.till.name}" if @purchase.till %><br>
+  </p>
+  <p class="pull-right text-right">
+    <%= "##{@purchase.sku_formatted}"%><br>
+    <%= "Employee: #{@purchase.user.fullname}" if @purchase.user %><br>
+  </p>
 </div>
+<hr>
+<% @purchase.lines.each do |line| %>
+<div class="clearfix">
+  <p class="pull-left">
+    <%= "#{line.title}" %><br>
+    <%= "#{line.sku} - #{line.quantity} @ #{currency(line.amount_cash)} (#{currency(line.amount_credit)})" %>
+  </p>
+  <p class="pull-right text-right">
+    <%= "#{currency(line.subtotal_cash)} (#{currency(line.subtotal_credit)})" %><br>
+  </p>
+</div>
+<% end %>
+<hr>
+<div class="clearfix">
+  <p class="pull-left">
+    <strong><%= "Subtotal Cash:" %></strong><br>
+    <strong><%= "Subtotal Credit:" %></strong><br>
+  </p>
+  <p class="pull-right text-right">
+    <strong><%= currency(@purchase.subtotal_cash) %></strong><br>
+    <strong><%= currency(@purchase.subtotal_credit) %></strong><br>
+  </p>
+</div>
+<br>
+<div class="clearfix">
+  <p class="pull-left">
+    <%= "Cash:" %><br>
+    <%= "Credit:" %><br>
+  </p>
+  <p class="pull-right text-right">
+    <%= currency(@purchase.cash) %><br>
+    <%= currency(@purchase.credit) %><br>
+  </p>
+</div>
+<br>
+<div class="clearfix">
+  <p class="pull-left">
+    <strong><%= @purchase.due > 0 ? "Amount Due:" : "Change Due:" %></strong><br>
+  </p>
+  <p class="pull-right text-right">
+    <strong><%= currency(@purchase.due) %></strong><br>
+  </p>
+</div>
+<hr>
+<p class="text-center"><strong><%= "Credit Available (#{@purchase.customer.fullname}): #{currency(@purchase.customer.credit)}"%></strong></p>
+<% if @purchase.till && @purchase.till.store %>
+<hr>
+<p class="text-center"><%= @purchase.till.store.legal %></p>
+<% end %>

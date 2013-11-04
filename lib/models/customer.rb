@@ -43,4 +43,10 @@ class Customer
   accepts_nested_attributes_for :phones, :allow_destroy => true
   
   search_in :email, :first_name, :last_name, :notes, :organization, :phone, :sku, :addresses => [:first_line, :city], :phones => [:number]
+
+  def fullname
+    if first_name and last_name
+      "#{first_name} #{last_name}"
+    end
+  end
 end

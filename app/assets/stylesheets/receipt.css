@@ -4,5 +4,7 @@
 */
 
 body { background-color: #999999; padding-top: 70px; }
-
-.page { background-color: white; box-shadow: 1px 1px 3px #333333; }
+p { margin-bottom: 0px; }
+p.lead { margin-bottom: 0px; }
+hr { margin: 10px 0px; height: 2px; background-color: black; }
+.page { margin-bottom: 20px; padding: 20px 10px; background-color: white; box-shadow: 1px 1px 3px #333333; font-family: Monaco, sans-serif; font-size: 10px; }

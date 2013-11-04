@@ -28,6 +28,10 @@ class Cashierpos < Sinatra::Base
     def javascript_tag(file)
       "<script src=\"/assets/javascripts/#{file}\" type=\"text/javascript\"></script>"
     end
+    
+    def currency(amount)
+      "$#{sprintf("%.2f", amount * 0.01)}"
+    end
   end
   
   before '/api/*' do
