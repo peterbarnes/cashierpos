@@ -29,7 +29,9 @@ span.minus { width: 140px; text-align: center;}
 .center { text-align: center; }
 
 table.sales tr td { vertical-align: middle; }
+table.sales tr td.note { width: 20%; word-wrap: break-word; }
 table.purchases tr td { vertical-align: middle; }
+table.purchases tr td.note { width: 20%; word-wrap: break-word; }
 table.customers tr td { vertical-align: middle; }
 table.users tr td { vertical-align: middle; }
 table.tills tr td { vertical-align: middle; }

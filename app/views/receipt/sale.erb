@@ -4,7 +4,7 @@
   <% if @sale.till && @sale.till.store && @sale.till.store.address %>
     <%= @sale.till.store.name %><br>
     <%= @sale.till.store.address.first_line %><br>
-    <% if @sale.till.store.address.second_line %>
+    <% if @sale.till.store.address.second_line && !@sale.till.store.address.second_line.empty? %>
       <%= @sale.till.store.address.second_line %><br>
     <% end %>
     <%= "#{@sale.till.store.address.city}, #{@sale.till.store.address.state} #{@sale.till.store.address.zip} #{@sale.till.store.address.country}" %><br>
@@ -17,13 +17,13 @@
 <br><br>
 <div class="clearfix">
   <p class="pull-left">
-    <%= "#{@sale.updated_at.strftime('%m/%d/%y %I:%M:%S %p')}"%><br>
-    <%= "Customer: #{@sale.customer.fullname}" if @sale.customer %><br>
-    <%= "Till: #{@sale.till.name}" if @sale.till %><br>
+    <%= "#{@sale.updated_at.strftime('%m/%d/%y %I:%M:%S %p')}" %><br>
+    <%= "Customer: #{@sale.customer ? @sale.customer.fullname : 'None'}" %><br>
+    <%= "Till: #{@sale.till ? @sale.till.name : 'None'}" %><br>
   </p>
   <p class="pull-right text-right">
     <%= "##{@sale.sku_formatted}"%><br>
-    <%= "Employee: #{@sale.user.fullname}" if @sale.user %><br>
+    <%= "Employee: #{@sale.user ? @sale.user.fullname : 'None'}" %><br>
   </p>
 </div>
 <hr>

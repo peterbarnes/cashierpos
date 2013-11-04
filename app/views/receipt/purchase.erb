@@ -4,7 +4,7 @@
   <% if @purchase.till && @purchase.till.store && @purchase.till.store.address %>
     <%= @purchase.till.store.name %><br>
     <%= @purchase.till.store.address.first_line %><br>
-    <% if @purchase.till.store.address.second_line %>
+    <% if @purchase.till.store.address.second_line && !@purchase.till.store.address.second_line.empty? %>
       <%= @purchase.till.store.address.second_line %><br>
     <% end %>
     <%= "#{@purchase.till.store.address.city}, #{@purchase.till.store.address.state} #{@purchase.till.store.address.zip} #{@purchase.till.store.address.country}" %><br>
@@ -17,13 +17,13 @@
 <br><br>
 <div class="clearfix">
   <p class="pull-left">
-    <%= "#{@purchase.updated_at.strftime('%m/%d/%y %I:%M:%S %p')}"%><br>
-    <%= "Customer: #{@purchase.customer.fullname}" if @purchase.customer %><br>
-    <%= "Till: #{@purchase.till.name}" if @purchase.till %><br>
+    <%= "#{@purchase.updated_at.strftime('%m/%d/%y %I:%M:%S %p')}" %><br>
+    <%= "Customer: #{@purchase.customer ? @purchase.customer.fullname : 'None'}" %><br>
+    <%= "Till: #{@purchase.till ? @purchase.till.name : 'None'}" %><br>
   </p>
   <p class="pull-right text-right">
     <%= "##{@purchase.sku_formatted}"%><br>
-    <%= "Employee: #{@purchase.user.fullname}" if @purchase.user %><br>
+    <%= "Employee: #{@purchase.user ? @purchase.user.fullname : 'None'}" %><br>
   </p>
 </div>
 <hr>
