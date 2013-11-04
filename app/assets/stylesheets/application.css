@@ -30,10 +30,10 @@ span.minus { width: 140px; text-align: center;}
 
 table.sales tr td { vertical-align: middle; }
 table.sales tr td.note { width: 160px; word-wrap: break-word; }
-table.sales tr td.receipt { width: 162px; }
+table.sales tr td.receipt { width: 164px; }
 table.purchases tr td { vertical-align: middle; }
 table.purchases tr td.note { width: 160px; word-wrap: break-word; }
-table.purchases tr td.receipt { width: 162px; }
+table.purchases tr td.receipt { width: 164px; }
 table.customers tr td { vertical-align: middle; }
 table.users tr td { vertical-align: middle; }
 table.tills tr td { vertical-align: middle; }
