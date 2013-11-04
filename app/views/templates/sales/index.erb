@@ -50,7 +50,7 @@
           <span class="glyphicon glyphicon-flag"></span>
           {{/if}}
         </td>
-        <td>{{date sale.updatedAt "%m-%d-%Y %I:%M %p"}}</td>
+        <td>{{date sale.updatedAt "%m/%d/%y %I:%M:%S %p"}}</td>
         <td>
           {{#if sale.user}}
           {{sale.user.fullname}}
@@ -79,7 +79,7 @@
         <td>
           <button {{action 'flag' sale}} type="button" class="btn btn-default"><span class="glyphicon glyphicon-flag"></span> Flag</button>
         </td>
-        <td>
+        <td class="receipt">
           <div class="btn-group">
             <button {{action 'print' sale}} type="button" class="btn btn-default"><span class="glyphicon glyphicon-print"></span> Print</button>
             <button {{action 'view' sale}} type="button" class="btn btn-default"><span class="glyphicon glyphicon-eye-open"></span> View</button>
