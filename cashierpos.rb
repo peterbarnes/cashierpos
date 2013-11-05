@@ -99,7 +99,7 @@ class Cashierpos < Sinatra::Base
       @resources = account.send(params[:resources])
       if params[:filter] == 'assigned'
         ids = account.tills.where(:user_id.ne => nil).pluck(:user_id)
-        @resources = @resources.all(:id => ids)
+        @resources = @resources.in(:id => ids)
       end
       @resources = @resources.where(:complete => false) if params[:filter] == 'active'
       @resources = @resources.where(:complete => true) if params[:filter] == 'complete'
@@ -127,7 +127,7 @@ class Cashierpos < Sinatra::Base
       @resources = account.send(params[:resources])
       if params[:filter] == 'assigned'
         ids = account.tills.where(:user_id.ne => nil).pluck(:user_id)
-        @resources = @resources.all(:id => ids)
+        @resources = @resources.in(:id => ids)
       end
       @resources = @resources.where(:complete => false) if params[:filter] == 'active'
       @resources = @resources.where(:complete => true) if params[:filter] == 'complete'
