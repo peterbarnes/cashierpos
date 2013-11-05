@@ -69,8 +69,10 @@
     <strong><%= currency(@purchase.due) %></strong><br>
   </p>
 </div>
+<% if @purchase.customer %>
 <hr>
 <p class="text-center"><strong><%= "Credit Available (#{@purchase.customer.fullname}): #{currency(@purchase.customer.credit)}"%></strong></p>
+<% end %>
 <% if @purchase.till && @purchase.till.store %>
 <hr>
 <p class="text-center"><%= @purchase.till.store.legal %></p>

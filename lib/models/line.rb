@@ -13,7 +13,7 @@ class Line
   field :taxable, :type => Boolean,  :default => true
   field :title, :type => String
   
-  validates_presence_of         :amount, :amount_cash, :amount_credit, :quantity, :title
+  validates_presence_of         :amount, :amount_cash, :amount_credit, :quantity
   validates_inclusion_of        :taxable, :in => [true, false]
   
   embedded_in     :purchase

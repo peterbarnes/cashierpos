@@ -106,7 +106,7 @@ class Sale
     if complete
       if till && payment && user
         description = "SKU #{sku_formatted} #{Time.now.to_s} (#{user.fullname})"
-        till.adjustments.create(:amount => payment.cash - due, :description => description, :user => user)
+        till.adjustments.create(:amount => payment.cash + due, :description => description, :user => user)
       end
       if customer && payment
         customer.credit -= payment.store_credit

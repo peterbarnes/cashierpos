@@ -61,7 +61,7 @@ class Purchase
   end
   
   def cash
-    if ratio > 0
+    if ratio >= 0
       cash_multiplier = 1 - ratio
     else
       cash_multiplier = ratio * -1
@@ -70,7 +70,7 @@ class Purchase
   end
   
   def credit
-    if ratio > 0
+    if ratio >= 0
       credit_multiplier = ratio
     else
       credit_multiplier = -1 - ratio
@@ -86,7 +86,10 @@ class Purchase
     if complete
       if till && user
         description = "SKU #{sku_formatted} #{Time.now.to_s} (#{user.fullname})"
-        till.adjustments.create(:amount => cash * -1, :description => description, :user => user)
+        amount = cash * -1
+        if cash < 0
+          till.adjustments.create(:amount => amount, :description => description, :user => user)
+        end
       end
       if customer
         customer.credit += credit
