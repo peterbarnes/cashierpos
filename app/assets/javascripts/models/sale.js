@@ -50,6 +50,7 @@ App.Sale = Ember.Object.extend({
     var lines = this.get('lines');
     var subtotal = 0;
     lines.forEach(function(line) {
+      console.log(line.get('remove'));
       if (line.get('taxable') &&  !line.get('remove')) {
         subtotal += line.get('subtotal');
       }

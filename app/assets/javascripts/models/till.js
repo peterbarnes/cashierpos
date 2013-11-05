@@ -3,6 +3,7 @@ App.Till = Ember.Object.extend({
   name: "",
   url: "",
   minimum: 0,
+  store: null,
   createdAt: new Date(),
   updatedAt: new Date()
 });
@@ -29,6 +30,7 @@ App.Till.reopenClass({
           createdAt: new Date(till.created_at),
           updatedAt: new Date(till.updated_at)
         });
+        model.set('store', App.Store.find(till.store_id));
         tills.addObject(model);
       });
       if (callback) {
@@ -67,6 +69,7 @@ App.Till.reopenClass({
           createdAt: new Date(till.created_at),
           updatedAt: new Date(till.updated_at)
         });
+        _till.set('store', App.Store.find(till.store_id));
       });
       return _till;
     }
