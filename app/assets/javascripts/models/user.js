@@ -16,7 +16,7 @@ App.User = Ember.Object.extend({
     return this.get('firstName') + " " + this.get('lastName');
   }.property('firstName', 'lastName'),
   pinChanged: function() {
-    if (this.get('pinValue') === this.get('pin')) {
+    if (this.get('pinValue') === this.get('pin') && this.get('till') != null) {
       this.set('authenticated', false);
     }
   }.observes('pinValue')
