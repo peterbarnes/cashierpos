@@ -87,7 +87,7 @@ class Purchase
       if till && user
         description = "SKU #{sku_formatted} #{Time.now.to_s} (#{user.fullname})"
         amount = cash * -1
-        if cash < 0
+        if amount < 0
           till.adjustments.create(:amount => amount, :description => description, :user => user)
         end
       end
