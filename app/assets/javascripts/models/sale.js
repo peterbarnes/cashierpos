@@ -21,7 +21,7 @@ App.Sale = Ember.Object.extend({
     if (userId && tillId) {
       this.set('user', App.User.find(userId));
       this.set('till', App.Till.find(tillId, (function() {
-        this.set('taxRate', this.get('till.store.taxRate'));
+        this.set('taxRate', this.get('till.taxRate'));
       }).bind(this)));
     }
   },
@@ -44,10 +44,10 @@ App.Sale = Ember.Object.extend({
       }
     });
     return subtotal;
-  }.property('lines', 'lines.@each.subtotal', 'lines.@each.remove'),
+  }.property('taxRate', 'lines', 'lines.@each.subtotal', 'lines.@each.remove'),
   subtotalAfterStoreCredit: function() {
     return this.get('subtotal') - this.get('payment.storeCredit');
-  }.property('lines', 'lines.@each.subtotal', 'lines.@each.remove', 'payment.storeCredit'),
+  }.property('taxRate', 'lines', 'lines.@each.subtotal', 'lines.@each.remove', 'payment.storeCredit'),
   taxableSubtotal: function() {
     var lines = this.get('lines');
     var subtotal = 0;
@@ -58,7 +58,7 @@ App.Sale = Ember.Object.extend({
       }
     });
     return subtotal;
-  }.property('lines', 'lines.@each.subtotal', 'lines.@each.remove'),
+  }.property('taxRate', 'lines', 'lines.@each.subtotal', 'lines.@each.remove'),
   tax: function() {
     var subtotal = this.get('subtotal') - this.get('payment.storeCredit');
     if (subtotal > 0) {
@@ -71,13 +71,13 @@ App.Sale = Ember.Object.extend({
     } else {
       return 0;
     }
-  }.property('lines', 'lines.@each.subtotal', 'lines.@each.taxable', 'lines.@each.remove', 'payment.storeCredit'),
+  }.property('taxRate', 'lines', 'lines.@each.subtotal', 'lines.@each.taxable', 'lines.@each.remove', 'payment.storeCredit'),
   total: function() {
     return this.get('subtotalAfterStoreCredit') + this.get('tax');
-  }.property('lines', 'lines.@each.subtotal', 'lines.@each.remove', 'payment.storeCredit'),
+  }.property('taxRate', 'lines', 'lines.@each.subtotal', 'lines.@each.remove', 'payment.storeCredit'),
   due: function() {
     return this.get('total') - this.get('payment.total');
-  }.property('total', 'payment.storeCredit', 'payment.giftCard', 'payment.check', 'payment.credit', 'payment.cash'),
+  }.property('taxRate', 'total', 'payment.storeCredit', 'payment.giftCard', 'payment.check', 'payment.credit', 'payment.cash'),
   dueLabel: function() {
     var due = this.get('due')
     if (due > 0) {
@@ -108,7 +108,7 @@ App.Sale.reopen({
         sku: this.get('sku'),
         complete: this.get('complete'),
         flagged: this.get('flagged'),
-        taxRate: this.get('taxRate'),
+        tax_rate: this.get('taxRate'),
         note: this.get('note'),
         customer_id: null,
         till_id: null,
@@ -348,6 +348,7 @@ App.Sale.reopenClass({
         _sale.set('till', App.Till.find(tillId));
       } else {
         _sale.set('user', App.User.find(sale.user_id));
+        _sale.set('till', App.Till.find(sale.till_id));
         _sale.set('till', App.Till.find(sale.till_id));
       }
       if (sale.payment) {

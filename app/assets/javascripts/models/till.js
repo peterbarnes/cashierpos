@@ -1,7 +1,7 @@
 App.Till = Ember.Object.extend({
   id: null,
   name: "",
-  url: "",
+  taxRate: 0,
   minimum: 0,
   store: null,
   createdAt: new Date(),
@@ -26,7 +26,7 @@ App.Till.reopenClass({
           id: till.id,
           name: till.name,
           minimum: till.minimum,
-          url: till.url,
+          taxRate: till.tax_rate,
           createdAt: new Date(till.created_at),
           updatedAt: new Date(till.updated_at)
         });
@@ -65,11 +65,14 @@ App.Till.reopenClass({
           id: till.id,
           name: till.name,
           minimum: till.minimum,
-          url: till.url,
+          taxRate: till.tax_rate,
           createdAt: new Date(till.created_at),
           updatedAt: new Date(till.updated_at)
         });
         _till.set('store', App.Store.find(till.store_id, callback));
+        if (callback) {
+          callback();
+        }
       });
       return _till;
     }
@@ -82,7 +85,7 @@ App.Till.reopenClass({
         id: till.id,
         name: till.name,
         minimum: till.minimum,
-        url: till.url
+        taxRate: till.tax_rate
       });
       fixtures.pushObject(_till);
     });
@@ -94,11 +97,13 @@ App.Till.FIXTURES = [
   {
     id: 0,
     name: 'Till 1',
-    minimum: 0
+    minimum: 0,
+    tax_rate: 0
   },
   {
     id: 1,
     name: 'Till 2',
-    minimum: 0
+    minimum: 0,
+    tax_rate: 0
   }
 ];

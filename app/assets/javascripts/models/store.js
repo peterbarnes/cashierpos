@@ -2,7 +2,6 @@ App.Store = Ember.Object.extend({
   id: null,
   name: "",
   description: "",
-  taxRate: 0,
   imageUrl: "",
   createdAt: new Date(),
   updatedAt: new Date(),
@@ -31,7 +30,6 @@ App.Store.reopenClass({
           id: store.id,
           name: store.name,
           description: store.description,
-          taxRate: store.tax_rate,
           imageUrl: store.image_url,
           createdAt: new Date(store.created_at),
           updatedAt: new Date(store.updated_at)
@@ -42,7 +40,7 @@ App.Store.reopenClass({
             id: till.id,
             name: till.name,
             minimum: till.minimum,
-            url: till.url,
+            taxRate: till.tax_rate,
             createdAt: new Date(till.created_at),
             updatedAt: new Date(till.updated_at)
           });
@@ -72,7 +70,7 @@ App.Store.reopenClass({
     });
     return count;
   },
-  find: function(id, callback) {
+  find: function(id) {
     if (id) {
       var _store = App.Store.create();
       $.ajax({
@@ -83,7 +81,6 @@ App.Store.reopenClass({
           id: store.id,
           name: store.name,
           description: store.description,
-          taxRate: store.tax_rate,
           imageUrl: store.image_url,
           createdAt: new Date(store.created_at),
           updatedAt: new Date(store.updated_at)
@@ -94,16 +91,13 @@ App.Store.reopenClass({
             id: till.id,
             name: till.name,
             minimum: till.minimum,
-            url: till.url,
+            taxRate: till.tax_rate,
             createdAt: new Date(till.created_at),
             updatedAt: new Date(till.updated_at)
           });
           tills.addObject(_till);
         });
         _store.set('tills', tills);
-        if (callback) {
-          callback();
-        }
       });
       return _store;
     }
@@ -116,7 +110,6 @@ App.Store.reopenClass({
         id: store.id,
         name: store.name,
         description: store.description,
-        taxRate: store.taxRate,
         imageUrl: store.imageUrl
       });
       _store.set('tills', App.Till.fixtures());
@@ -131,14 +124,12 @@ App.Store.FIXTURES = [
     id: 0,
     name: 'Business 1',
     description: 'Lorem Ipsum...',
-    taxRate: 0.07,
     imageUrl: ''
   },
   {
     id: 1,
     name: 'Business 2',
     description: 'Lorem Ipsum...',
-    taxRate: 0.06,
     imageUrl: ''
   }
 ];

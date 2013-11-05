@@ -8,4 +8,4 @@ node :store_id do |n|
   n.store.id.to_s
 end
 
-attributes :minimum, :name, :url, :created_at, :updated_at
+attributes :minimum, :name, :tax_rate, :created_at, :updated_at

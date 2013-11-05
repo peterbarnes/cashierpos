@@ -5,11 +5,11 @@ class Till
   
   field :minimum,           :type => Integer,   :default => 0
   field :name,              :type => String
-  field :url,               :type => String
+  field :tax_rate,          :type => Float,    :default => 0
   
   index({ :account_id => 1, :name => 1 })
 
-  validates_presence_of     :minimum, :name, :store
+  validates_presence_of     :minimum, :name, :tax_rate, :store
   validates_uniqueness_of   :user, :allow_nil => true
   
   default_scope ->{ where(:account_id => Account.current_id) }

@@ -24,4 +24,4 @@ child :tills, :object_root => false do
   attributes :minimum, :name, :url, :created_at, :updated_at
 end
 
-attributes :description, :legal, :name, :tax_rate, :created_at, :updated_at
+attributes :description, :legal, :name, :created_at, :updated_at

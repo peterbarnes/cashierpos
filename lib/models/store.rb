@@ -7,7 +7,6 @@ class Store
   field :description, :type => String
   field :legal, :type => String
   field :name, :type => String
-  field :tax_rate, :type => Float,    :default => 0
   
   index({ :account_id => 1, :name => 1 })
   
@@ -17,7 +16,7 @@ class Store
       :icon        => ['48x48#',   :png]
     }
 
-  validates_presence_of   :name, :tax_rate, :address
+  validates_presence_of   :name, :address
   
   default_scope ->{ where(:account_id => Account.current_id) }
 
