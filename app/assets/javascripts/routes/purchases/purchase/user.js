@@ -4,6 +4,6 @@ App.PurchaseUserRoute = Ember.Route.extend({
   },
   setupController: function(controller, model) {
     controller.set('model', model);
-    controller.set('users', App.User.query('','all',1,10));
+    controller.set('users', App.User.query('','assigned',1,10));
   }
 });

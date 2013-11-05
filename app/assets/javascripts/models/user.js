@@ -36,23 +36,21 @@ App.User.reopenClass({
     }).then(function(response) {
       response.forEach(function(object){
         var user = object.user;
-        if (user.till_id) {
-          var model = App.User.create({
-            id: user.id,
-            active: user.active,
-            administrator: user.administrator,
-            firstName: user.first_name,
-            lastName: user.last_name,
-            email: user.email,
-            username: user.username,
-            pin: user.pin,
-            gravatarUrl: user.gravatar_url,
-            createdAt: new Date(user.created_at),
-            updatedAt: new Date(user.updated_at)
-          });
-          model.set('till', App.Till.find(user.till_id));
-          users.addObject(model);
-        }
+        var model = App.User.create({
+          id: user.id,
+          active: user.active,
+          administrator: user.administrator,
+          firstName: user.first_name,
+          lastName: user.last_name,
+          email: user.email,
+          username: user.username,
+          pin: user.pin,
+          gravatarUrl: user.gravatar_url,
+          createdAt: new Date(user.created_at),
+          updatedAt: new Date(user.updated_at)
+        });
+        model.set('till', App.Till.find(user.till_id));
+        users.addObject(model);
       });
       if (callback) {
         callback();

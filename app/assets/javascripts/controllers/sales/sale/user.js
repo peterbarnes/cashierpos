@@ -1,7 +1,7 @@
 App.SaleUserController = Ember.ObjectController.extend({
   needs: 'sale',
   query: '',
-  filter: 'all',
+  filter: 'assigned',
   page: 1,
   perPage: 10,
   searching: false,
@@ -32,6 +32,10 @@ App.SaleUserController = Ember.ObjectController.extend({
     },
     all: function() {
       this.set('filter', 'all');
+      this.set('users', App.User.query(this.get('query'),this.get('filter'),this.get('page'),this.get('perPage')));
+    },
+    assigned: function() {
+      this.set('filter', 'assigned');
       this.set('users', App.User.query(this.get('query'),this.get('filter'),this.get('page'),this.get('perPage')));
     },
     newest: function() {
@@ -67,6 +71,9 @@ App.SaleUserController = Ember.ObjectController.extend({
   },
   isFilterAll: function() {
     return this.get('filter') == 'all';
+  }.property('filter'),
+  isFilterAssigned: function() {
+    return this.get('filter') == 'assigned';
   }.property('filter'),
   isFilterNewest: function() {
     return this.get('filter') == 'newest';
