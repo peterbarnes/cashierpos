@@ -72,7 +72,7 @@ App.Store.reopenClass({
     });
     return count;
   },
-  find: function(id) {
+  find: function(id, callback) {
     if (id) {
       var _store = App.Store.create();
       $.ajax({
@@ -101,6 +101,9 @@ App.Store.reopenClass({
           tills.addObject(_till);
         });
         _store.set('tills', tills);
+        if (callback) {
+          callback();
+        }
       });
       return _store;
     }

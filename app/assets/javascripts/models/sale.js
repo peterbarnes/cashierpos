@@ -20,7 +20,9 @@ App.Sale = Ember.Object.extend({
     var tillId = $.cookie('cashierpos.till');
     if (userId && tillId) {
       this.set('user', App.User.find(userId));
-      this.set('till', App.Till.find(tillId));
+      this.set('till', App.Till.find(tillId, (function() {
+        this.set('taxRate', this.get('till.store.taxRate'));
+      }).bind(this)));
     }
   },
   quantity: function() {

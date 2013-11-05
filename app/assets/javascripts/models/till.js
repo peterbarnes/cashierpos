@@ -54,7 +54,7 @@ App.Till.reopenClass({
     });
     return count;
   },
-  find: function(id) {
+  find: function(id, callback) {
     if (id) {
       var _till = App.Till.create();
       $.ajax({
@@ -69,7 +69,7 @@ App.Till.reopenClass({
           createdAt: new Date(till.created_at),
           updatedAt: new Date(till.updated_at)
         });
-        _till.set('store', App.Store.find(till.store_id));
+        _till.set('store', App.Store.find(till.store_id, callback));
       });
       return _till;
     }
