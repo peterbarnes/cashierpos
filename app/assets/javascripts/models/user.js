@@ -16,7 +16,7 @@ App.User = Ember.Object.extend({
     return this.get('firstName') + " " + this.get('lastName');
   }.property('firstName', 'lastName'),
   pinChanged: function() {
-    if (this.get('pinValue') === this.get('pin') && this.get('till') != null) {
+    if (this.get('pinValue') === this.get('pin')) {
       this.set('authenticated', false);
     }
   }.observes('pinValue')
@@ -36,21 +36,23 @@ App.User.reopenClass({
     }).then(function(response) {
       response.forEach(function(object){
         var user = object.user;
-        var model = App.User.create({
-          id: user.id,
-          active: user.active,
-          administrator: user.administrator,
-          firstName: user.first_name,
-          lastName: user.last_name,
-          email: user.email,
-          username: user.username,
-          pin: user.pin,
-          gravatarUrl: user.gravatar_url,
-          createdAt: new Date(user.created_at),
-          updatedAt: new Date(user.updated_at)
-        });
-        model.set('till', App.Till.find(user.till_id));
-        users.addObject(model);
+        if (user.till_id) {
+          var model = App.User.create({
+            id: user.id,
+            active: user.active,
+            administrator: user.administrator,
+            firstName: user.first_name,
+            lastName: user.last_name,
+            email: user.email,
+            username: user.username,
+            pin: user.pin,
+            gravatarUrl: user.gravatar_url,
+            createdAt: new Date(user.created_at),
+            updatedAt: new Date(user.updated_at)
+          });
+          model.set('till', App.Till.find(user.till_id));
+          users.addObject(model);
+        }
       });
       if (callback) {
         callback();
