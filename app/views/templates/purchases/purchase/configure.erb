@@ -13,7 +13,12 @@
   <hr>
   <div class="row">
     <div class="col-lg-1">
-      <img {{bindAttr src="item.imageUrl"}} alt="Image" width="39" height="39" class="img-thumbnail" />
+      {{#if item.imageUrl}}
+      <div class="img-zoom">
+        <img {{bindAttr src="item.imageUrl"}} alt="Image" width="39" height="39" class="img-thumbnail" />
+        <img {{bindAttr src="item.imageUrl"}} alt="Image" class="img-large img-rounded" />
+      </div>
+      {{/if}}
     </div>
     <div class="col-lg-8">
       <h4>{{item.name}} ({{item.sku}})</h4>

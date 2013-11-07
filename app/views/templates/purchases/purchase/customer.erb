@@ -51,7 +51,14 @@
     <tbody>
       {{#each customer in customers}}
       <tr>
-        <td><img {{bindAttr src="customer.imageUrl"}} alt="" width="34" height="34" class="img-thumbnail" /></td>
+        <td>
+          {{#if customer.imageUrl}}
+          <div class="img-zoom">
+            <img {{bindAttr src="customer.imageUrl"}} alt="Image" width="34" height="34" class="img-thumbnail" />
+            <img {{bindAttr src="customer.imageUrl"}} alt="Image" class="img-large img-rounded" />
+          </div>
+          {{/if}}
+        </td>
         <td>{{customer.sku}}</td>
         <td>{{customer.firstName}}</td>
         <td>{{customer.lastName}}</td>
