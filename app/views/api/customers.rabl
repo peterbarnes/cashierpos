@@ -5,7 +5,7 @@ node :id do |n|
 end
 
 node :image_url do |n|
-  n.image.url
+  n.image.url if n.image.present?
 end
 
 child :addresses, :object_root => false do

@@ -28,6 +28,10 @@ span.minus { width: 140px; text-align: center;}
 .navbar-fixed-bottom .navbar-right .navbar-text { font-size: 16px; margin: 13px 0px; padding-right: 10px; }
 .center { text-align: center; }
 
+.img-zoom { position: relative; }
+.img-zoom img.img-large { display: inline-block; visibility: hidden; position: absolute; z-index: 10; max-width: 554px; left: 100px; top: -50%; border: 10px white solid; box-shadow: 2px 2px 5px #888888; }
+.img-zoom:hover img.img-large { visibility: visible; }
+
 table.sales tr td { vertical-align: middle; }
 table.sales tr td.note { width: 160px; word-wrap: break-word; }
 table.sales tr td.receipt { width: 164px; }
