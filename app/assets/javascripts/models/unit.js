@@ -185,19 +185,21 @@ App.Unit.reopenClass({
             conditions.addObject(condition);
           });
           model.set('conditions', conditions);
-          model.set('variant', App.Variant.create({
-            id: unit.variant.id,
-            adjustment: unit.variant.adjustment,
-            adjustmentPercentage: unit.variant.adjustment_percentage,
-            adjustmentCash: unit.variant.adjustment_cash,
-            adjustmentCashPercentage: unit.variant.adjustment_cash_percentage,
-            adjustmentCredit: unit.variant.adjustment_credit,
-            adjustmentCreditPercentage: unit.variant.adjustment_credit_percentage,
-            description: unit.variant.description,
-            identifier: unit.variant.identifier,
-            identifierType: unit.variant.identifier_type,
-            name: unit.variant.name
-          }));
+          if (unit.variant) {
+            model.set('variant', App.Variant.create({
+              id: unit.variant.id,
+              adjustment: unit.variant.adjustment,
+              adjustmentPercentage: unit.variant.adjustment_percentage,
+              adjustmentCash: unit.variant.adjustment_cash,
+              adjustmentCashPercentage: unit.variant.adjustment_cash_percentage,
+              adjustmentCredit: unit.variant.adjustment_credit,
+              adjustmentCreditPercentage: unit.variant.adjustment_credit_percentage,
+              description: unit.variant.description,
+              identifier: unit.variant.identifier,
+              identifierType: unit.variant.identifier_type,
+              name: unit.variant.name
+            }));
+          }
           units.addObject(model);
         });
       }
