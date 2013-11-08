@@ -5,11 +5,11 @@ class Unit
   
   field :price, :type => Integer,       :default => 0
   field :quantity, :type => Integer,    :default => 1
-  field :sku, :type => Integer
+  field :sku, :type => String,          :default => ->{ SecureRandom.hex(6).upcase }
   field :calculated, :type => Boolean,  :default => true
   field :filing, :type => Integer
   
-  index({ :account_id => 1, :sku => 1 })
+  index({ :account_id => 1 })
   
   attr_reader :price_calculated, :name
   
