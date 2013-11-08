@@ -33,6 +33,10 @@ class Unit
     end
   end
   
+  def filing_formatted
+    return sprintf('%07d', filing).insert(3, ' ')
+  end
+  
   def price_calculated
     if item
       calculated_price = item.price
